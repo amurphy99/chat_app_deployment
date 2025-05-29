@@ -1,7 +1,7 @@
 # Mac
 .DS_Store
 
-
-
+# Shell file for starting and running this
+deploy_app.sh
 
 
