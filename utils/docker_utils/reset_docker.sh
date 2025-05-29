@@ -1,7 +1,7 @@
-STEP_NUM="${1:-1}"
+STEP_NUM="${1:-0}"
 
 # ====================================================================
-# 1) Clear old Docker stuff (optional safety)
+# Clear old Docker stuff (optional safety)
 # ====================================================================
 echo -e "$PROG_HR_1"
 echo -e "${PROG_TEXT}${STEP_NUM}. Stopping and removing any existing Docker containers...${RESET}"
