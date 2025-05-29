@@ -28,4 +28,8 @@ export BACKEND_DOCKERFILE="$BACKEND_DOCKERFILE"
 #sudo --preserve-env=BACKEND_DOCKERFILE --gpus all docker-compose up --build -d
 #sudo docker compose up --gpus all --build -d
 #sudo docker compose --profile gpu up --build -d
+
+ls -lah
+ls -lah ../deployment-files/models
+
 sudo --preserve-env=BACKEND_DOCKERFILE docker compose up --build -d
