@@ -3,6 +3,7 @@
 # ====================================================================
 # Specify if this should be for the "deployment" or "sandbox" instance
 # bash deploy.sh --env=sandbox
+echo "env_config.sh current working directory: $(pwd)"
 
 # Set default
 ENV="deploy"
@@ -36,16 +37,22 @@ fi
 # --------------------------------------------------------------------
 # Basic Config
 # --------------------------------------------------------------------
+PRJ_DIR="$HOME"
+
+GCS_BUCKET="gs://v2-deployment-files"
+
+# App repository stuff
 REPO_URL="https://github.com/amurphy99/v2_benchmarking.git" 
 REPO_NAME="v2_benchmarking"
-#REPO_BRANCH="deployment"
 REPO_BRANCH="gpu"
+APP_DIR="$PRJ_DIR/$REPO_NAME"
 
-PRJ_DIR="$HOME"
+# Deployment Files (from GCS bucket)
 DPL_DIR="$PRJ_DIR/deployment-files"
 MDL_DIR="$DPL_DIR/models"
 LOG_DIR="$DPL_DIR/logs"
-BIO_DIR="$REPO_NAME/backend/chat_app/websocket/biomarkers/biomarker_models"
 
-GCS_BUCKET="gs://v2-deployment-files"
+# Final location for the model files when inside the app repo
+BIO_DIR="$APP_DIR/backend/chat_app/websocket/biomarkers/biomarker_models"
+
 

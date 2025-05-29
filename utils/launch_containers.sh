@@ -5,7 +5,7 @@ STEP_NUM=6 #"${1:-6}"
 echo -e "$PROG_HR_1"
 echo -e "${PROG_TEXT}${STEP_NUM}. Starting Docker Compose in headless mode... ${RESET}"
 echo -e "$PROG_HR_2"
-echo "Current working directory: $(pwd)"
+echo "launch_containers.sh current working directory: $(pwd)"
 
 
 # --------------------------------------------------------------------

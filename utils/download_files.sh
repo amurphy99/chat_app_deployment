@@ -15,10 +15,10 @@ echo -e "${INFO_T1}Clone or update the repository...${RESET}"
 # Check if the repository directory already exists
 # ---- some of this stuff might need to happen in different directories, 
 # ---- but we will cross that bridge when we come to it i guess... ----
-if [ -d "$REPO_NAME" ]; then
+if [ -d "$APP_DIR" ]; then
     # If it already exists, pull from the given origin branch
     echo -e "${INFO_T2}Repo exists, pulling latest changes...${RESET}"
-    cd "$REPO_NAME"
+    cd "$APP_DIR"
     git checkout $REPO_BRANCH
     git pull origin $REPO_BRANCH
     cd ..
