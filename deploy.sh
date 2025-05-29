@@ -5,6 +5,8 @@ set -e
 # Initial Setup
 # ====================================================================
 echo "Current working directory: $(pwd)"
+cd "$(dirname "$0")/.."
+echo "Now running from: $(pwd)"
 
 # Get path to the base directory (chat_app_deployment/../ = home/)
 SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
