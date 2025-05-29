@@ -38,7 +38,8 @@ fi
 # --------------------------------------------------------------------
 REPO_URL="https://github.com/amurphy99/v2_benchmarking.git" 
 REPO_NAME="v2_benchmarking"
-REPO_BRANCH="deployment"
+#REPO_BRANCH="deployment"
+REPO_BRANCH="gpu"
 
 PRJ_DIR="$HOME"
 DPL_DIR="$PRJ_DIR/deployment-files"

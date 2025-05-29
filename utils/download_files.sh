@@ -60,5 +60,5 @@ cp "$MDL_DIR/stanford-parser-4.2.0-models.jar" "$BIO_DIR/stanford-parser-full-20
 
 
 # ---- This goes somewhere else now ----
-cp "$MDL_DIR/Phi-3_finetuned.gguf"             "$REPO_NAME/backend/chat_app/services/Phi-3_finetuned.gguf"
+#cp "$MDL_DIR/Phi-3_finetuned.gguf"             "$REPO_NAME/backend/chat_app/services/Phi-3_finetuned.gguf"
 

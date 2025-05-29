@@ -42,7 +42,7 @@ echo -e "${INFO_T0}APP_ENVIRONMENT = $APP_ENVIRONMENT ${RESET}"
 # Setup Steps
 # ====================================================================
 # 1) Install Docker (Engine + Compose V2 Plugin)
-source "$UTILS_DIR/docker_utils/reset_docker.sh" --step_num=0
+#source "$UTILS_DIR/docker_utils/reset_docker.sh" --step_num=0
 source "$UTILS_DIR/docker_utils/install_docker.sh" --step_num=1
 
 # 2) NVIDIA Setup (GPU Drivers, Container Toolkit)
