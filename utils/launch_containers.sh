@@ -36,9 +36,9 @@ ls -lah ..
 echo -e "\n"
 ls -lah ...
 echo -e "\n"
-ls -lah ../deployment-files/models
+ls -lah ../deployment-files
 echo -e "\n"
-ls -lah .../deployment-files/models
+ls -lah .../deployment-files
 echo -e "\n"
 
 sudo --preserve-env=BACKEND_DOCKERFILE docker compose up --build -d
