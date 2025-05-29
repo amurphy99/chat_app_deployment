@@ -4,14 +4,17 @@ set -e
 # ====================================================================
 # Initial Setup
 # ====================================================================
+echo "Current working directory: $(pwd)"
+
 # Get path to the base directory (chat_app_deployment/../ = home/)
 SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 UTILS_DIR="$SCRIPT_DIR/chat_app_deployment/utils"
 echo "Current working directory: $(pwd)"
 
 # Move up from chat_app_deployment to home
-#cd "$(dirname "$0")"
+cd "$(dirname "$0")"
 #cd ..
+echo "Current working directory: $(pwd)"
 
 # Define path to the shell utils directory
 #SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
