@@ -19,6 +19,7 @@ if [ -d "$APP_DIR" ]; then
     # If it already exists, pull from the given origin branch
     echo -e "${INFO_T2}Repo exists, pulling latest changes...${RESET}"
     cd "$APP_DIR"
+    echo "download_files.sh current working directory: $(pwd)"
     git checkout $REPO_BRANCH
     git pull origin $REPO_BRANCH
     cd ..
