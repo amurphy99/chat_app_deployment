@@ -5,6 +5,8 @@ STEP_NUM=6 #"${1:-6}"
 echo -e "$PROG_HR_1"
 echo -e "${PROG_TEXT}${STEP_NUM}. Starting Docker Compose in headless mode... ${RESET}"
 echo -e "$PROG_HR_2"
+echo "Current working directory: $(pwd)"
+
 
 # --------------------------------------------------------------------
 # a) Export Environment Variables
@@ -42,7 +44,7 @@ ls -lah ../deployment-files/models
 echo -e "\n"
 ls -lah .../deployment-files
 echo -e "\n"
-ls -lah .../deployment-files/models
+ls -a .../deployment-files/models
 echo -e "\n"
 ls -lah ....
 echo -e "\n"

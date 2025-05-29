@@ -7,6 +7,7 @@ set -e
 # Get path to the base directory (chat_app_deployment/../ = home/)
 SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 UTILS_DIR="$SCRIPT_DIR/chat_app_deployment/utils"
+echo "Current working directory: $(pwd)"
 
 # Move up from chat_app_deployment to home
 #cd "$(dirname "$0")"
