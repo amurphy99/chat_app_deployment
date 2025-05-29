@@ -5,22 +5,18 @@ set -e
 # Initial Setup
 # ====================================================================
 echo "Current working directory: $(pwd)"
-cd "$(dirname "$0")/.."
+
+# Get the directory this script is in
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+echo "Script is located at: $SCRIPT_DIR"
+
+# Go one level up 
+cd "$SCRIPT_DIR/.."
 echo "Now running from: $(pwd)"
 
-# Get path to the base directory (chat_app_deployment/../ = home/)
-SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-UTILS_DIR="$SCRIPT_DIR/chat_app_deployment/utils"
-echo "Current working directory: $(pwd)"
-
-# Move up from chat_app_deployment to home
-cd "$(dirname "$0")"
-#cd ..
-echo "Current working directory: $(pwd)"
-
-# Define path to the shell utils directory
-#SCRIPT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-#UTILS_DIR="$SCRIPT_DIR/utils"
+# Define path to the utils directory
+UTILS_DIR="$SCRIPT_DIR/utils"
+echo "Looking for logging helpers in: $UTILS_DIR"
 
 # Load logging helpers
 source "$UTILS_DIR/logging.sh"
