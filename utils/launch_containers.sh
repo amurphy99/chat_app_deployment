@@ -24,9 +24,8 @@ echo -e "${INFO_T1}Launch docker compose in headless mode...${RESET}"
 
 # Adding "-d" to the end puts it in headless mode (sudo docker-compose up --build -d)
 cd "$REPO_NAME"
-#export BACKEND_DOCKERFILE="$BACKEND_DOCKERFILE"
+export BACKEND_DOCKERFILE="$BACKEND_DOCKERFILE"
 #sudo --preserve-env=BACKEND_DOCKERFILE --gpus all docker-compose up --build -d
-#sudo --preserve-env=BACKEND_DOCKERFILE docker compose up --build -d
 #sudo docker compose up --gpus all --build -d
 #sudo docker compose --profile gpu up --build -d
-sudo docker compose up --build -d
+sudo --preserve-env=BACKEND_DOCKERFILE docker compose up --build -d
