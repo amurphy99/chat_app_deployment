@@ -1,4 +1,4 @@
-echo "Current working directory: $(pwd)"
+echo "logging.sh current working directory: $(pwd)"
 
 # ====================================================================
 # Logging

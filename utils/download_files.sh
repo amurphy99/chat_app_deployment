@@ -5,6 +5,7 @@ STEP_NUM=4 #"${1:-4}"
 echo -e "$PROG_HR_1"
 echo -e "${PROG_TEXT}${STEP_NUM}. Cloning Repo & Downloading deployment-files from GCS Bucket... ${RESET}"
 echo -e "$PROG_HR_2"
+echo "download_files.sh current working directory: $(pwd)"
 
 # --------------------------------------------------------------------
 # a) Clone or pull from the main app repository
