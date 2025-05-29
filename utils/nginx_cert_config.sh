@@ -49,7 +49,7 @@ echo -e "${INFO_T0}Domain WWW: $DOMAIN_WWW ${RESET}"
 #fi
 
 
-if certbot certificates | grep -q "$DOMAIN"; then
+if sudo certbot certificates | grep -q "$DOMAIN"; then
     echo -e "${GREEN}SSL certificate already exists, skipping Certbot...${RESET}"
 else
     sudo certbot --non-interactive --nginx --agree-tos \
