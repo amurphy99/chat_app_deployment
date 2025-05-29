@@ -5,6 +5,11 @@
 
 <br>
 
+### Console Commands
+* sudo docker logs backend
+
+<br>
+
 - [ ] I do "sudo apt update" a lot, is that needed more than once if I know I already did it early on?
 - [ ] Is the Nvidia/more updated Docker installation fine for the CPU/sandbox version too?
 - [ ] What is the difference between apt and apt-get ?
