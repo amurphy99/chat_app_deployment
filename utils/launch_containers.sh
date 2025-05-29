@@ -38,6 +38,8 @@ ls -lah ...
 echo -e "\n"
 ls -lah ../deployment-files
 echo -e "\n"
+ls -lah ../deployment-files/models
+echo -e "\n"
 ls -lah .../deployment-files
 echo -e "\n"
 

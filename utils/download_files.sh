@@ -33,7 +33,8 @@ fi
 echo -e "${INFO_T1}Download files from the GCS bucket...${RESET}"
 
 # Check if this has already been done by checking for an .env file
-if [ ! -f "$DPL_DIR/.env" ]; then
+#if [ ! -f "$DPL_DIR/.env" ]; then
+if [ ! -f "$MDL_DIR/new_LSA.csv" ]; then
     mkdir -p "$DPL_DIR"
     gsutil -m cp -r "$GCS_BUCKET/deployment-files/*" "$DPL_DIR/"
 else
