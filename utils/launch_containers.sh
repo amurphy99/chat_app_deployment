@@ -15,7 +15,6 @@ echo -e "${INFO_T1}Export some extra environment variables...${RESET}"
 echo "APP_ENVIRONMENT=${APP_ENVIRONMENT}" > "$REPO_NAME/.env.deploy"
 echo "BACKEND_DOCKERFILE=${BACKEND_DOCKERFILE}" >> "$REPO_NAME/.env.deploy"
 ls -a "$REPO_NAME"
-echo -e "\n"
 
 
 # --------------------------------------------------------------------
@@ -28,4 +27,6 @@ cd "$REPO_NAME"
 #export BACKEND_DOCKERFILE="$BACKEND_DOCKERFILE"
 #sudo --preserve-env=BACKEND_DOCKERFILE --gpus all docker-compose up --build -d
 #sudo --preserve-env=BACKEND_DOCKERFILE docker compose up --build -d
-sudo docker compose up --gpus all --build -d
+#sudo docker compose up --gpus all --build -d
+#sudo docker compose --profile gpu up --build -d
+sudo docker compose up --build -d
