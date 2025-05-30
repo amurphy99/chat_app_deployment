@@ -40,19 +40,19 @@ echo -e "${INFO_T0}Domain WWW: $DOMAIN_WWW ${RESET}"
 
 # Check if Certbot was already done
 # ---- honestly not sure if this actually works properly right now... ----
-#if [ ! -d "/etc/letsencrypt/live/$DOMAIN" ]; then
-#    sudo certbot --non-interactive --nginx --agree-tos \
-#        -d "$DOMAIN" -d "$DOMAIN_WWW" \
-#        -m amurphy62299@gmail.com
-#else
-#    echo -e "${GREEN}SSL certificate already exists, skipping Certbot...${RESET}"
-#fi
-
-
-if sudo certbot certificates | grep -q "$DOMAIN"; then
-    echo -e "${GREEN}SSL certificate already exists, skipping Certbot...${RESET}"
-else
+if [ ! -d "/etc/letsencrypt/live/$DOMAIN" ]; then
     sudo certbot --non-interactive --nginx --agree-tos \
         -d "$DOMAIN" -d "$DOMAIN_WWW" \
         -m amurphy62299@gmail.com
+else
+    echo -e "${GREEN}SSL certificate already exists, skipping Certbot...${RESET}"
 fi
+
+
+#if sudo certbot certificates | grep -q "$DOMAIN"; then
+#    echo -e "${GREEN}SSL certificate already exists, skipping Certbot...${RESET}"
+#else
+#    sudo certbot --non-interactive --nginx --agree-tos \
+#        -d "$DOMAIN" -d "$DOMAIN_WWW" \
+#        -m amurphy62299@gmail.com
+#fi
