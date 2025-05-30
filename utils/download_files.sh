@@ -19,10 +19,14 @@ if [ -d "$APP_DIR" ]; then
     # If it already exists, pull from the given origin branch
     echo -e "${INFO_T2}Repo exists, pulling latest changes...${RESET}"
     cd "$APP_DIR"
-    git fetch origin $REPO_BRANCH
-    git checkout $REPO_BRANCH
-    git pull origin $REPO_BRANCH
-    #git fetch origin $REPO_BRANCH
+
+    # Fetch latest commits and reset the working directory to match the remote
+    git fetch origin
+    git reset --hard origin/$REPO_BRANCH
+
+    #git checkout $REPO_BRANCH
+    #git pull origin $REPO_BRANCH
+   
     #git checkout -B $REPO_BRANCH origin/$REPO_BRANCH
     cd ..
 else
