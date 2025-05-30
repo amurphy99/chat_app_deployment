@@ -58,6 +58,10 @@ cp "$DPL_DIR/.env" "$REPO_NAME/.env"
 
 # Copy model files into the repo
 echo -e "${INFO_T2}Copying model files into the repo...${RESET}"
+
+ls -lah "$BIO_DIR"
+echo "download_files.sh current working directory: $(pwd)"
+
 cp "$MDL_DIR/new_LSA.csv"                      "$BIO_DIR/new_LSA.csv"
 cp "$MDL_DIR/stanford-parser-4.2.0-models.jar" "$BIO_DIR/stanford-parser-full-2020-11-17/stanford-parser-4.2.0-models.jar"
 
