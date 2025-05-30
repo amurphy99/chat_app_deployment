@@ -13,8 +13,6 @@ echo "download_files.sh current working directory: $(pwd)"
 echo -e "${INFO_T1}Clone or update the repository...${RESET}"
 
 # Check if the repository directory already exists
-# ---- some of this stuff might need to happen in different directories, 
-# ---- but we will cross that bridge when we come to it i guess... ----
 if [ -d "$APP_DIR" ]; then
     # If it already exists, pull from the given origin branch
     echo -e "${INFO_T2}Repo exists, pulling latest changes...${RESET}"
@@ -26,17 +24,14 @@ if [ -d "$APP_DIR" ]; then
 
     #git checkout $REPO_BRANCH
     #git pull origin $REPO_BRANCH
-   
     #git checkout -B $REPO_BRANCH origin/$REPO_BRANCH
+    
     cd ..
 else
     # If it doesn't exist at all yet, clone it
     echo -e "${INFO_T2}Cloning repo...${RESET}"
     git clone -b $REPO_BRANCH $REPO_URL
 fi
-
-
-
 
 # --------------------------------------------------------------------
 # b) Download files from the GCS bucket
@@ -66,18 +61,9 @@ cp "$DPL_DIR/.env" "$REPO_NAME/.env"
 
 # Copy model files into the repo
 echo -e "${INFO_T2}Copying model files into the repo...${RESET}"
-
-ls -lah
-echo "download_files.sh current working directory: $(pwd)"
-echo "$BIO_DIR"
-ls -lah "$BIO_DIR"
-
-
 cp "$MDL_DIR/new_LSA.csv"                      "$BIO_DIR/new_LSA.csv"
 cp "$MDL_DIR/stanford-parser-4.2.0-models.jar" "$BIO_DIR/stanford-parser-full-2020-11-17/stanford-parser-4.2.0-models.jar"
 
 
-
 # ---- This goes somewhere else now ----
 #cp "$MDL_DIR/Phi-3_finetuned.gguf"             "$REPO_NAME/backend/chat_app/services/Phi-3_finetuned.gguf"
-

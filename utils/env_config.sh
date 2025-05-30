@@ -53,7 +53,6 @@ MDL_DIR="$DPL_DIR/models"
 LOG_DIR="$DPL_DIR/logs"
 
 # Final location for the model files when inside the app repo
-#BIO_DIR="$APP_DIR/backend/chat_app/websocket/biomarkers/biomarker_models"
 BIO_DIR="$REPO_NAME/backend/chat_app/websocket/biomarkers/biomarker_models"
 
 
