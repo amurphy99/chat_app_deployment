@@ -28,7 +28,7 @@ chat_app_deployment/
  │   ├── env_config.sh            #    Set mode for "sandbox" or "development"
  │   ├── nvidia_gpu_setup.sh      # 2) NVIDIA Setup (GPU Drivers, Container Toolkit)
  │   ├── install_dependencies.sh  # 3) Install system dependencies (Git, Nginx, Certbot)
- │   ├── download_files.sh        # 4) Clone main project repository & download from GCS bucket
+ │   ├── download_files.sh        # 4) Clone main project repo & download from GCS bucket
  │   ├── nginx_cert_config.sh     # 5) Configure Nginx & Run Certbot for HTTPS
  │   ├── launch_containers.sh     # 6) Launch docker compose in headless mode
  │   └── docker_utils/
