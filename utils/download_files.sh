@@ -19,11 +19,12 @@ if [ -d "$APP_DIR" ]; then
     # If it already exists, pull from the given origin branch
     echo -e "${INFO_T2}Repo exists, pulling latest changes...${RESET}"
     cd "$APP_DIR"
-    #git checkout $REPO_BRANCH
-    #git pull origin $REPO_BRANCH
-    git fetch origin $REPO_BRANCH
-    git checkout -B $REPO_BRANCH origin/$REPO_BRANCH
+    git checkout $REPO_BRANCH
+    git pull origin $REPO_BRANCH
+    #git fetch origin $REPO_BRANCH
+    #git checkout -B $REPO_BRANCH origin/$REPO_BRANCH
     cd ..
+    echo "download_files.sh current working directory: $(pwd)"
 else
     # If it doesn't exist at all yet, clone it
     echo -e "${INFO_T2}Cloning repo...${RESET}"
@@ -59,8 +60,9 @@ cp "$DPL_DIR/.env" "$REPO_NAME/.env"
 # Copy model files into the repo
 echo -e "${INFO_T2}Copying model files into the repo...${RESET}"
 
-ls -lah "$BIO_DIR"
 echo "download_files.sh current working directory: $(pwd)"
+ls -lah "$BIO_DIR"
+
 
 cp "$MDL_DIR/new_LSA.csv"                      "$BIO_DIR/new_LSA.csv"
 cp "$MDL_DIR/stanford-parser-4.2.0-models.jar" "$BIO_DIR/stanford-parser-full-2020-11-17/stanford-parser-4.2.0-models.jar"
