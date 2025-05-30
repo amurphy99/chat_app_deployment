@@ -60,6 +60,7 @@ cp "$DPL_DIR/.env" "$REPO_NAME/.env"
 # Copy model files into the repo
 echo -e "${INFO_T2}Copying model files into the repo...${RESET}"
 
+ls -lah
 echo "download_files.sh current working directory: $(pwd)"
 echo "$BIO_DIR"
 ls -lah "$BIO_DIR"
