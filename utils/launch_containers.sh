@@ -13,9 +13,23 @@ echo "launch_containers.sh current working directory: $(pwd)"
 # --------------------------------------------------------------------
 echo -e "${INFO_T1}Export some extra environment variables...${RESET}"
 
+# Define some new environment variables
+DEV_APP_ROUTE="" # "" Empty string for deployment mode
+
+# Whether or not to use the LLM GPU container or a dummy
+if [ "$APP_ENVIRONMENT" = "sandbox" ]; then
+    LLM_COMPOSE_FILE="llama_api/dummy-compose.yaml"
+else
+    LLM_COMPOSE_FILE="llama_api/compose.yaml"
+fi
+
 # We could cd into the repo directory earlier here and save a few lines...
 echo "APP_ENVIRONMENT=${APP_ENVIRONMENT}" > "$REPO_NAME/.env.deploy"
 echo "BACKEND_DOCKERFILE=${BACKEND_DOCKERFILE}" >> "$REPO_NAME/.env.deploy"
+echo "DEV_APP_ROUTE=${DEV_APP_ROUTE}" >> "$REPO_NAME/.env.deploy"
+echo "LLM_COMPOSE_FILE=${LLM_COMPOSE_FILE}" >> "$REPO_NAME/.env.deploy"
+
+# Check that the new .env.deploy file got properly created
 ls -a "$REPO_NAME"
 
 
