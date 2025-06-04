@@ -19,12 +19,12 @@ if [ -d "$APP_DIR" ]; then
     cd "$APP_DIR"
 
     # Fetch latest commits and reset the working directory to match the remote
-    git fetch origin
-    git reset --hard origin/$REPO_BRANCH
+    #git fetch origin
+    #git reset --hard origin/$REPO_BRANCH
 
-    #git checkout $REPO_BRANCH
-    #git pull origin $REPO_BRANCH
-    #git checkout -B $REPO_BRANCH origin/$REPO_BRANCH
+    git checkout $REPO_BRANCH
+    git pull origin $REPO_BRANCH
+    git checkout -B $REPO_BRANCH origin/$REPO_BRANCH
     
     cd ..
 else
