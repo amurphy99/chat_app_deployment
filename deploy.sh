@@ -15,7 +15,7 @@ cd "$SCRIPT_DIR/.."
 echo "Now running from: $(pwd)"
 
 # Define path to the utils directory
-UTILS_DIR="$SCRIPT_DIR/utils"
+UTILS_DIR="$SCRIPT_DIR/chat_app_deployment/utils"
 echo "Looking for logging helpers in: $UTILS_DIR"
 
 # Load logging helpers
