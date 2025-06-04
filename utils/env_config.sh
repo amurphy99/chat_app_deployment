@@ -6,7 +6,8 @@
 echo "env_config.sh current working directory: $(pwd)"
 
 # Set default
-ENV="deploy"
+#ENV="deploy"
+ENV="sandbox"
 
 # Parse optional argument
 if [[ "$1" == "--env=sandbox" ]]; then
@@ -23,7 +24,8 @@ if [ "$ENV" = "sandbox" ]; then
     DOMAIN="sandbox.cognibot.org"
     DOMAIN_WWW="www.sandbox.cognibot.org"
     NGINX_CONF="nginx/default.conf.sandbox"
-    APP_ENVIRONMENT="sandbox"
+    #APP_ENVIRONMENT="sandbox"
+    APP_ENVIRONMENT="deployment" # right now i want a sandbox version that uses the GPU
 
 # Deployment
 else
