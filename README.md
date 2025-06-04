@@ -6,7 +6,14 @@
 <br>
 
 ### Console Commands
-* sudo docker logs backend
+```
+sudo docker logs backend
+
+chmod +x deploy.sh
+./deploy.sh
+./deploy.sh > deploy_output.log
+
+```
 
 <br>
 
