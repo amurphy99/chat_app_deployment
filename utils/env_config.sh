@@ -6,8 +6,8 @@
 echo "env_config.sh current working directory: $(pwd)"
 
 # Set default
-#ENV="deploy"
-ENV="sandbox"
+ENV="deploy"
+#ENV="sandbox"
 
 # Parse optional argument
 if [[ "$1" == "--env=sandbox" ]]; then
