@@ -22,7 +22,8 @@ if [ -d "$APP_DIR" ]; then
     git fetch origin
     git checkout "$REPO_BRANCH"
     git reset --hard "origin/$REPO_BRANCH"
-    
+    git pull origin $REPO_BRANCH
+
     cd ..
 else
     # If it doesn't exist at all yet, clone it
