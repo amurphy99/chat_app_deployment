@@ -24,12 +24,12 @@ else
 fi
 
 # We could cd into the repo directory earlier here and save a few lines...
-echo "APP_ENVIRONMENT=${APP_ENVIRONMENT}" > "$REPO_NAME/.env.deploy"
-echo "BACKEND_DOCKERFILE=${BACKEND_DOCKERFILE}" >> "$REPO_NAME/.env.deploy"
-echo "DEV_APP_ROUTE=${DEV_APP_ROUTE}" >> "$REPO_NAME/.env.deploy"
-echo "LLM_COMPOSE_FILE=${LLM_COMPOSE_FILE}" >> "$REPO_NAME/.env.deploy"
+#echo "APP_ENVIRONMENT=${APP_ENVIRONMENT}" > "$REPO_NAME/.env.deploy"
+#echo "BACKEND_DOCKERFILE=${BACKEND_DOCKERFILE}" >> "$REPO_NAME/.env.deploy"
+#echo "DEV_APP_ROUTE=${DEV_APP_ROUTE}" >> "$REPO_NAME/.env.deploy"
+#echo "LLM_COMPOSE_FILE=${LLM_COMPOSE_FILE}" >> "$REPO_NAME/.env.deploy"
 
-echo "LLM_COMPOSE_FILE=${LLM_COMPOSE_FILE}" >> "$REPO_NAME/.env"
+#echo "LLM_COMPOSE_FILE=${LLM_COMPOSE_FILE}" >> "$REPO_NAME/.env"
 
 # Check that the new .env.deploy file got properly created
 ls -a "$REPO_NAME"

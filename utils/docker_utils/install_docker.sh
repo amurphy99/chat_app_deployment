@@ -29,7 +29,7 @@ if ! command -v docker &>/dev/null; then
 
     # Install (debian or ubuntu ?)
     curl -fsSL https://download.docker.com/linux/debian/gpg | \
-        sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+        gpg --dearmor | sudo tee /etc/apt/keyrings/docker.gpg > /dev/null
 
     # Get Debian codename (e.g., bookworm, bullseye)
     DISTRO_CODENAME=$(lsb_release -cs)
