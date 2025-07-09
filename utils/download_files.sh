@@ -20,11 +20,8 @@ if [ -d "$APP_DIR" ]; then
 
     # Fetch latest commits and reset the working directory to match the remote
     git fetch origin
-    git reset --hard origin/$REPO_BRANCH
-
-    git checkout $REPO_BRANCH
-    git pull origin $REPO_BRANCH
-    git checkout -B $REPO_BRANCH origin/$REPO_BRANCH
+    git checkout "$REPO_BRANCH"
+    git reset --hard "origin/$REPO_BRANCH"
     
     cd ..
 else
@@ -56,14 +53,10 @@ mkdir -p "$LOG_DIR"
 echo -e "${INFO_T1}Copy deployment files into the repository (.env, models)...${RESET}"
 
 # Copy .env into the repo
-echo -e "${INFO_T2}Copying .env into the repo...${RESET}"
-cp "$DPL_DIR/.env" "$REPO_NAME/.env"
+#echo -e "${INFO_T2}Copying .env into the repo...${RESET}"
+#cp "$DPL_DIR/.env" "$REPO_NAME/.env"
 
 # Copy model files into the repo
 echo -e "${INFO_T2}Copying model files into the repo...${RESET}"
 cp "$MDL_DIR/new_LSA.csv"                      "$BIO_DIR/new_LSA.csv"
 cp "$MDL_DIR/stanford-parser-4.2.0-models.jar" "$BIO_DIR/stanford-parser-full-2020-11-17/stanford-parser-4.2.0-models.jar"
-
-
-# ---- This goes somewhere else now ----
-#cp "$MDL_DIR/Phi-3_finetuned.gguf"             "$REPO_NAME/backend/chat_app/services/Phi-3_finetuned.gguf"
