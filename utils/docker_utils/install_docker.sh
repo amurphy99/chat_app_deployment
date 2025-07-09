@@ -15,10 +15,19 @@ if ! command -v docker &>/dev/null; then
     # Set up the Docker repository
     sudo apt-get update
     sudo apt-get install -y ca-certificates curl gnupg lsb-release
-   
+
+    # Create keyring directory
     sudo mkdir -p /etc/apt/keyrings
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
+
+    # Install (debian or ubuntu ?)
+    curl -fsSL https://download.docker.com/linux/debian/gpg | \
         sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+    #curl -fsSL https://download.docker.com/linux/ubuntu/gpg | \
+    #    sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+    # Get Debian codename (e.g., bookworm, bullseye)
+    DISTRO_CODENAME=$(lsb_release -cs)
 
     echo \
       "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] \
