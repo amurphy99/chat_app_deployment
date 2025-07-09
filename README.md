@@ -1,5 +1,6 @@
 # Shell scripts for deploying the chat app. 
 
+* Need to install Git way earlier??
 * Could add a number as input to each module, then they know which step they are...
 * MAYBE could change the image location as a variable here if you wanted to run the CPU version
 

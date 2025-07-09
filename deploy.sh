@@ -7,7 +7,8 @@ set -e
 echo "Current working directory: $(pwd)"
 
 # Get the directory this script is in
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+#SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+SCRIPT_DIR="$(pwd)/chat_app_deployment"
 echo "Script is located at: $SCRIPT_DIR"
 
 # Go one level up 
