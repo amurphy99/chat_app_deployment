@@ -27,26 +27,16 @@ echo -e "${BOLD_BLUE} Starting Deployment of Speech System... ${RESET}"
 echo -e "${BOLD_BLUE}$HR_2${RESET}"
 
 # --------------------------------------------------------------------
-# Check "secret" keys set in the startup script
+# Load env config logic and pass args along
 # --------------------------------------------------------------------
+# Check "secret" keys set in the startup script
 echo -e "${INFO_T0}SPEECH_KEY        = $__SPEECH_KEY ${RESET}"
 echo -e "${INFO_T0}POSTGRES_USER     = $__POSTGRES_USER ${RESET}"
 echo -e "${INFO_T0}POSTGRES_PASSWORD = $__POSTGRES_PASSWORD ${RESET}"
 echo -e "${HR_1}"
 
-# --------------------------------------------------------------------
-# Load env config logic and pass args along
-# --------------------------------------------------------------------
 # This also does the basic config with github, log directories, etc...
 source "$UTILS_DIR/env_config.sh" "$@" 
-
-# Echo the environment setup
-echo -e "${INFO_T0}ENV             = $ENV             ${RESET}"
-echo -e "${INFO_T0}DOMAIN          = $DOMAIN          ${RESET}"
-echo -e "${INFO_T0}DOMAIN_WWW      = $DOMAIN_WWW      ${RESET}"
-echo -e "${INFO_T0}NGINX_CONF      = $NGINX_CONF      ${RESET}"
-echo -e "${INFO_T0}APP_ENVIRONMENT = $APP_ENVIRONMENT ${RESET}"
-
 
 # ====================================================================
 # Setup Steps
