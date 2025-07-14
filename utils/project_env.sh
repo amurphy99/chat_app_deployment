@@ -20,14 +20,15 @@ echo -e "${INFO_T0}ROOT_ENV_PATH = $ROOT_ENV_PATH ${RESET}"
 # Define some new environment variables
 VITE_RUN_ENV="PROD"
 DEV_APP_ROUTE=""                    # "" Empty string for deployment mode
-CONF_FILE="default.conf.sandbox"
 CERT_EMAIL="amurphy62299@gmail.com"
 
 # Whether or not to use the LLM GPU container or a dummy
 if [ "$APP_ENVIRONMENT" = "sandbox" ]; then
     LLM_COMPOSE_FILE="llama_api/dummy-compose.yaml"
+    CONF_FILE="default.conf.sandbox"
 else
     LLM_COMPOSE_FILE="llama_api/compose.yaml"
+    CONF_FILE="default.conf"
 fi
 
 # Create the .env file
