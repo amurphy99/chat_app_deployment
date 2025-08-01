@@ -53,10 +53,6 @@ mkdir -p "$LOG_DIR"
 # --------------------------------------------------------------------
 echo -e "${INFO_T1}Copy deployment files into the repository (.env, models)...${RESET}"
 
-# Copy .env into the repo
-#echo -e "${INFO_T2}Copying .env into the repo...${RESET}"
-#cp "$DPL_DIR/.env" "$REPO_NAME/.env"
-
 # Copy model files into the repo
 echo -e "${INFO_T2}Copying model files into the repo...${RESET}"
 cp "$MDL_DIR/new_LSA.csv"                      "$BIO_DIR/new_LSA.csv"
