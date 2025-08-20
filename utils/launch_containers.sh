@@ -1,4 +1,4 @@
-STEP_NUM=6 #"${1:-6}"
+STEP_NUM=5 
 # ====================================================================
 # Launch Containers
 # ====================================================================
@@ -23,14 +23,6 @@ else
     LLM_COMPOSE_FILE="llama_api/compose.yaml"
 fi
 
-# We could cd into the repo directory earlier here and save a few lines...
-echo "APP_ENVIRONMENT=${APP_ENVIRONMENT}" > "$REPO_NAME/.env.deploy"
-echo "BACKEND_DOCKERFILE=${BACKEND_DOCKERFILE}" >> "$REPO_NAME/.env.deploy"
-echo "DEV_APP_ROUTE=${DEV_APP_ROUTE}" >> "$REPO_NAME/.env.deploy"
-echo "LLM_COMPOSE_FILE=${LLM_COMPOSE_FILE}" >> "$REPO_NAME/.env.deploy"
-
-echo "LLM_COMPOSE_FILE=${LLM_COMPOSE_FILE}" >> "$REPO_NAME/.env"
-
 # Check that the new .env.deploy file got properly created
 ls -a "$REPO_NAME"
 
@@ -42,10 +34,7 @@ echo -e "${INFO_T1}Launch docker compose in headless mode...${RESET}"
 
 # Adding "-d" to the end puts it in headless mode (sudo docker-compose up --build -d)
 cd "$REPO_NAME"
-export BACKEND_DOCKERFILE="$BACKEND_DOCKERFILE"
-#sudo --preserve-env=BACKEND_DOCKERFILE --gpus all docker-compose up --build -d
-#sudo docker compose up --gpus all --build -d
-#sudo docker compose --profile gpu up --build -d
+
 
 echo -e "\n"
 ls -lah .

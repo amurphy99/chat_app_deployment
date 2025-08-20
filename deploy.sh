@@ -29,22 +29,20 @@ echo -e "${BOLD_BLUE}$HR_2${RESET}"
 # --------------------------------------------------------------------
 # Load env config logic and pass args along
 # --------------------------------------------------------------------
+# Check "secret" keys set in the startup script
+echo -e "${INFO_T0}SPEECH_KEY        = $__SPEECH_KEY ${RESET}"
+echo -e "${INFO_T0}POSTGRES_USER     = $__POSTGRES_USER ${RESET}"
+echo -e "${INFO_T0}POSTGRES_PASSWORD = $__POSTGRES_PASSWORD ${RESET}"
+echo -e "${HR_1}"
+
 # This also does the basic config with github, log directories, etc...
 source "$UTILS_DIR/env_config.sh" "$@" 
-
-# Echo the environment setup
-echo -e "${INFO_T0}ENV             = $ENV             ${RESET}"
-echo -e "${INFO_T0}DOMAIN          = $DOMAIN          ${RESET}"
-echo -e "${INFO_T0}DOMAIN_WWW      = $DOMAIN_WWW      ${RESET}"
-echo -e "${INFO_T0}NGINX_CONF      = $NGINX_CONF      ${RESET}"
-echo -e "${INFO_T0}APP_ENVIRONMENT = $APP_ENVIRONMENT ${RESET}"
-
 
 # ====================================================================
 # Setup Steps
 # ====================================================================
 # 1) Install Docker (Engine + Compose V2 Plugin)
-#source "$UTILS_DIR/docker_utils/reset_docker.sh" --step_num=0
+source "$UTILS_DIR/docker_utils/reset_docker.sh" --step_num=0
 source "$UTILS_DIR/docker_utils/install_docker.sh" --step_num=1
 
 # 2) NVIDIA Setup (GPU Drivers, Container Toolkit)
@@ -56,11 +54,17 @@ source "$UTILS_DIR/install_dependencies.sh" --step_num=3
 # 4) Clone/Pull Repo & Download deployment files from GCS Bucket
 source "$UTILS_DIR/download_files.sh" --step_num=4
 
-# 5) Configure Nginx & Run Certbot for HTTPS
-source "$UTILS_DIR/nginx_cert_config.sh" --step_num=5
+# 4a) Configure project environment variables
+source "$UTILS_DIR/project_env.sh" 
 
-# 6) Launch docker compose in headless mode
-source "$UTILS_DIR/launch_containers.sh" --step_num=6
+# 5) Launch docker compose in headless mode
+source "$UTILS_DIR/launch_containers.sh" --step_num=5
+
+
+
+# Print the target URLs
+echo -e "${INFO_T0}Domain:     $DOMAIN     ${RESET}"
+echo -e "${INFO_T0}Domain WWW: $DOMAIN_WWW ${RESET}"
 
 
 # ====================================================================

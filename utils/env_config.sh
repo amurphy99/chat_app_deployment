@@ -24,8 +24,7 @@ if [ "$ENV" = "sandbox" ]; then
     DOMAIN="sandbox.cognibot.org"
     DOMAIN_WWW="www.sandbox.cognibot.org"
     NGINX_CONF="nginx/default.conf.sandbox"
-    #APP_ENVIRONMENT="sandbox"
-    APP_ENVIRONMENT="deployment" # right now i want a sandbox version that uses the GPU
+    APP_ENVIRONMENT="sandbox"
 
 # Deployment
 else
@@ -34,7 +33,6 @@ else
     NGINX_CONF="nginx/default.conf"
     APP_ENVIRONMENT="deployment"
 fi
-
 
 # --------------------------------------------------------------------
 # Basic Config
@@ -46,8 +44,7 @@ GCS_BUCKET="gs://v2-deployment-files"
 # App repository stuff
 REPO_URL="https://github.com/amurphy99/v2_benchmarking.git" 
 REPO_NAME="v2_benchmarking"
-#REPO_BRANCH="gpu"
-REPO_BRANCH="gpu-merge"
+REPO_BRANCH="main"
 APP_DIR="$PRJ_DIR/$REPO_NAME"
 
 # Deployment Files (from GCS bucket)
@@ -58,5 +55,11 @@ LOG_DIR="$DPL_DIR/logs"
 # Final location for the model files when inside the app repo
 BIO_DIR="$REPO_NAME/backend/chat_app/websocket/biomarkers/biomarker_models"
 
-
-
+# --------------------------------------------------------------------
+# Echo the environment setup
+# --------------------------------------------------------------------
+echo -e "${INFO_T0}ENV             = $ENV             ${RESET}"
+echo -e "${INFO_T0}DOMAIN          = $DOMAIN          ${RESET}"
+echo -e "${INFO_T0}DOMAIN_WWW      = $DOMAIN_WWW      ${RESET}"
+echo -e "${INFO_T0}NGINX_CONF      = $NGINX_CONF      ${RESET}"
+echo -e "${INFO_T0}APP_ENVIRONMENT = $APP_ENVIRONMENT ${RESET}"
