@@ -55,6 +55,9 @@ LOG_DIR="$DPL_DIR/logs"
 # Final location for the model files when inside the app repo
 BIO_DIR="$REPO_NAME/backend/chat_app/websocket/biomarkers/biomarker_models"
 
+# Final location for the Google Speech Key
+GSK_DIR="$REPO_NAME/backend"
+
 # --------------------------------------------------------------------
 # Echo the environment setup
 # --------------------------------------------------------------------

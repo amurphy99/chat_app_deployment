@@ -57,3 +57,4 @@ echo -e "${INFO_T1}Copy deployment files into the repository (.env, models)...${
 echo -e "${INFO_T2}Copying model files into the repo...${RESET}"
 cp "$MDL_DIR/new_LSA.csv"                      "$BIO_DIR/new_LSA.csv"
 cp "$MDL_DIR/stanford-parser-4.2.0-models.jar" "$BIO_DIR/stanford-parser-full-2020-11-17/stanford-parser-4.2.0-models.jar"
+cp "$MDL_DIR/google-stt-key.json"              "$GSK_DIR/google-stt-key.json"
