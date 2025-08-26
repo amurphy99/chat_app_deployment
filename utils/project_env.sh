@@ -74,7 +74,8 @@ VITE_API_BASE   = "http://localhost:8000/api"
 VITE_WS_BASE    = "ws://localhost:8000/ws/chat/"
 
 GOOGLE_APPLICATION_CREDENTIALS = ${__GOOGLE_APPLICATION_CREDENTIALS}
-GEMINI_KEY = ${__GEMINI_KEY}
+GOOGLE_API_KEY = ${__GEMINI_KEY}
+GOOGLE_GENAI_USE_VERTEXAI=0
 EOF
 
 echo -e "${GREEN}frontend/.env file created successfully${RESET}"
