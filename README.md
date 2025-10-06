@@ -1,25 +1,27 @@
 # Shell scripts for deploying the chat app. 
 
-* Need to install Git way earlier??
-* Weird issue when you run it the first time
-
-* Could add a number as input to each module, then they know which step they are...
-* MAYBE could change the image location as a variable here if you wanted to run the CPU version
+ToDo:
+* Move the `git` installation to `deploy_app.sh` (the first time running the script in VM it uses git to pull this repo..)
+* Move the target deployment branch in `utils/env_config.sh` to another exported variable in `deploy_app.sh` (that way we don't need a new branch of this repo every time we want to use a different backend branch)
+* Update the "step numbers"
+* Maybe combine the two env steps
+* MAYBE could change the image location as a variable here if you wanted to run the CPU version (no idea what I meant by this)
 
 <br>
 
-### Console Commands
-```
-sudo docker logs backend
+# Helpful Console Commands
+* If re-running/updating the deployed app (CPU or GPU instance):
+    1) Remove the old `deploy_app.sh` from the VM: `rm deploy_app.sh`
+    2) Use the web-SSH console to upload your version of `deploy_app.sh`
+* To run the app after the `deploy_app.sh` script is uploaded:
+    - GPU: `bash deploy_app.sh`
+    - CPU: `bash deploy_app.sh --env=sandbox` 
+* Check logs of the containers (replace backend with other container names):
+    - `sudo docker logs --tail 200 backend`
+* To check if the containers are up and responding to requests from inside of the VM:
+    - `sudo docker exec nginx curl -s http://frontend:5173`
+    - `sudo docker exec nginx curl -s http://backend:8000/api/health/`
 
-sudo docker exec nginx curl -s http://frontend:5173
-sudo docker exec nginx curl -s http://backend:8000/api/health/
-
-
-chmod +x deploy.sh
-./deploy.sh
-./deploy.sh > deploy_output.log
-```
 
 <br>
 
@@ -37,7 +39,6 @@ chmod +x deploy.sh
 # Project Architecture
 ```diff
 chat_app_deployment/
- ├── .env                         # --- nothing right now ---
  ├── deploy.sh                    # Calls all of the other shell files inside utils
  ├── utils/
  │   ├── logging.sh               # Defines logging helpers (colors, etc.)
