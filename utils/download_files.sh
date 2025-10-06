@@ -58,3 +58,8 @@ echo -e "${INFO_T2}Copying model files into the repo...${RESET}"
 cp "$MDL_DIR/new_LSA.csv"                      "$BIO_DIR/new_LSA.csv"
 cp "$MDL_DIR/stanford-parser-4.2.0-models.jar" "$BIO_DIR/stanford-parser-full-2020-11-17/stanford-parser-4.2.0-models.jar"
 cp "$DPL_DIR/google-stt-key.json"              "$GSK_DIR/google-stt-key.json"
+
+# copy zeroshot model into the repo
+echo -e "${INFO_T2}Copying zeroshot model into the repo...${RESET}"
+mkdir -p "$APP_DIR/backend/chat_app/websocket/services/emotion_model"
+cp -r "$MDL_DIR/deberta-v3-base-nli" "$APP_DIR/backend/chat_app/websocket/services/emotion_model"
