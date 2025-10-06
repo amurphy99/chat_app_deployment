@@ -44,7 +44,7 @@ GCS_BUCKET="gs://v2-deployment-files"
 # App repository stuff
 REPO_URL="https://github.com/amurphy99/v2_benchmarking.git" 
 REPO_NAME="v2_benchmarking"
-REPO_BRANCH="main"
+REPO_BRANCH="backend-tts"
 APP_DIR="$PRJ_DIR/$REPO_NAME"
 
 # Deployment Files (from GCS bucket)
@@ -54,6 +54,9 @@ LOG_DIR="$DPL_DIR/logs"
 
 # Final location for the model files when inside the app repo
 BIO_DIR="$REPO_NAME/backend/chat_app/websocket/biomarkers/biomarker_models"
+
+# Final location for the Google Speech Key
+GSK_DIR="$REPO_NAME/backend"
 
 # --------------------------------------------------------------------
 # Echo the environment setup
