@@ -1,4 +1,4 @@
-STEP_NUM=4 #"${1:-4}"
+STEP_NUM=3 #"${1:-4}"
 # ====================================================================
 # Clone/Pull Repo & Download deployment files from GCS Bucket
 # ====================================================================
@@ -53,16 +53,11 @@ mkdir -p "$LOG_DIR"
 # --------------------------------------------------------------------
 echo -e "${INFO_T1}Copy deployment files into the repository (.env, models)...${RESET}"
 
-ls -ld "$BIO_DIR"
-ls -ld "$GSK_DIR"
-
 # Copy "new_LSA.csv" for ... ?
 echo -e "${INFO_T3}  cp    $MDL_DIR/new_LSA.csv  $BIO_DIR/new_LSA.csv ${RESET}"
 cp "$MDL_DIR/new_LSA.csv"                      "$BIO_DIR/new_LSA.csv"
 cp "$MDL_DIR/stanford-parser-4.2.0-models.jar" "$BIO_DIR/stanford-parser-full-2020-11-17/stanford-parser-4.2.0-models.jar"
 
-
 # Google keys
 echo -e "${INFO_T3}  cp -f $DPL_DIR/google-stt-key.json  $GSK_DIR/google-stt-key.json ${RESET}"
 cp -f "$DPL_DIR/google-stt-key.json" "$GSK_DIR/google-stt-key.json"
-
