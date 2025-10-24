@@ -69,7 +69,7 @@ if [ "$APP_ENVIRONMENT" = "deployment" ]; then
     # c) Test GPU access in Docker
     # --------------------------------------------------------------------
     echo -e "${INFO_T1}Testing GPU access in Docker...${RESET}"
-    #sudo docker run --rm --gpus all nvidia/cuda:12.3.2-base-ubuntu22.04 nvidia-smi
+    sudo docker run --rm --gpus all nvidia/cuda:12.3.2-base-ubuntu22.04 nvidia-smi
 
 else
     echo -e "${GREEN}In sandbox mode, skipping GPU setup... ${RESET}"
