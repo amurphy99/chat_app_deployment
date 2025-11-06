@@ -6,8 +6,8 @@
 echo "env_config.sh current working directory: $(pwd)"
 
 # Set default
-ENV="deploy"
-#ENV="sandbox"
+# ENV="deploy"
+ENV="sandbox"
 
 # Parse optional argument
 if [[ "$1" == "--env=sandbox" ]]; then
@@ -42,9 +42,9 @@ PRJ_DIR="$HOME"
 GCS_BUCKET="gs://v2-deployment-files"
 
 # App repository stuff
-REPO_URL="https://github.com/amurphy99/v2_benchmarking.git" 
-REPO_NAME="v2_benchmarking"
-REPO_BRANCH="backend-tts"
+REPO_URL="https://github.com/bennett-lab-depaul/v3_chat_app.git" 
+REPO_NAME="v3_chat_app"
+REPO_BRANCH="animation-testing"
 APP_DIR="$PRJ_DIR/$REPO_NAME"
 
 # Deployment Files (from GCS bucket)
