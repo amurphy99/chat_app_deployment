@@ -25,7 +25,7 @@ ToDo:
     * Builds the Docker containers & starts the app
 9. Go to cognibot.org/ once the deployment finishes
 
-<details closed> <summary>How to deploy (sandbox)</summary>
+# How to deploy (sandbox)
 1. Clone this repository
 2. Make a branch of this repository and name it
 3. In chat_app_deployment/blob/main/utils/env_config.sh, change line 47 to point at the branch you want to deploy from the v2_benchmarking repo
