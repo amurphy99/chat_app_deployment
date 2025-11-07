@@ -9,6 +9,41 @@ ToDo:
 
 <br>
 
+# How to deploy (deployment)
+1. Clone this repo
+2. Make a branch of this repo and name it
+3. In chat_app_deployment/blob/main/utils/env_config.sh, change line 47 to point at the branch you want to deploy from the v2_benchmarking repo
+4. Modify deploy_app.sh line 9 to the branch you made in step 2
+5. Add any new env variables necessary
+6. Go to Google Cloud Console > Compute Engine > VM Instances and SSH into the v2-testing-06-gpu instance
+7. Upload your copy of deploy_app.sh
+8. Run `bash deploy_app.sh`
+    * May need to run twice
+    * Installs docker & updates other dependencies
+    * Downloads required, non-tracked files from cloud storage
+    * Clones the repo & copies the non-tracked files (model files) into their proper locations 
+    * Builds the Docker containers & starts the app
+9. Go to cognibot.org/ once the deployment finishes
+
+<details closed> <summary>How to deploy (sandbox)</summary>
+1. Clone this repository
+2. Make a branch of this repository and name it
+3. In chat_app_deployment/blob/main/utils/env_config.sh, change line 47 to point at the branch you want to deploy from the v2_benchmarking repo
+4. Modify deploy_app.sh line 9 to the branch you made in step 2
+5. Add any new env variables necessary
+6. Go to Google Cloud Console > Compute Engine > VM Instances and SSH into the v2-testing-05-cpu instance
+7. Upload your copy of deploy_app.sh
+8. Run `bash deploy_app.sh --env=sandbox`
+    * May need to run twice
+    * Installs docker & updates other dependencies
+    * Downloads required, non-tracked files from cloud storage
+    * Clones the repo & copies the non-tracked files (model files) into their proper locations 
+    * Builds the Docker containers & starts the app
+9. Go to sandbox.cognibot.org/ once the deployment finishes
+    * May have security errors--just ignore these
+
+</details>
+
 # Helpful Console Commands
 * If re-running/updating the deployed app (CPU or GPU instance):
     1) Remove the old `deploy_app.sh` from the VM: `rm deploy_app.sh`
