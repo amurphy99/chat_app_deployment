@@ -58,7 +58,8 @@ BIO_DIR="$REPO_NAME/backend/chat_app/websocket/biomarkers/biomarker_models"
 # Final location for the Google Speech Key
 GSK_DIR="$REPO_NAME/backend"
 
-DBR_DIR="$REPO_NAME/backend/chat_app/websocket/services/emotion_models
+# Final location for the DEBERTA model
+DBR_DIR="$REPO_NAME/backend/chat_app/websocket/services/emotion_models"
 
 # --------------------------------------------------------------------
 # Echo the environment setup
