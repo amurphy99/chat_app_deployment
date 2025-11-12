@@ -44,7 +44,7 @@ GCS_BUCKET="gs://v2-deployment-files"
 # App repository stuff
 REPO_URL="https://github.com/bennett-lab-depaul/v3_chat_app.git" 
 REPO_NAME="v3_chat_app"
-REPO_BRANCH="animation-testing"
+REPO_BRANCH="main"
 APP_DIR="$PRJ_DIR/$REPO_NAME"
 
 # Deployment Files (from GCS bucket)
