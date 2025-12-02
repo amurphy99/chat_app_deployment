@@ -18,11 +18,27 @@ if [ -d "$APP_DIR" ]; then
     echo -e "${INFO_T2}Repo exists, pulling latest changes... ${RESET}"
     cd "$APP_DIR"
 
-    # Fetch latest commits and reset the working directory to match the remote
-    git fetch origin
-    git checkout "$REPO_BRANCH"
+    # Fetch latest remote state
+    git fetch origin --prune
+
+    # If the local branch exists, switch to it; otherwise create it from origin
+    if git rev-parse --verify "$REPO_BRANCH" >/dev/null 2>&1; then
+        # Branch already exists locally
+        git switch "$REPO_BRANCH" || git checkout "$REPO_BRANCH"
+    else
+        # Create local branch tracking origin/REPO_BRANCH
+        git checkout -B "$REPO_BRANCH" "origin/$REPO_BRANCH"
+    fi
+
+    # Hard reset to match remote exactly
     git reset --hard "origin/$REPO_BRANCH"
     git pull origin $REPO_BRANCH
+
+    # Fetch latest commits and reset the working directory to match the remote
+    #git fetch origin
+    #git checkout "$REPO_BRANCH"
+    #git reset --hard "origin/$REPO_BRANCH"
+    #git pull origin $REPO_BRANCH
 
     cd ..
 else

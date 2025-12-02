@@ -89,6 +89,9 @@ echo -e "${INFO_T0}SETUP_REPO_DIR     = ${SETUP_REPO_DIR}       ${RESET}"
 echo -e "${INFO_T0}UTILS_DIR          = ${UTILS_DIR}            ${RESET}"
 echo -e "${INFO_T0}SETUP_PRJ_DIR      = ${SETUP_PRJ_DIR}        ${RESET}\n"
 
+echo -e "${INFO_T0}REPO_NAME          = ${REPO_NAME}            ${RESET}"
+echo -e "${INFO_T0}REPO_BRANCH        = ${REPO_BRANCH}          ${RESET}\n"
+
 echo -e "${INFO_T0}DPL_DIR            = ${DPL_DIR}              ${RESET}"
 echo -e "${INFO_T0}MDL_DIR            = ${MDL_DIR}              ${RESET}"
 echo -e "${INFO_T0}LOG_DIR            = ${LOG_DIR}              ${RESET}"
