@@ -20,28 +20,28 @@ if [ -d "$APP_DIR" ]; then
     echo -e "cd'ed into ${APP_DIR}; new current working directory: $(pwd)"
 
     # Fetch latest remote state
-    git fetch origin --prune
+    #git fetch origin --prune
 
     # If the local branch exists, switch to it; otherwise create it from origin
-    if git rev-parse --verify "$REPO_BRANCH" >/dev/null 2>&1; then
-        # Branch already exists locally
-        echo -e "${INFO_T2}Branch exists locally, switching or checking it out... ${RESET}"
-        git switch "$REPO_BRANCH" || git checkout "$REPO_BRANCH"
-    else
-        # Create local branch tracking origin/REPO_BRANCH
-        echo -e "${INFO_T2}Branch doesn't exist locally, checking it out... ${RESET}"
-        git checkout -B "$REPO_BRANCH" "origin/$REPO_BRANCH"
-    fi
+    #if git rev-parse --verify "$REPO_BRANCH" >/dev/null 2>&1; then
+    #    # Branch already exists locally
+    #    echo -e "${INFO_T2}Branch exists locally, switching or checking it out... ${RESET}"
+    #    git switch "$REPO_BRANCH" || git checkout "$REPO_BRANCH"
+    #else
+    #    # Create local branch tracking origin/REPO_BRANCH
+    #    echo -e "${INFO_T2}Branch doesn't exist locally, checking it out... ${RESET}"
+    #    git checkout -B "$REPO_BRANCH" "origin/$REPO_BRANCH"
+    #fi
 
     # Hard reset to match remote exactly
-    git reset --hard "origin/$REPO_BRANCH"
-    git pull origin $REPO_BRANCH
-
-    # Fetch latest commits and reset the working directory to match the remote
-    #git fetch origin
-    #git checkout "$REPO_BRANCH"
     #git reset --hard "origin/$REPO_BRANCH"
     #git pull origin $REPO_BRANCH
+
+    # Fetch latest commits and reset the working directory to match the remote
+    git fetch origin
+    git checkout "$REPO_BRANCH"
+    git reset --hard "origin/$REPO_BRANCH"
+    git pull origin $REPO_BRANCH
 
     cd ..
 else
