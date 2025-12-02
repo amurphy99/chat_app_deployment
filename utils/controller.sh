@@ -2,72 +2,66 @@
 set -e
 
 # ================================================================================
-# Initial Setup
+# Run each setup file & start the project containers
 # ================================================================================
-echo "Current working directory: $(pwd)"
+echo " "
+echo -e "Current working directory: $(pwd)"
 
 # Get the directory this script is in
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-echo "Script is located at: $SCRIPT_DIR"
+echo -e "Script is located at: ${SCRIPT_DIR}"
 
 # Go one level up 
-cd "$SCRIPT_DIR/.."
-echo "Now running from: $(pwd)"
+cd "${SCRIPT_DIR}/.."
+echo -e "Now running from: $(pwd)"
 
 # Define path to the utils directory
 UTILS_DIR="$SCRIPT_DIR/utils"
-echo "Looking for logging helpers in: $UTILS_DIR"
+echo -e "Looking for logging helpers in: ${UTILS_DIR}"
 
 # Load logging helpers
-source "$UTILS_DIR/logging.sh"
+source "${UTILS_DIR}/logging.sh"
 
+# --------------------------------------------------------------------------------
+# Final environment variable setup before starting
+# --------------------------------------------------------------------------------
 # First console output
-echo -e "${BOLD_BLUE}$HR_2${RESET}"
+echo -e "${BOLD_BLUE}${HR_2}${RESET}"
 echo -e "${BOLD_BLUE} Starting Deployment of Speech System... ${RESET}"
-echo -e "${BOLD_BLUE}$HR_2${RESET}"
+echo -e "${BOLD_BLUE}${HR_2}${RESET}"
 
-# --------------------------------------------------------------------
-# Load env config logic and pass args along
-# --------------------------------------------------------------------
-# Check "secret" keys set in the startup script
-echo -e "${INFO_T0}SPEECH_KEY        = $__SPEECH_KEY ${RESET}"
-echo -e "${INFO_T0}POSTGRES_USER     = $__POSTGRES_USER ${RESET}"
-echo -e "${INFO_T0}POSTGRES_PASSWORD = $__POSTGRES_PASSWORD ${RESET}"
-echo -e "${HR_1}"
+# This also does the basic config with the GCS bucket, local directories, etc...
+source "${UTILS_DIR}/env_config.sh" "$@" 
 
-# This also does the basic config with github, log directories, etc...
-source "$UTILS_DIR/env_config.sh" "$@" 
-
-# ====================================================================
+# --------------------------------------------------------------------------------
 # Setup Steps
-# ====================================================================
-# 1) Install Docker (Engine + Compose V2 Plugin)
-source "$UTILS_DIR/docker_utils/reset_docker.sh" --step_num=0
-source "$UTILS_DIR/docker_utils/install_docker.sh" --step_num=1
+# --------------------------------------------------------------------------------
+# 1) Reset Docker (if installed) & Setup Docker (if not installed)
+source "${UTILS_DIR}/docker_utils/reset_docker.sh"
+source "${UTILS_DIR}/docker_utils/install_docker.sh"
 
-# 2) NVIDIA Setup (GPU Drivers, Container Toolkit)
-source "$UTILS_DIR/nvidia_gpu_setup.sh" --step_num=2
+# 2) NVIDIA Setup (GPU Drivers, Container Toolkit) -- never actually fires, just leaving it in for now though
+source "${UTILS_DIR}/nvidia_gpu_setup.sh"
 
-# 3) Clone/Pull Repo & Download deployment files from GCS Bucket
-source "$UTILS_DIR/download_files.sh" --step_num=3
+# 3) ---- I might want to do a new nginx setup here... ----
 
-# 4) Configure project environment variables
-source "$UTILS_DIR/project_env.sh" --step_num=4
+# 4) Pull from project repo & download from GCS bucket
+source "${UTILS_DIR}/download_files.sh"
 
-# 5) Launch docker compose in headless mode
-source "$UTILS_DIR/launch_containers.sh" --step_num=5
+# 5) More detailed .env configuration 
+source "${UTILS_DIR}/project_env.sh"
 
+# 6) Launch docker compose in headless mode
+source "${UTILS_DIR}/launch_containers.sh"
 
-
+# --------------------------------------------------------------------------------
+# Deployment Complete
+# --------------------------------------------------------------------------------
 # Print the target URLs
 echo -e "${INFO_T0}Domain:     $DOMAIN     ${RESET}"
 echo -e "${INFO_T0}Domain WWW: $DOMAIN_WWW ${RESET}"
 
-
-# ====================================================================
-# Done
-# ====================================================================
+# Final message
 echo -e "\n${GREEN}$HR_2${RESET}"
 echo -e "${GREEN} Deployment complete! Visit: https://$DOMAIN ${RESET}"
 echo -e "${GREEN}$HR_2${RESET}\n"
-

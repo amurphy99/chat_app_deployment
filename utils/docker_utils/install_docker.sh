@@ -1,16 +1,17 @@
-STEP_NUM=1 #"${1:-1}"
-# ====================================================================
-# Install Docker (Engine + Compose V2 Plugin)
-# ====================================================================
-echo -e "$PROG_HR_1"
-echo -e "${PROG_TEXT}${STEP_NUM}. Install Docker (Engine + Compose V2 Plugin)... ${RESET}"
-echo -e "$PROG_HR_2"
+# ================================================================================
+# 1b) Install Docker (Engine + Compose V2 Plugin)
+# ================================================================================
+# We should pretty much always be doing this on CPU now...
+# Now have access to a "VM_TYPE" variable to decide if working for CPU or GPU
+echo -e "${PROG_HR_1}"
+echo -e "${PROG_TEXT}1b. Install Docker (Engine + Compose V2 Plugin)... ${RESET}"
+echo -e "${PROG_HR_2}"
 
-# --------------------------------------------------------------------
+# --------------------------------------------------------------------------------
 # Install Docker if needed
-# --------------------------------------------------------------------
+# --------------------------------------------------------------------------------
 if ! command -v docker &>/dev/null; then
-    echo -e "${INFO_T1}Installing Docker (Engine + Compose V2 Plugin)...${RESET}"
+    echo -e "${INFO_T1}Installing Docker (Engine + Compose V2 Plugin) for ${INFO_T0}${VM_TYPE}${RESET} ${INFO_T1} VM instance... ${RESET}"
 
     # Set up the Docker repository
     sudo apt-get update
@@ -19,11 +20,11 @@ if ! command -v docker &>/dev/null; then
     # Create keyring directory
     sudo mkdir -p /etc/apt/keyrings
 
-    # --------------------------------------------------------------------
+    # --------------------------------------------------------------------------------
     # Depending on if we need GPU or not
-    # --------------------------------------------------------------------
+    # --------------------------------------------------------------------------------
     # Sandbox (CPU) => debian
-    if [ "$ENV" = "sandbox" ]; then
+    if [ "$VM_TYPE" = "CPU" ]; then
         echo -e "${INFO_T0}For sandbox (CPU) => installing debian ${RESET}"
         curl -fsSL https://download.docker.com/linux/debian/gpg | \
             gpg --dearmor | sudo tee /etc/apt/keyrings/docker.gpg > /dev/null
@@ -59,4 +60,3 @@ if ! command -v docker &>/dev/null; then
 else
     echo -e "${GREEN}Docker already installed, skipping...${RESET}"
 fi
-

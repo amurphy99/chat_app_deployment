@@ -1,22 +1,20 @@
-STEP_NUM=2 #"${1:-2}"
-# ====================================================================
+# ================================================================================
 # NVIDIA Setup (GPU Drivers, Container Toolkit)
-# ====================================================================
-echo -e "$PROG_HR_1"
-echo -e "${PROG_TEXT}${STEP_NUM}. NVIDIA Setup (GPU Drivers, Container Toolkit)... ${RESET}"
-echo -e "$PROG_HR_2"
+# ================================================================================
+echo -e "${PROG_HR_1}"
+echo -e "${PROG_TEXT}2. NVIDIA Setup (GPU Drivers, Container Toolkit)... ${RESET}"
+echo -e "${PROG_HR_2}"
 
 # Echo the mode we are running in (sandbox or development)
-echo -e "${INFO_T1}Running in ${INFO_T0}$APP_ENVIRONMENT${RESET} ${INFO_T1}mode...${RESET}"
-
+echo -e "${INFO_T1}Running in ${INFO_T0}$APP_ENVIRONMENT${RESET} ${INFO_T1}mode on a ${INFO_T0}${VM_TYPE}${RESET} ${INFO_T1}VM instance... ${RESET}"
 
 # Only do all of these steps if we are in deployment mode and need the GPU
-if [ "$APP_ENVIRONMENT" = "deployment" ]; then
+if [ "$VM_TYPE" = "GPU" ]; then
 
-    # --------------------------------------------------------------------
+    # --------------------------------------------------------------------------------
     # a) Install GPU Drivers
-    # --------------------------------------------------------------------
-    echo -e "${INFO_T1}Installing NVIDIA GPU Drivers...${RESET}"
+    # --------------------------------------------------------------------------------
+    echo -e "${INFO_T1}Installing NVIDIA GPU Drivers... ${RESET}"
 
     # Install GPU drivers if "nvidia-smi" not found
     if ! command -v nvidia-smi &>/dev/null; then
@@ -27,11 +25,10 @@ if [ "$APP_ENVIRONMENT" = "deployment" ]; then
         echo -e "${GREEN}NVIDIA drivers already installed, skipping...${RESET}"
     fi
 
-
-    # --------------------------------------------------------------------
+    # --------------------------------------------------------------------------------
     # b) Install NVIDIA Container Toolkit
-    # --------------------------------------------------------------------
-    echo -e "${INFO_T1}Installing NVIDIA Container Toolkit...${RESET}"
+    # --------------------------------------------------------------------------------
+    echo -e "${INFO_T1}Installing NVIDIA Container Toolkit... ${RESET}"
 
     # Install NVIDIA Container Toolkit if "nvidia-ctk " not found
     if ! command -v nvidia-ctk &>/dev/null; then
@@ -64,11 +61,10 @@ if [ "$APP_ENVIRONMENT" = "deployment" ]; then
         echo -e "${GREEN}NVIDIA Container Toolkit already installed, skipping...${RESET}"
     fi
 
-
-    # --------------------------------------------------------------------
+    # --------------------------------------------------------------------------------
     # c) Test GPU access in Docker
-    # --------------------------------------------------------------------
-    echo -e "${INFO_T1}Testing GPU access in Docker...${RESET}"
+    # --------------------------------------------------------------------------------
+    echo -e "${INFO_T1}Testing GPU access in Docker... ${RESET}"
     sudo docker run --rm --gpus all nvidia/cuda:12.3.2-base-ubuntu22.04 nvidia-smi
 
 else

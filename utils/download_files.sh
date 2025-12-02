@@ -1,21 +1,21 @@
-STEP_NUM=3 #"${1:-4}"
-# ====================================================================
+# ================================================================================
 # Clone/Pull Repo & Download deployment files from GCS Bucket
-# ====================================================================
-echo -e "$PROG_HR_1"
-echo -e "${PROG_TEXT}${STEP_NUM}. Cloning Repo & Downloading deployment-files from GCS Bucket... ${RESET}"
-echo -e "$PROG_HR_2"
+# ================================================================================
+echo -e "${PROG_HR_1}"
+echo -e "${PROG_TEXT}4. Pulling project repo & Downloading 'deployment-files' from GCS Bucket... ${RESET}"
+echo -e "${PROG_HR_2}"
+
 echo "download_files.sh current working directory: $(pwd)"
 
-# --------------------------------------------------------------------
-# a) Clone or pull from the main app repository
-# --------------------------------------------------------------------
-echo -e "${INFO_T1}Clone or update the repository...${RESET}"
+# --------------------------------------------------------------------------------
+# Clone or pull from the main app repository
+# --------------------------------------------------------------------------------
+echo -e "${INFO_T1}Clone or update the repository... ${RESET}"
 
 # Check if the repository directory already exists
 if [ -d "$APP_DIR" ]; then
     # If it already exists, pull from the given origin branch
-    echo -e "${INFO_T2}Repo exists, pulling latest changes...${RESET}"
+    echo -e "${INFO_T2}Repo exists, pulling latest changes... ${RESET}"
     cd "$APP_DIR"
 
     # Fetch latest commits and reset the working directory to match the remote
@@ -27,36 +27,36 @@ if [ -d "$APP_DIR" ]; then
     cd ..
 else
     # If it doesn't exist at all yet, clone it
-    echo -e "${INFO_T2}Cloning repo...${RESET}"
+    echo -e "${INFO_T2}Cloning repo... ${RESET}"
     git clone -b $REPO_BRANCH $REPO_URL
 fi
 
-# --------------------------------------------------------------------
-# b) Download files from the GCS bucket
-# --------------------------------------------------------------------
-echo -e "${INFO_T1}Download files from the GCS bucket...${RESET}"
+# --------------------------------------------------------------------------------
+# Download files from the GCS bucket (right now we just need the LLM model file)
+# --------------------------------------------------------------------------------
+echo -e "${INFO_T1}Downloading files from the GCS bucket... ${RESET}"
 
-# Check if this has already been done by checking for an .env file
+# Check if this has already been done by checking for one of the files
 if [ ! -f "$MDL_DIR/new_LSA.csv" ]; then
-#if true; then
     mkdir -p "$DPL_DIR"
     gsutil -m cp -r "$GCS_BUCKET/deployment-files/*" "$DPL_DIR/"
 else
-    echo -e "${GREEN}Deployment files already exist locally, skipping download${RESET}"
+    echo -e "${GREEN}Deployment files already exist locally, skipping download. ${RESET}"
 fi
 
 # Make a logs folder in deployment-files for persistence
 mkdir -p "$LOG_DIR"
 
-# --------------------------------------------------------------------
-# c) Copy Deployment Files (.env, models)
-# --------------------------------------------------------------------
+
+# --------------------------------------------------------------------------------
+# Copy Deployment Files (.env, models)
+# --------------------------------------------------------------------------------
 echo -e "${INFO_T1}Copy deployment files into the repository (.env, models)...${RESET}"
 
 # Copy "new_LSA.csv" for ... ?
 echo -e "${INFO_T3}  cp    $MDL_DIR/new_LSA.csv  $BIO_DIR/new_LSA.csv ${RESET}"
-cp "$MDL_DIR/new_LSA.csv"                      "$BIO_DIR/new_LSA.csv"
-cp "$MDL_DIR/stanford-parser-4.2.0-models.jar" "$BIO_DIR/stanford-parser-full-2020-11-17/stanford-parser-4.2.0-models.jar"
+cp "$MDL_DIR/new_LSA.csv"                       "$BIO_DIR/new_LSA.csv"
+cp "$MDL_DIR/stanford-parser-4.2.0-models.jar"  "$BIO_DIR/stanford-parser-full-2020-11-17/stanford-parser-4.2.0-models.jar"
 
 # Google keys
 echo -e "${INFO_T3}  cp -f $DPL_DIR/google-stt-key.json  $GSK_DIR/google-stt-key.json ${RESET}"
