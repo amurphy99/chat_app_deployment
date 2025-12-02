@@ -18,6 +18,7 @@ H3="${BOLD_CYAN}${H1}"
 # .env file and run with `bash deploy.sh`. It will first install Git and download
 # the rest of this deployment repository before proceeding with downloading and 
 # installing the full app.
+echo -e " "
 echo -e "${H2}"
 echo -e "${BOLD_YELL}Beginning Deployment... ${RESET}"
 echo -e "${H2}"
@@ -51,7 +52,7 @@ echo "Current working directory: $(pwd) (moved into project setup directory)"
 # Install Git (if it isn't installed already)
 # --------------------------------------------------------------------------------
 echo -e "${H3}"
-echo -e "${CYAN}Installing Git... ${RESET}"
+echo -e "${BOLD_CYAN}Installing Git... ${RESET}"
 echo -e "${H3}"
 
 # Only install git if the "git" command doesn't already work
@@ -66,7 +67,7 @@ fi
 # Clone or pull from the project repository
 # --------------------------------------------------------------------------------
 echo -e "${H3}"
-echo -e "${CYAN}Download the repository... ${RESET}"
+echo -e "${BOLD_CYAN}Download the repository... ${RESET}"
 echo -e "${H3}"
 
 # Check if the remote branch exists

@@ -58,6 +58,7 @@ source "${UTILS_DIR}/launch_containers.sh"
 # Deployment Complete
 # --------------------------------------------------------------------------------
 # Print the target URLs
+echo -e " "
 echo -e "${INFO_T0}Domain:     $DOMAIN     ${RESET}"
 echo -e "${INFO_T0}Domain WWW: $DOMAIN_WWW ${RESET}"
 
