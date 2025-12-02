@@ -54,7 +54,7 @@ fi
 # Basic Config
 # --------------------------------------------------------------------------------
 PRJ_DIR="$HOME"
-APP_DIR="$PRJ_DIR/$GITHUB_REPO"
+APP_DIR="$PRJ_DIR/$REPO_NAME"
 
 # Main app repository stuff (repo with frontend, backend, & database)
 REPO_URL="https://github.com/${GITHUB_USER}/${REPO_NAME}.git" 
