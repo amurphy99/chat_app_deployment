@@ -40,8 +40,8 @@ if [ -d "$APP_DIR" ]; then
     # Fetch latest commits and reset the working directory to match the remote
     git fetch origin
     git checkout "$REPO_BRANCH"
-    git reset --hard "origin/$REPO_BRANCH"
-    git pull origin $REPO_BRANCH
+    #git reset --hard "origin/$REPO_BRANCH"
+    git pull --ff-only origin "$REPO_BRANCH"
 
     cd ..
 else
