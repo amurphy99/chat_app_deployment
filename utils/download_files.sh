@@ -53,7 +53,7 @@ fi
 # --------------------------------------------------------------------------------
 # Download files from the GCS bucket (right now we just need the LLM model file)
 # --------------------------------------------------------------------------------
-echo -e "${INFO_T1}Downloading files from the GCS bucket... ${RESET}"
+echo -e "\n${PROG_TEXT}Downloading files from the GCS bucket... ${RESET}"
 
 # Check if this has already been done by checking for one of the files
 if [ ! -f "$MDL_DIR/new_LSA.csv" ]; then
