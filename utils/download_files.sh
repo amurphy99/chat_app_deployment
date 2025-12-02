@@ -5,7 +5,7 @@ echo -e "${PROG_HR_1}"
 echo -e "${PROG_TEXT}4. Pulling project repo & Downloading 'deployment-files' from GCS Bucket... ${RESET}"
 echo -e "${PROG_HR_2}"
 
-echo "download_files.sh current working directory: $(pwd)"
+echo -e "download_files.sh current working directory: $(pwd)"
 
 # --------------------------------------------------------------------------------
 # Clone or pull from the main app repository
@@ -17,6 +17,7 @@ if [ -d "$APP_DIR" ]; then
     # If it already exists, pull from the given origin branch
     echo -e "${INFO_T2}Repo exists, pulling latest changes... ${RESET}"
     cd "$APP_DIR"
+    echo -e "cd'ed into ${APP_DIR}; new current working directory: $(pwd)"
 
     # Fetch latest remote state
     git fetch origin --prune
@@ -24,9 +25,11 @@ if [ -d "$APP_DIR" ]; then
     # If the local branch exists, switch to it; otherwise create it from origin
     if git rev-parse --verify "$REPO_BRANCH" >/dev/null 2>&1; then
         # Branch already exists locally
+        echo -e "${INFO_T2}Branch exists locally, switching or checking it out... ${RESET}"
         git switch "$REPO_BRANCH" || git checkout "$REPO_BRANCH"
     else
         # Create local branch tracking origin/REPO_BRANCH
+        echo -e "${INFO_T2}Branch doesn't exist locally, checking it out... ${RESET}"
         git checkout -B "$REPO_BRANCH" "origin/$REPO_BRANCH"
     fi
 
