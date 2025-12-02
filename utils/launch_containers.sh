@@ -17,11 +17,13 @@ SAMPLE_VAR="SAMPLE_VAR"
 
 # Check that the new .env.deploy file got properly created
 ls -a "$REPO_NAME"
+cd "$REPO_NAME"
+echo -e "launch_containers.sh current working directory: $(pwd)"
 
 # --------------------------------------------------------------------------------
 # Launch docker compose in headless mode
 # --------------------------------------------------------------------------------
-echo -e "${INFO_T1}Launch docker compose in headless mode... ${RESET}"
+echo -e "\n${INFO_T1}Launch docker compose in headless mode... ${RESET}"
 
 # Check to make sure we can see all of the files where we expect them
 echo -e "\n"
@@ -36,9 +38,9 @@ echo -e "\n"
 
 # Start the containers
 echo " " 
-echo -e "launch_containers.sh current working directory: $(pwd)"
-cd "$REPO_NAME"
-echo -e "launch_containers.sh current working directory: $(pwd)"
+#echo -e "launch_containers.sh current working directory: $(pwd)"
+#cd "$REPO_NAME"
+#echo -e "launch_containers.sh current working directory: $(pwd)"
 
 # Adding "-d" to the end puts it in headless mode (sudo docker-compose up --build -d)
 sudo --preserve-env=SAMPLE_VAR docker compose up --build -d
