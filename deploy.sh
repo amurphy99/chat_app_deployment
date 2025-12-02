@@ -4,10 +4,12 @@ set -Eeuo pipefail
 RESET='\033[0m'
 YELL='\033[0;33m'
 CYAN='\033[0;36m'
+BOLD_YELL="\033[1;33m"
+BOLD_CYAN="\033[1;36m"
 H0="================================================================================${RESET}"
 H1="--------------------------------------------------------------------------------${RESET}"
-H2="${YELL}${H0}"
-H3="${CYAN}${H1}"
+H2="${BOLD_YELL}${H0}"
+H3="${BOLD_CYAN}${H1}"
 
 # ================================================================================
 # Main Deployment Controller File
@@ -17,7 +19,7 @@ H3="${CYAN}${H1}"
 # the rest of this deployment repository before proceeding with downloading and 
 # installing the full app.
 echo -e "${H2}"
-echo -e "${YELL}Beginning Deployment... ${RESET}"
+echo -e "${BOLD_YELL}Beginning Deployment... ${RESET}"
 echo -e "${H2}"
 
 # --------------------------------------------------------------------------------

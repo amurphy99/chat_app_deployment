@@ -62,6 +62,7 @@ echo -e "${INFO_T0}Domain:     $DOMAIN     ${RESET}"
 echo -e "${INFO_T0}Domain WWW: $DOMAIN_WWW ${RESET}"
 
 # Final message
-echo -e "\n${GREEN}$HR_2${RESET}"
-echo -e "${GREEN} Deployment complete! Visit: https://$DOMAIN ${RESET}"
-echo -e "${GREEN}$HR_2${RESET}\n"
+echo -e " "
+echo -e "${BOLD_GREE}$HR_2${RESET}"
+echo -e "${BOLD_GREE} Deployment complete! Visit: https://$DOMAIN ${RESET}"
+echo -e "${BOLD_GREE}$HR_2${RESET}\n"

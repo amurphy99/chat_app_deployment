@@ -35,12 +35,7 @@ ls -lah ../deployment-files
 echo -e "\n"
 ls -lah ../deployment-files/models
 echo -e "\n"
-
-# Start the containers
 echo " " 
-#echo -e "launch_containers.sh current working directory: $(pwd)"
-#cd "$REPO_NAME"
-#echo -e "launch_containers.sh current working directory: $(pwd)"
 
 # Adding "-d" to the end puts it in headless mode (sudo docker-compose up --build -d)
 sudo --preserve-env=SAMPLE_VAR docker compose up --build -d
