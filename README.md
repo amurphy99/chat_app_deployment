@@ -1,9 +1,7 @@
 # Shell scripts for deploying the chat app. 
 
 ToDo:
-* Move the `git` installation to `deploy_app.sh` (the first time running the script in VM it uses git to pull this repo..)
 * Move the target deployment branch in `utils/env_config.sh` to another exported variable in `deploy_app.sh` (that way we don't need a new branch of this repo every time we want to use a different backend branch)
-* Update the "step numbers"
 * Maybe combine the two env steps
 * MAYBE could change the image location as a variable here if you wanted to run the CPU version (no idea what I meant by this)
 
@@ -82,9 +80,8 @@ chat_app_deployment/
  │   │   ├── reset_docker.sh      # 0) --- Not setup at the moment... ---
  │   │   └── install_docker.sh    # 1) Install Docker (Engine + Compose V2 Plugin)
  │   ├── nvidia_gpu_setup.sh      # 2) NVIDIA Setup (skipped for "sandbox" deployment) 
- │   ├── install_dependencies.sh  # 3) Install system dependencies (Git, ...)
- │   ├── download_files.sh        # 4) Clone main project repo & download from GCS bucket
- │   ├── project_env.sh           # a) Step 4a, more detailed .env configuration   
+ │   ├── download_files.sh        # 3) Clone main project repo & download from GCS bucket
+ │   ├── project_env.sh           # 4) Step 4a, more detailed .env configuration   
  │   └── launch_containers.sh     # 5) Launch docker compose in headless mode
  │
  └── ...

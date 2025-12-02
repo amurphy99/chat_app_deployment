@@ -48,14 +48,11 @@ source "$UTILS_DIR/docker_utils/install_docker.sh" --step_num=1
 # 2) NVIDIA Setup (GPU Drivers, Container Toolkit)
 source "$UTILS_DIR/nvidia_gpu_setup.sh" --step_num=2
 
-# 3) Install System Dependencies (Git, Nginx, Certbot)
-source "$UTILS_DIR/install_dependencies.sh" --step_num=3
+# 3) Clone/Pull Repo & Download deployment files from GCS Bucket
+source "$UTILS_DIR/download_files.sh" --step_num=3
 
-# 4) Clone/Pull Repo & Download deployment files from GCS Bucket
-source "$UTILS_DIR/download_files.sh" --step_num=4
-
-# 4a) Configure project environment variables
-source "$UTILS_DIR/project_env.sh" 
+# 4) Configure project environment variables
+source "$UTILS_DIR/project_env.sh" --step_num=4
 
 # 5) Launch docker compose in headless mode
 source "$UTILS_DIR/launch_containers.sh" --step_num=5

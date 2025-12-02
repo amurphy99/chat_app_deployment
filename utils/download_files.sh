@@ -1,4 +1,4 @@
-STEP_NUM=4 #"${1:-4}"
+STEP_NUM=3 #"${1:-4}"
 # ====================================================================
 # Clone/Pull Repo & Download deployment files from GCS Bucket
 # ====================================================================
@@ -37,8 +37,8 @@ fi
 echo -e "${INFO_T1}Download files from the GCS bucket...${RESET}"
 
 # Check if this has already been done by checking for an .env file
-#if [ ! -f "$DPL_DIR/.env" ]; then
 if [ ! -f "$MDL_DIR/new_LSA.csv" ]; then
+#if true; then
     mkdir -p "$DPL_DIR"
     gsutil -m cp -r "$GCS_BUCKET/deployment-files/*" "$DPL_DIR/"
 else
@@ -53,8 +53,11 @@ mkdir -p "$LOG_DIR"
 # --------------------------------------------------------------------
 echo -e "${INFO_T1}Copy deployment files into the repository (.env, models)...${RESET}"
 
-# Copy model files into the repo
-echo -e "${INFO_T2}Copying model files into the repo...${RESET}"
+# Copy "new_LSA.csv" for ... ?
+echo -e "${INFO_T3}  cp    $MDL_DIR/new_LSA.csv  $BIO_DIR/new_LSA.csv ${RESET}"
 cp "$MDL_DIR/new_LSA.csv"                      "$BIO_DIR/new_LSA.csv"
 cp "$MDL_DIR/stanford-parser-4.2.0-models.jar" "$BIO_DIR/stanford-parser-full-2020-11-17/stanford-parser-4.2.0-models.jar"
-cp "$DPL_DIR/google-stt-key.json"              "$GSK_DIR/google-stt-key.json"
+
+# Google keys
+echo -e "${INFO_T3}  cp -f $DPL_DIR/google-stt-key.json  $GSK_DIR/google-stt-key.json ${RESET}"
+cp -f "$DPL_DIR/google-stt-key.json" "$GSK_DIR/google-stt-key.json"
