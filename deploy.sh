@@ -20,7 +20,7 @@ H3="${BOLD_CYAN}${H1}"
 # installing the full app.
 echo -e " "
 echo -e "${H2}"
-echo -e "${BOLD_YELL}Beginning Deployment... ${RESET}"
+echo -e "${BOLD_YELL}                           Beginning Deployment... ${RESET}"
 echo -e "${H2}"
 
 # --------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ echo "Current working directory: $(pwd) (moved into project setup directory)"
 # --------------------------------------------------------------------------------
 # Install Git (if it isn't installed already)
 # --------------------------------------------------------------------------------
-echo -e "${H3}"
+echo -e "\n${H3}"
 echo -e "${BOLD_CYAN}Installing Git... ${RESET}"
 echo -e "${H3}"
 
@@ -66,7 +66,7 @@ fi
 # --------------------------------------------------------------------------------
 # Clone or pull from the project repository
 # --------------------------------------------------------------------------------
-echo -e "${H3}"
+echo -e "\n${H3}"
 echo -e "${BOLD_CYAN}Download the repository... ${RESET}"
 echo -e "${H3}"
 
