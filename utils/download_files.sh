@@ -55,10 +55,21 @@ fi
 # --------------------------------------------------------------------------------
 echo -e "\n${PROG_TEXT}Downloading files from the GCS bucket... ${RESET}"
 
-# Check if this has already been done by checking for one of the files
+# Only download if not already present
 if [ ! -f "$MDL_DIR/new_LSA.csv" ]; then
-    mkdir -p "$DPL_DIR"
-    gsutil -m cp -r "$GCS_BUCKET/deployment-files/*" "$DPL_DIR/"
+    mkdir -p "$DPL_DIR" "$MDL_DIR" "$GSK_DIR"
+
+    # Download only the files we need
+    gsutil -m cp \
+        "$GCS_BUCKET/deployment-files/new_LSA.csv" \
+        "$GCS_BUCKET/deployment-files/stanford-parser-4.2.0-models.jar" \
+        "$GCS_BUCKET/deployment-files/google-stt-key.json" \
+        "$DPL_DIR/"
+
+    # Put new_LSA + parser jar specifically under $MDL_DIR
+    mv "$DPL_DIR/new_LSA.csv"                      "$MDL_DIR/new_LSA.csv"
+    mv "$DPL_DIR/stanford-parser-4.2.0-models.jar" "$MDL_DIR/stanford-parser-4.2.0-models.jar"
+
 else
     echo -e "${GREEN}Deployment files already exist locally, skipping download. ${RESET}"
 fi
@@ -66,16 +77,16 @@ fi
 # Make a logs folder in deployment-files for persistence
 mkdir -p "$LOG_DIR"
 
-
 # --------------------------------------------------------------------------------
 # Copy Deployment Files (.env, models)
 # --------------------------------------------------------------------------------
-echo -e "${INFO_T1}Copy deployment files into the repository (.env, models)...${RESET}"
+echo -e "${INFO_T1}Copy deployment files into the repository (.env, models)... ${RESET}"
 
 # Copy "new_LSA.csv" for ... ?
 echo -e "${INFO_T3}  cp    $MDL_DIR/new_LSA.csv  $BIO_DIR/new_LSA.csv ${RESET}"
 cp "$MDL_DIR/new_LSA.csv"                       "$BIO_DIR/new_LSA.csv"
 cp "$MDL_DIR/stanford-parser-4.2.0-models.jar"  "$BIO_DIR/stanford-parser-full-2020-11-17/stanford-parser-4.2.0-models.jar"
+
 
 # Google keys
 echo -e "${INFO_T3}  cp -f $DPL_DIR/google-stt-key.json  $GSK_DIR/google-stt-key.json ${RESET}"
