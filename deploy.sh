@@ -20,7 +20,7 @@ H3="${BOLD_CYAN}${H1}"
 # installing the full app.
 echo -e " "
 echo -e "${H2}"
-echo -e "${BOLD_YELL}                           Beginning Deployment... ${RESET}"
+echo -e "${BOLD_YELL}                          Beginning Deployment... ${RESET}"
 echo -e "${H2}"
 
 # --------------------------------------------------------------------------------

@@ -21,13 +21,14 @@ echo -e "Looking for logging helpers in: ${UTILS_DIR}"
 
 # Load logging helpers
 source "${UTILS_DIR}/logging.sh"
+echo -e " "
 
 # --------------------------------------------------------------------------------
 # Final environment variable setup before starting
 # --------------------------------------------------------------------------------
 # First console output
 echo -e "${BOLD_BLUE}${HR_2}${RESET}"
-echo -e "${BOLD_BLUE} Starting Deployment of Speech System... ${RESET}"
+echo -e "${BOLD_BLUE}Starting Deployment of Speech System... ${RESET}"
 echo -e "${BOLD_BLUE}${HR_2}${RESET}"
 
 # This also does the basic config with the GCS bucket, local directories, etc...

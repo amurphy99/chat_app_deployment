@@ -11,7 +11,7 @@ echo -e "${PROG_HR_2}"
 # Install Docker if needed
 # --------------------------------------------------------------------------------
 if ! command -v docker &>/dev/null; then
-    echo -e "${INFO_T1}Installing Docker (Engine + Compose V2 Plugin) for ${INFO_T0}${VM_TYPE}${RESET} ${INFO_T1} VM instance... ${RESET}"
+    echo -e "${INFO_T1}Installing Docker (Engine + Compose V2 Plugin) for ${INFO_T0}${VM_TYPE}${RESET} ${INFO_T1}VM instance... ${RESET}"
 
     # Set up the Docker repository
     sudo apt-get update

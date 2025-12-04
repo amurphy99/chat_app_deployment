@@ -15,7 +15,7 @@ echo -e "${INFO_T1}Clone or update the repository... ${RESET}"
 # Check if the repository directory already exists
 if [ -d "$APP_DIR" ]; then
     # If it already exists, pull from the given origin branch
-    echo -e "${INFO_T2}Repo exists, pulling latest changes... ${RESET}"
+    echo -e "${INFO_T2}Repo exists (${INFO_T0}${GITHUB_USER}/${REPO_NAME}/${REPO_BRANCH}${RESET}), pulling latest changes... ${RESET}"
     cd "$APP_DIR"
     echo -e "cd'ed into ${APP_DIR}; new current working directory: $(pwd)"
 
@@ -46,7 +46,7 @@ if [ -d "$APP_DIR" ]; then
     cd ..
 else
     # If it doesn't exist at all yet, clone it
-    echo -e "${INFO_T2}Cloning repo... ${RESET}"
+    echo -e "${INFO_T2}Cloning repo: ${INFO_T0}${GITHUB_USER}/${REPO_NAME}/${REPO_BRANCH} ${RESET}"
     git clone -b $REPO_BRANCH $REPO_URL
 fi
 
@@ -83,7 +83,9 @@ mkdir -p "$LOG_DIR"
 echo -e "${INFO_T1}Copy deployment files into the repository (.env, models)... ${RESET}"
 
 # Copy "new_LSA.csv" for ... ?
-echo -e "${INFO_T3}  cp    $MDL_DIR/new_LSA.csv  $BIO_DIR/new_LSA.csv ${RESET}"
+echo -e "${INFO_T3}  cp    $MDL_DIR/new_LSA.csv                        $BIO_DIR/new_LSA.csv                      ${RESET}"
+echo -e "${INFO_T3}  cp    $MDL_DIR/stanford-parser-4.2.0-models.jar   $BIO_DIR/stanford-parser-4.2.0-models.jar ${RESET}"
+
 cp "$MDL_DIR/new_LSA.csv"                       "$BIO_DIR/new_LSA.csv"
 cp "$MDL_DIR/stanford-parser-4.2.0-models.jar"  "$BIO_DIR/stanford-parser-full-2020-11-17/stanford-parser-4.2.0-models.jar"
 
