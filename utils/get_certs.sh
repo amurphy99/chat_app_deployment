@@ -31,6 +31,7 @@ COMMON_CERTBOT_ARGS=(
   --agree-tos
   --no-eff-email
   --non-interactive
+  --expand
 )
 
 
