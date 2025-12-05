@@ -44,7 +44,7 @@ if [ "$ENV" = "sandbox" ]; then
         -d "$DOMAIN" -d "www.$DOMAIN"
 
 # Deployment => subdomain AND the main domain (cognibot.org)
-elif
+elif [ "$ENV" = "deployment" ]; then
     echo -e "${INFO_T2}Getting certs for the subdomain AND the main domain (${INFO_T0}${DOMAIN} & sandbox.org${RESET})... ${RESET}"
 
     # Get certs
