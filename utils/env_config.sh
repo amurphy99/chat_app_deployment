@@ -33,6 +33,11 @@ else
     APP_ENVIRONMENT="deployment"
 fi
 
+DOMAIN="${TARGET_PREFIX}.cognibot.org"
+DOMAIN_WWW="www.${TARGET_PREFIX}.cognibot.org"
+NGINX_CONF="nginx/default.conf.sandbox"
+APP_ENVIRONMENT="sandbox"
+
 # --------------------------------------------------------------------------------
 # Project Repository .env file variables
 # --------------------------------------------------------------------------------
