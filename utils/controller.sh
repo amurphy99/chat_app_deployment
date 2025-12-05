@@ -32,7 +32,7 @@ echo -e "${BOLD_BLUE}Starting Deployment of Speech System... ${RESET}"
 echo -e "${BOLD_BLUE}${HR_2}${RESET}"
 
 # This also does the basic config with the GCS bucket, local directories, etc...
-source "${UTILS_DIR}/env_config.sh" "$@" 
+source "${UTILS_DIR}/env_config.sh"
 
 # --------------------------------------------------------------------------------
 # Setup Steps

@@ -100,5 +100,4 @@ fi
 # --------------------------------------------------------------------------------
 # Run the setup script
 # --------------------------------------------------------------------------------
-# bash controller.sh --env=sandbox
-source "$SETUP_REPO_DIR/utils/controller.sh" "$@"
+source "$SETUP_REPO_DIR/utils/controller.sh" 

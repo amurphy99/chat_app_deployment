@@ -8,8 +8,6 @@ set -Eeuo pipefail
 # bash deploy.sh --env=sandbox
 echo -e "env_config.sh current working directory: $(pwd)"
 
-# Set default to just "sandbox"
-ENV="${1:-sandbox}"
 
 # CPU/GPU behavior used to depend on ENV or APP_ENVIRONMENT, hardcoding it here for now instead
 VM_TYPE="CPU"
