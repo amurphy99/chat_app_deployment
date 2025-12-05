@@ -11,10 +11,10 @@ echo -e "get_certs.sh current working directory: $(pwd)"
 # Include the cert for the main domain "cognibot.org" if ENV=deployment
 # --------------------------------------------------------------------------------
 # Volume name
-VOL_LETSENCRYPT="${REPO_NAME}_letsencrypt"
+LETSENCRYPT_VOL="${REPO_NAME}_letsencrypt"
 
 # Create the volumes here (they are about to get created anyways)
-sudo docker volume create $VOL_LETSENCRYPT
+sudo docker volume create $LETSENCRYPT_VOL
 
 # Common arguments
 COMMON_DOCKER_ARGS=(
