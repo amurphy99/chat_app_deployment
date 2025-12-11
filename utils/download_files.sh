@@ -63,7 +63,7 @@ if [ ! -f "$MDL_DIR/new_LSA.csv" ]; then
     gsutil -m cp \
         "$GCS_BUCKET/deployment-files/models/new_LSA.csv" \
         "$GCS_BUCKET/deployment-files/models/stanford-parser-4.2.0-models.jar" \
-        "$GCS_BUCKET/deployment-files/models/MiniLM-L6-v2" \
+        "$GCS_BUCKET/deployment-files/models/MiniLM-L6-v2/" \
         "$GCS_BUCKET/deployment-files/google-stt-key.json" \
         "$DPL_DIR/"
 
