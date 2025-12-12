@@ -12,6 +12,8 @@ echo "download_files.sh current working directory: $(pwd)"
 # --------------------------------------------------------------------
 echo -e "${INFO_T1}Clone or update the repository...${RESET}"
 
+echo "App directory: $APP_DIR"
+
 # Check if the repository directory already exists
 if [ -d "$APP_DIR" ]; then
     # If it already exists, pull from the given origin branch
