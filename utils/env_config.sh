@@ -21,8 +21,8 @@ fi
 
 # Sandbox
 if [ "$ENV" = "sandbox" ]; then
-    DOMAIN="sandbox.cognibot.org"
-    DOMAIN_WWW="www.sandbox.cognibot.org"
+    DOMAIN="sandbox2.cognibot.org"
+    DOMAIN_WWW="www.sandbox2.cognibot.org"
     NGINX_CONF="nginx/default.conf.sandbox"
     APP_ENVIRONMENT="sandbox"
 
@@ -42,9 +42,9 @@ PRJ_DIR="$HOME"
 GCS_BUCKET="gs://v2-deployment-files"
 
 # App repository stuff
-REPO_URL="https://github.com/bennett-lab-depaul/v3_chat_app.git" 
-REPO_NAME="v3_chat_app"
-REPO_BRANCH="animation-testing"
+REPO_URL="https://github.com/amurphy99/chat_app_deployment.git" 
+REPO_NAME="v2_benchmarking"
+REPO_BRANCH="v3-frontend"
 APP_DIR="$PRJ_DIR/$REPO_NAME"
 
 # Deployment Files (from GCS bucket)
