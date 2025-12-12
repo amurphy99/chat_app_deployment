@@ -42,7 +42,7 @@ PRJ_DIR="$HOME"
 GCS_BUCKET="gs://v2-deployment-files"
 
 # App repository stuff
-REPO_URL="https://github.com/amurphy99/chat_app_deployment.git" 
+REPO_URL="https://github.com/amurphy99/v2_benchmarking.git" 
 REPO_NAME="v2_benchmarking"
 REPO_BRANCH="v3-frontend"
 APP_DIR="$PRJ_DIR/$REPO_NAME"
