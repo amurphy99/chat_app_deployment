@@ -66,36 +66,36 @@ fi
 # --------------------------------------------------------------------------------
 # Clone or pull from the project repository
 # --------------------------------------------------------------------------------
-# echo -e "\n${H3}"
-# echo -e "${BOLD_CYAN}Download the repository... ${RESET}"
-# echo -e "${H3}"
+echo -e "\n${H3}"
+echo -e "${BOLD_CYAN}Download the repository... ${RESET}"
+echo -e "${H3}"
 
-# # Check if the remote branch exists
-# if ! git ls-remote --exit-code --heads "$SETUP_REPO_URL" "$SETUP_REPO_BRANCH" >/dev/null; then
-#     echo "ERROR: Remote branch '$SETUP_REPO_BRANCH' not found at $SETUP_REPO_URL"
-#     echo "       Did you create & push it? Try: git push -u origin $SETUP_REPO_BRANCH"
-#     exit 1
-# fi
+# Check if the remote branch exists
+if ! git ls-remote --exit-code --heads "$SETUP_REPO_URL" "$SETUP_REPO_BRANCH" >/dev/null; then
+    echo "ERROR: Remote branch '$SETUP_REPO_BRANCH' not found at $SETUP_REPO_URL"
+    echo "       Did you create & push it? Try: git push -u origin $SETUP_REPO_BRANCH"
+    exit 1
+fi
 
-# # Check if the repository directory already exists
-# if [ -d "$GITHUB_REPO" ]; then
-#     # If it already exists, pull from the given origin branch
-#     echo "Repo exists. Updating..."
-#     cd "$GITHUB_REPO"
+# Check if the repository directory already exists
+if [ -d "$GITHUB_REPO" ]; then
+    # If it already exists, pull from the given origin branch
+    echo "Repo exists. Updating..."
+    cd "$GITHUB_REPO"
     
-#     # Fetch from the repository
-#     git fetch origin --prune
+    # Fetch from the repository
+    git fetch origin --prune
 
-#     # Switch / checkout the specified branch
-#     git switch "$SETUP_REPO_BRANCH" || git checkout "$SETUP_REPO_BRANCH"
-#     git pull origin "$SETUP_REPO_BRANCH"
+    # Switch / checkout the specified branch
+    git switch "$SETUP_REPO_BRANCH" || git checkout "$SETUP_REPO_BRANCH"
+    git pull origin "$SETUP_REPO_BRANCH"
 
-# else
-#     # If it doesn't exist at all yet, clone it
-#     echo "Cloning branch '$SETUP_REPO_BRANCH'..."
-#     git clone --branch "$SETUP_REPO_BRANCH" --single-branch "$SETUP_REPO_URL" "$GITHUB_REPO"
-#     cd "$GITHUB_REPO"
-# fi
+else
+    # If it doesn't exist at all yet, clone it
+    echo "Cloning branch '$SETUP_REPO_BRANCH'..."
+    git clone --branch "$SETUP_REPO_BRANCH" --single-branch "$SETUP_REPO_URL" "$GITHUB_REPO"
+    cd "$GITHUB_REPO"
+fi
 
 # --------------------------------------------------------------------------------
 # Run the setup script
