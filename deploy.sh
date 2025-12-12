@@ -37,7 +37,7 @@ echo "Sample environment variable: ${GITHUB_USER}/${GITHUB_REPO}"
 # --------------------------------------------------------------------------------
 # Define Locations
 # --------------------------------------------------------------------------------
-SETUP_REPO_URL="https://github.com/${GITHUB_USER}/${GITHUB_REPO}.git"
+SETUP_REPO_URL="https://github.com/amurphy99/chat_app_deployment.git"
 
 # These will be loaded from .env (GITHUB_USER, GITHUB_REPO, SETUP_REPO_BRANCH)
 SETUP_PRJ_DIR="$HOME"
