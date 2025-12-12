@@ -29,7 +29,7 @@ if [ -d "$APP_DIR" ]; then
     cd ..
 else
     # If it doesn't exist at all yet, clone it
-    echo -e "${INFO_T2}Cloning repo...${RESET}"
+    echo -e "${INFO_T2}Cloning repo $REPO_BRANCH $REPO_URL...${RESET}"
     git clone -b $REPO_BRANCH $REPO_URL
 fi
 
