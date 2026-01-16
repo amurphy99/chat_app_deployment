@@ -4,4 +4,4 @@
 # Shell file for starting and running this
 deploy_app.sh
 
-
+.env
