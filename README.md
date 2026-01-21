@@ -11,6 +11,8 @@ ToDo:
    * Lines 7 and 8 indicate the repository you wand to deploy and the branch.
    * Line 11 indicates if you want to deploy to the sandbox or to the main website.
    * Line 14 indicates what sandbox you want to deploy to, if you put ENV=sandbox on line 11.
+   * Add any new environment variables to project_env.sh
+      * New frontend environment variables should be added after line 49 and new backend environment variables should be added after line 75.
 2. Go to Google Cloud Console > Compute Engine > VM Instances and SSH into the appropriate gpu/cpu instance.
 3. git clone this repository (if it doesn't already exist).
 4. Upload your .env file.
