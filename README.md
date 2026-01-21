@@ -6,6 +6,19 @@ ToDo:
 
 <br>
 
+# How to deploy
+1. Using the .env.example file, fill out a .env file with the appropriate environment variables.
+   * Lines 7 and 8 indicate the repository you wand to deploy and the branch.
+   * Line 11 indicates if you want to deploy to the sandbox or to the main website.
+   * Line 14 indicates what sandbox you want to deploy to, if you put ENV=sandbox on line 11.
+2. Go to Google Cloud Console > Compute Engine > VM Instances and SSH into the appropriate gpu/cpu instance.
+3. git clone this repository (if it doesn't already exist).
+4. Upload your .env file.
+5. Move the .env file into the chat_app_deployment directory (e.g. 'mv .env chat_app_deployment/.env')
+6. cd into the chat_app_deployment directory.
+7. Run 'bash deploy.sh'
+   * You may need to update your .env file to remove Windows-style line endings (e.g. sed -i 's/\r/\n/g' .env)
+
 # [OUTDATED] How to deploy (deployment)
 1. Clone this repo
 2. Make a branch of this repo and name it
