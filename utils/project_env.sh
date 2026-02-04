@@ -78,6 +78,9 @@ cat <<EOF > $BACKEND_ENV_PATH
 POSTGRES_DB            = "dementia_chat_db"
 POSTGRES_USER          = ${__POSTGRES_USER}
 POSTGRES_PASSWORD      = ${__POSTGRES_PASSWORD}
+VECTOR_DB_NAME         = ${__VECTOR_DB_NAME}
+VECTOR_DB_USER         = ${__VECTOR_DB_USER}
+VECTOR_DB_PASSWORD     = ${__VECTOR_DB_PASSWORD}
 DJANGO_SETTINGS_MODULE = "backend.settings"
 TZ                     = "UTC"
 
