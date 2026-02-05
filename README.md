@@ -50,7 +50,7 @@ chat_app_deployment/
  │   ├── logging.sh               # Defines logging helpers (colors, etc.)
  │   ├── env_config.sh            # Set mode for "sandbox" or "deployment"
  │   │
- │   ├── docker_utils/            # 1) Reset Docker (if installed) & Setup Docker (if not installed)
+ │   ├── docker_utils/            # 1) Reset Docker (if installed) & Setup Docker 
  │   │   ├── reset_docker.sh
  │   │   └── install_docker.sh 
  │   ├── nvidia_gpu_setup.sh      # 2) NVIDIA Setup (skipped for "sandbox" deployment) 
