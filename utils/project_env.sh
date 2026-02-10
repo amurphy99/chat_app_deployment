@@ -97,6 +97,9 @@ GOOGLE_APPLICATION_CREDENTIALS = ${__GOOGLE_APPLICATION_CREDENTIALS}
 GOOGLE_API_KEY                 = ${__GEMINI_KEY}
 GOOGLE_GENAI_USE_VERTEXAI      = 0
 
+# Image API
+PEXELS_KEY      = ${__PEXELS_KEY}
+
 EOF
 
 echo -e "${GREEN}backend/.env file created successfully ${RESET}"
