@@ -84,6 +84,7 @@ if [ -d "$GITHUB_REPO" ]; then
     cd "$GITHUB_REPO"
     
     # Fetch from the repository
+    #git remote set-branches origin '*'
     git fetch origin --prune
 
     # Switch / checkout the specified branch
