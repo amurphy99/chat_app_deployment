@@ -84,6 +84,7 @@ if [ ! -f "$MDL_DIR/new_LSA.csv" ]; then
     mkdir -p "$DPL_DIR" "$MDL_DIR" "$GSK_DIR"
     gsutil -m cp -r "$GCS_BUCKET/deployment-files/models/MiniLM-L6-v2" "$DPL_DIR/"
     mv "$DPL_DIR/MiniLM-L6-v2" "$MDL_DIR/"
+fi
 
 
 # Make a logs folder in deployment-files for persistence
