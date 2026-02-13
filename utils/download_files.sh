@@ -66,13 +66,9 @@ if [ ! -f "$MDL_DIR/new_LSA.csv" ]; then
         "$GCS_BUCKET/deployment-files/google-stt-key.json" \
         "$DPL_DIR/"
 
-    # Download the RAG embedding model folder
-    gsutil -m cp -r "$GCS_BUCKET/deployment-files/models/MiniLM-L6-v2" "$DPL_DIR/"
-
     # Put new_LSA + parser jar specifically under $MDL_DIR
     mv "$DPL_DIR/new_LSA.csv"                      "$MDL_DIR/new_LSA.csv"
     mv "$DPL_DIR/stanford-parser-4.2.0-models.jar" "$MDL_DIR/stanford-parser-4.2.0-models.jar"
-    mv "$DPL_DIR/MiniLM-L6-v2" "$MDL_DIR/"
 
 else
     echo -e "${GREEN}Deployment files already exist locally, skipping download. ${RESET}"
@@ -83,7 +79,7 @@ fi
 if [ ! -f "$MDL_DIR/MiniLM-L6-v2" ]; then
     mkdir -p "$DPL_DIR" "$MDL_DIR" "$GSK_DIR"
     gsutil -m cp -r "$GCS_BUCKET/deployment-files/models/MiniLM-L6-v2" "$DPL_DIR/"
-    mv "$DPL_DIR/MiniLM-L6-v2" "$MDL_DIR/"
+    mv "$DPL_DIR/MiniLM-L6-v2" "$MDL_DIR/MiniLM-L6-v2"
 fi
 
 
