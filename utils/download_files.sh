@@ -76,7 +76,7 @@ fi
 
 
 # Download the RAG embedding model folder
-if [ ! -f "$MDL_DIR/MiniLM-L6-v2" ]; then
+if [ ! -f "$MDL_DIR/MiniLM-L6-v2/config.json" ]; then
     mkdir -p "$DPL_DIR" "$MDL_DIR" "$GSK_DIR"
     gsutil -m cp -r "$GCS_BUCKET/deployment-files/models/MiniLM-L6-v2" "$DPL_DIR/"
     mv "$DPL_DIR/MiniLM-L6-v2" "$MDL_DIR/MiniLM-L6-v2"
