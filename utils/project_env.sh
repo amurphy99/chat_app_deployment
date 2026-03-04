@@ -75,12 +75,17 @@ echo -e "${INFO_T3}BACKEND_ENV_PATH = $BACKEND_ENV_PATH ${RESET}"
 cat <<EOF > $BACKEND_ENV_PATH
 
 # The postgres information is defined in the initial file of this project
-POSTGRES_DB            = "dementia_chat_db"
+POSTGRES_DB            = ${__POSTGRES_DB}
 POSTGRES_USER          = ${__POSTGRES_USER}
 POSTGRES_PASSWORD      = ${__POSTGRES_PASSWORD}
+POSTGRES_HOST          = ${__POSTGRES_HOST}
+POSTGRES_PORT          = ${__POSTGRES_PORT}
+
 VECTOR_DB_NAME         = ${__VECTOR_DB_NAME}
 VECTOR_DB_USER         = ${__VECTOR_DB_USER}
 VECTOR_DB_PASSWORD     = ${__VECTOR_DB_PASSWORD}
+VECTOR_DB_HOST         = ${__VECTOR_DB_HOST}
+VECTOR_DB_PORT         = ${__VECTOR_DB_PORT}
 DJANGO_SETTINGS_MODULE = "backend.settings"
 TZ                     = "UTC"
 
