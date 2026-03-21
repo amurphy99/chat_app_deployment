@@ -32,6 +32,16 @@ DOMAIN     = ${DOMAIN}
 DOMAIN_WWW = ${DOMAIN_WWW}
 CERT_EMAIL = ${CERT_EMAIL}
 
+# Postgres (needed for docker-compose.yml YAML variable interpolation)
+POSTGRES_DB       = ${__POSTGRES_DB}
+POSTGRES_USER     = ${__POSTGRES_USER}
+POSTGRES_PASSWORD = ${__POSTGRES_PASSWORD}
+
+# Vector DB (needed for docker-compose.yml YAML variable interpolation)
+VECTOR_DB_NAME     = ${__VECTOR_DB_NAME}
+VECTOR_DB_USER     = ${__VECTOR_DB_USER}
+VECTOR_DB_PASSWORD = ${__VECTOR_DB_PASSWORD}
+
 EOF
 
 echo -e "${GREEN}.env file created successfully ${RESET}"
