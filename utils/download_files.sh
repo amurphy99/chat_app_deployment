@@ -59,6 +59,15 @@ else
     echo -e "${GREEN}Deployment files already exist locally, skipping download. ${RESET}"
 fi
 
+
+# Download the RAG embedding model folder
+if [ ! -f "$MDL_DIR/MiniLM-L6-v2/config.json" ]; then
+    mkdir -p "$DPL_DIR" "$MDL_DIR" "$GSK_DIR"
+    gsutil -m cp -r "$GCS_BUCKET/deployment-files/models/MiniLM-L6-v2" "$DPL_DIR/"
+    mv "$DPL_DIR/MiniLM-L6-v2" "$MDL_DIR/MiniLM-L6-v2"
+fi
+
+
 # Make a logs folder in deployment-files for persistence
 mkdir -p "$LOG_DIR"
 
@@ -73,6 +82,11 @@ echo -e "${INFO_T3}  cp    $MDL_DIR/stanford-parser-4.2.0-models.jar   $BIO_DIR/
 
 cp "$MDL_DIR/new_LSA.csv"                       "$BIO_DIR/new_LSA.csv"
 cp "$MDL_DIR/stanford-parser-4.2.0-models.jar"  "$BIO_DIR/stanford-parser-full-2020-11-17/stanford-parser-4.2.0-models.jar"
+
+# copy the RAG embedding model into the repo
+echo -e "${INFO_T3}Copying the RAG Embedding model into the repo...${RESET}"
+mkdir -p "$APP_DIR/backend/rag_vectorstore/models"
+cp -r "$MDL_DIR/MiniLM-L6-v2" "$APP_DIR/backend/rag_vectorstore/models"
 
 
 # Google keys

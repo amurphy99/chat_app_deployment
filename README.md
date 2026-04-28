@@ -6,38 +6,23 @@ ToDo:
 
 <br>
 
-# [OUTDATED] How to deploy (deployment)
-1. Clone this repo
-2. Make a branch of this repo and name it
-3. In chat_app_deployment/blob/main/utils/env_config.sh, change line 47 to point at the branch you want to deploy from the v2_benchmarking repo
-4. Modify deploy_app.sh line 9 to the branch you made in step 2
-5. Add any new env variables necessary
-6. Go to Google Cloud Console > Compute Engine > VM Instances and SSH into the v2-testing-06-gpu instance
-7. Upload your copy of deploy_app.sh
-8. Run `bash deploy_app.sh`
-    * May need to run twice
+# How to deploy
+1. Create a local copy of `.env` based on `.env.example` and change a few of the fields
+    - `REPO_BRANCH=`: Change this to your desired branch of `v2_benchmarking` to deploy
+    - `TARGET_PREFIX=`: This is what URL prefix your instance will use (e.g. `sandbox2.cognibot.org`)
+    - `ENV=`: This determines if your instance will ALSO be hosted at the main URL (in addition to the sandbox URL)
+    - You may need to update your .env file to remove Windows-style line endings (e.g. sed -i 's/\r/\n/g' .env)
+2. SSH into the VM instance to deploy the app on
+3. Upload `deploy.sh` and your new `.env` into the VM (deleting any old ones first)
+4. Run `bash deploy.sh` and you are done
     * Installs docker & updates other dependencies
     * Downloads required, non-tracked files from cloud storage
-    * Clones the repo & copies the non-tracked files (model files) into their proper locations 
-    * Builds the Docker containers & starts the app
-9. Go to cognibot.org/ once the deployment finishes
+    * Clones the repo & copies the non-tracked files into their proper locations 
+    * Generates project-level `.env` files using the provided `.env` file
+    * Builds all Docker containers & starts the app
 
-# [OUTDATED] How to deploy (sandbox)
-1. Clone this repository
-2. Make a branch of this repository and name it
-3. In chat_app_deployment/blob/main/utils/env_config.sh, change line 47 to point at the branch you want to deploy from the v2_benchmarking repo
-4. Modify deploy_app.sh line 9 to the branch you made in step 2
-5. Add any new env variables necessary
-6. Go to Google Cloud Console > Compute Engine > VM Instances and SSH into the v2-testing-05-cpu instance
-7. Upload your copy of deploy_app.sh
-8. Run `bash deploy_app.sh --env=sandbox`
-    * May need to run twice
-    * Installs docker & updates other dependencies
-    * Downloads required, non-tracked files from cloud storage
-    * Clones the repo & copies the non-tracked files (model files) into their proper locations 
-    * Builds the Docker containers & starts the app
-9. Go to sandbox.cognibot.org/ once the deployment finishes
-    * May have security errors--just ignore these
+If your VMs instance is not already mapped to one of our sandbox URLs, you may need to contact me to do so.
+
 
 </details>
 
@@ -45,9 +30,6 @@ ToDo:
 * If re-running/updating the deployed app (CPU or GPU instance):
     1) Remove the old `deploy.sh` from the VM: `rm deploy.sh` (also use this with `.env`)
     2) Use the web-SSH console to upload your version of `deploy.sh` and `.env`
-* To run the app after the `deploy.sh` script and `.env` are uploaded:
-    - GPU: `bash deploy.sh`
-    - CPU: `bash deploy.sh --env=sandbox` 
 * Check logs of the containers (replace backend with other container names):
     - `sudo docker logs --tail 200 backend`
 * To check if the containers are up and responding to requests from inside of the VM:
@@ -68,13 +50,13 @@ chat_app_deployment/
  │   ├── logging.sh               # Defines logging helpers (colors, etc.)
  │   ├── env_config.sh            # Set mode for "sandbox" or "deployment"
  │   │
- │   ├── docker_utils/            # 1) Reset Docker (if installed) & Setup Docker (if not installed)
+ │   ├── docker_utils/            # 1) Reset Docker (if installed) & Setup Docker 
  │   │   ├── reset_docker.sh
  │   │   └── install_docker.sh 
  │   ├── nvidia_gpu_setup.sh      # 2) NVIDIA Setup (skipped for "sandbox" deployment) 
--│   ├── nginx_setup.sh           # 3) Install & Setup Nginx (not currently active yet)
- │   ├── download_files.sh        # 4) Clone main project repo & download from GCS bucket
- │   ├── project_env.sh           # 5) More detailed .env configuration 
+ │   ├── download_files.sh        # 3) Clone main project repo & download from GCS bucket
+ │   ├── project_env.sh           # 4) More detailed .env configuration 
++│   ├── get_certs.sh             # 5) Request the initial certificates for nginx 
  │   └── launch_containers.sh     # 6) Launch docker compose in headless mode
  │
  └── ...
