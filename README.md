@@ -36,6 +36,21 @@ If your VMs instance is not already mapped to one of our sandbox URLs, you may n
     - `sudo docker exec nginx curl -s http://frontend:5173`
     - `sudo docker exec nginx curl -s http://backend:8000/api/health/`
 
+<br>
+
+Reset the old Docker containers (sometimes needed because *"port 80 is already running"*):
+```
+cd v2_benchmarking/
+sudo docker compose down
+```
+
+List and delete volumes:
+```
+sudo docker volume ls
+sudo docker volume rm v2_benchmarking_db_data v2_benchmarking_vector_db_data 
+```
+
+
 
 <br>
 
