@@ -24,7 +24,12 @@ ToDo:
 If your VMs instance is not already mapped to one of our sandbox URLs, you may need to contact me to do so.
 
 
-</details>
+
+<hr>
+<br>
+
+
+<details closed> <summary>Helpful Console Commands</summary>
 
 # Helpful Console Commands
 * If re-running/updating the deployed app (CPU or GPU instance):
@@ -50,8 +55,16 @@ sudo docker volume ls
 sudo docker volume rm v2_benchmarking_db_data v2_benchmarking_vector_db_data 
 ```
 
+Get the vector DB extension (needed if first time initializing the vector DB):
+```
+sudo docker exec -it db_vector env | grep POSTGRES_USER
+sudo docker exec -it db_vector env | grep POSTGRES_DB
+sudo docker exec -it db_vector psql -U <actual_user> -d <actual_db_name> -c "CREATE EXTENSION IF NOT EXISTS vector;"
+```
 
+</details>
 
+<hr>
 <br>
 
 
