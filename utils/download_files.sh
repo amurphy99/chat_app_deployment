@@ -1,6 +1,9 @@
 # ================================================================================
 # Clone/Pull Repo & Download deployment files from GCS Bucket
 # ================================================================================
+# a) Clones/pulls the target repository/branch for the main app.
+# b) Downloads any missing files required for deployment from the GCS bucket & 
+#    copies those files into their correct places within the app repository.
 echo -e "${PROG_HR_1}"
 echo -e "${PROG_TEXT}4. Pulling project repo & Downloading 'deployment-files' from GCS Bucket... ${RESET}"
 echo -e "${PROG_HR_2}"
@@ -8,7 +11,7 @@ echo -e "${PROG_HR_2}"
 echo -e "download_files.sh current working directory: $(pwd)"
 
 # --------------------------------------------------------------------------------
-# Clone or pull from the main app repository
+# a) Clone or pull from the main app repository
 # --------------------------------------------------------------------------------
 echo -e "${INFO_T1}Clone or update the repository... ${RESET}"
 
@@ -35,60 +38,79 @@ else
     git clone -b $REPO_BRANCH $REPO_URL
 fi
 
-# --------------------------------------------------------------------------------
-# Download files from the GCS bucket (right now we just need the LLM model file)
-# --------------------------------------------------------------------------------
-echo -e "\n${PROG_TEXT}Downloading files from the GCS bucket... ${RESET}"
-
-# Only download if not already present
-if [ ! -f "$MDL_DIR/new_LSA.csv" ]; then
-    mkdir -p "$DPL_DIR" "$MDL_DIR" "$GSK_DIR"
-
-    # Download only the files we need
-    gsutil -m cp \
-        "$GCS_BUCKET/deployment-files/models/new_LSA.csv" \
-        "$GCS_BUCKET/deployment-files/models/stanford-parser-4.2.0-models.jar" \
-        "$GCS_BUCKET/deployment-files/google-stt-key.json" \
-        "$DPL_DIR/"
-
-    # Put new_LSA + parser jar specifically under $MDL_DIR
-    mv "$DPL_DIR/new_LSA.csv"                      "$MDL_DIR/new_LSA.csv"
-    mv "$DPL_DIR/stanford-parser-4.2.0-models.jar" "$MDL_DIR/stanford-parser-4.2.0-models.jar"
-
-else
-    echo -e "${GREEN}Deployment files already exist locally, skipping download. ${RESET}"
-fi
-
-
-# Download the RAG embedding model folder
-if [ ! -f "$MDL_DIR/MiniLM-L6-v2/config.json" ]; then
-    mkdir -p "$DPL_DIR" "$MDL_DIR" "$GSK_DIR"
-    gsutil -m cp -r "$GCS_BUCKET/deployment-files/models/MiniLM-L6-v2" "$DPL_DIR/"
-    mv "$DPL_DIR/MiniLM-L6-v2" "$MDL_DIR/MiniLM-L6-v2"
-fi
-
-
-# Make a logs folder in deployment-files for persistence
+# Make a logs folder in deployment-files for persistence (I don't think this gets used anymore...)
 mkdir -p "$LOG_DIR"
 
+# ================================================================================
+# b) Download files from the GCS bucket
+# ================================================================================
+echo -e "\n${PROG_TEXT}Downloading files from the GCS bucket... ${RESET}"
+
+# Optional flag from the .env for skipping model redownload
+SKIP_MODEL_REDOWNLOAD="${SKIP_MODEL_REDOWNLOAD:-false}"
+echo -e "${INFO_T0}SKIP_MODEL_REDOWNLOAD = ${SKIP_MODEL_REDOWNLOAD}${RESET}\n"
+
+# Creating the GCS download destination directories
+mkdir -p "$DPL_DIR" "$MDL_DIR"
+
 # --------------------------------------------------------------------------------
-# Copy Deployment Files (.env, models)
+# Google Speech-to-Text key (always download)
 # --------------------------------------------------------------------------------
-echo -e "${INFO_T1}Copy deployment files into the repository (.env, models)... ${RESET}"
+# Download from GCS bucket
+echo -e "${INFO_T1}Downloading Google Speech-to-Text key... ${RESET}"
+gsutil cp "$GCS_BUCKET/deployment-files/google-stt-key.json" "$DPL_DIR/"
 
-# Copy "new_LSA.csv" for ... ?
-echo -e "${INFO_T3}  cp    $MDL_DIR/new_LSA.csv                        $BIO_DIR/new_LSA.csv                      ${RESET}"
-echo -e "${INFO_T3}  cp    $MDL_DIR/stanford-parser-4.2.0-models.jar   $BIO_DIR/stanford-parser-4.2.0-models.jar ${RESET}"
-
-cp "$MDL_DIR/new_LSA.csv"                       "$BIO_DIR/new_LSA.csv"
-cp "$MDL_DIR/stanford-parser-4.2.0-models.jar"  "$BIO_DIR/stanford-parser-full-2020-11-17/stanford-parser-4.2.0-models.jar"
-
-# copy the RAG embedding model into the repo
-echo -e "${INFO_T3}Copying the RAG Embedding model into the repo...${RESET}"
-mkdir -p "$APP_DIR/backend/rag_vectorstore/models"
-cp -r "$MDL_DIR/MiniLM-L6-v2" "$APP_DIR/backend/rag_vectorstore/models"
-
-
-# Google keys
-echo -e "${INFO_T3}  cp -f $DPL_DIR/google-stt-key.json  $GSK_DIR/google-stt-key.json ${RESET}"
+# Copy into the repository
+echo -e "${INFO_T3}  cp -f $DPL_DIR/google-stt-key.json  ->  $GSK_DIR/google-stt-key.json ${RESET}"
 cp -f "$DPL_DIR/google-stt-key.json" "$GSK_DIR/google-stt-key.json"
+
+
+# --------------------------------------------------------------------------------
+# MiniLM-L6-v2 RAG embedding model
+# --------------------------------------------------------------------------------
+if [ -f "$MDL_DIR/MiniLM-L6-v2/config.json" ] && [ "$SKIP_MODEL_REDOWNLOAD" = "true" ]; then
+    echo -e "${INFO_T2}Skipping MiniLM-L6-v2: already staged and SKIP_MODEL_REDOWNLOAD=true ${RESET}"
+else
+    # Download from GCS bucket
+    echo -e "${INFO_T1}Downloading MiniLM-L6-v2 RAG embedding model... ${RESET}"
+    gsutil -m cp -r "$GCS_BUCKET/deployment-files/models/MiniLM-L6-v2" "$MDL_DIR/"
+
+    # Copy into the repository
+    echo -e "${INFO_T2}Copying MiniLM-L6-v2 into the repo... ${RESET}"
+    mkdir -p "$APP_DIR/backend/rag_vectorstore/models"
+    cp -r "$MDL_DIR/MiniLM-L6-v2" "$APP_DIR/backend/rag_vectorstore/models/"
+fi
+
+# --------------------------------------------------------------------------------
+# "Prosody" biomarker models
+# --------------------------------------------------------------------------------
+if [ -f "$MDL_DIR/prosody/fold_0_train_preds.npy" ] && [ "$SKIP_MODEL_REDOWNLOAD" = "true" ]; then
+    echo -e "${INFO_T2}Skipping prosody: already staged and SKIP_MODEL_REDOWNLOAD=true ${RESET}"
+else
+    # Download from GCS bucket
+    echo -e "${INFO_T1}Downloading prosody biomarker models... ${RESET}"
+    gsutil -m cp -r "$GCS_BUCKET/deployment-files/models/prosody" "$MDL_DIR/"
+    mkdir -p "$BIO_DIR/prosody"
+
+    # Copy into the repository
+    echo -e "${INFO_T2}Copying prosody models into the repo... ${RESET}"
+    echo -e "${INFO_T3}  cp -r $MDL_DIR/prosody/.  ->  $BIO_DIR/prosody/ ${RESET}"
+    cp -r "$MDL_DIR/prosody/." "$BIO_DIR/prosody/"
+fi
+
+# --------------------------------------------------------------------------------
+# "Altered Grammar" biomarker models
+# --------------------------------------------------------------------------------
+if [ -f "$MDL_DIR/altered_grammar/fold_0_train_preds.npy" ] && [ "$SKIP_MODEL_REDOWNLOAD" = "true" ]; then
+    echo -e "${INFO_T2}Skipping altered_grammar: already staged and SKIP_MODEL_REDOWNLOAD=true ${RESET}"
+else
+    # Download from GCS bucket
+    echo -e "${INFO_T1}Downloading altered_grammar biomarker models... ${RESET}"
+    gsutil -m cp -r "$GCS_BUCKET/deployment-files/models/altered_grammar" "$MDL_DIR/"
+    mkdir -p "$BIO_DIR/altered_grammar"
+
+    # Copy into the repository
+    echo -e "${INFO_T2}Copying altered_grammar models into the repo... ${RESET}"
+    echo -e "${INFO_T3}  cp -r $MDL_DIR/altered_grammar/.  ->  $BIO_DIR/altered_grammar/ ${RESET}"
+    cp -r "$MDL_DIR/altered_grammar/." "$BIO_DIR/altered_grammar/"
+fi

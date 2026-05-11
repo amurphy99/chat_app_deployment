@@ -71,7 +71,7 @@ MDL_DIR="$DPL_DIR/models"
 LOG_DIR="$DPL_DIR/logs"
 
 # Final location for the model files when inside the app repo
-BIO_DIR="$REPO_NAME/backend/chat_app/websocket/biomarkers/biomarker_models"
+BIO_DIR="$REPO_NAME/backend/chat_app/websocket/biomarkers/models"
 
 # Final location for the Google Speech Key
 GSK_DIR="$REPO_NAME/backend"
