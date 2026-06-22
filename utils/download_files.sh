@@ -138,7 +138,7 @@ if [ -f "$SEED_DIR/test_03/IU_03.csv" ] && [ "$SKIP_SEED_DATA_REDOWNLOAD" = "tru
 else
     # Download from GCS bucket
     echo -e "${INFO_T1}Downloading seed data... ${RESET}"
-    gsutil -m cp -r "$GCS_BUCKET/deployment-files/demo_data" "$SEED_GCS/"
+    gsutil -m cp -r "$GCS_BUCKET/deployment-files/demo_data/*" "$SEED_GCS/"
 
     # --------------------------------------------------------------------------------
     # Copy into the repository (4 times currently; once for each chat)
