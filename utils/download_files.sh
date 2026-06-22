@@ -51,7 +51,7 @@ SKIP_MODEL_REDOWNLOAD="${SKIP_MODEL_REDOWNLOAD:-false}"
 echo -e "${INFO_T0}SKIP_MODEL_REDOWNLOAD = ${SKIP_MODEL_REDOWNLOAD}${RESET}\n"
 
 # Creating the GCS download destination directories
-mkdir -p "$DPL_DIR" "$MDL_DIR"
+mkdir -p "$DPL_DIR" "$MDL_DIR" "$SEED_GCS"
 
 # --------------------------------------------------------------------------------
 # Google Speech-to-Text key (always download)
