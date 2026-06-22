@@ -114,3 +114,41 @@ else
     echo -e "${INFO_T3}  cp -r $MDL_DIR/altered_grammar/.  ->  $BIO_DIR/altered_grammar/ ${RESET}"
     cp -r "$MDL_DIR/altered_grammar/." "$BIO_DIR/altered_grammar/"
 fi
+
+
+# ================================================================================
+# Offline sample/demo data
+# ================================================================================
+# Re-usable function
+# TODO: Maybe I should just move it rather than copying? Kind of wastes memory to have it in two places...
+copy_seed_data() {
+    local source_dir="$1"
+    local target_dir="$2"
+
+    # Execute the echo and the copy command
+    echo -e "${INFO_T3} cp -r $source_dir/. -> $target_dir/ ${RESET}"
+    cp -r "$source_dir/." "$target_dir/"
+}
+
+# --------------------------------------------------------------------------------
+# Check if we should do the download
+# --------------------------------------------------------------------------------
+if [ -f "$SEED_DIR/test_03/IU_03.csv" ] && [ "$SKIP_SEED_DATA_REDOWNLOAD" = "true" ]; then
+    echo -e "${INFO_T2}Skipping seed data download: already downloaded and SKIP_SEED_DATA_REDOWNLOAD=true ${RESET}"
+else
+    # Download from GCS bucket
+    echo -e "${INFO_T1}Downloading seed data... ${RESET}"
+    gsutil -m cp -r "$GCS_BUCKET/deployment-files/demo_data" "$SEED_GCS/"
+
+    # --------------------------------------------------------------------------------
+    # Copy into the repository (4 times currently; once for each chat)
+    # --------------------------------------------------------------------------------
+    echo -e "${INFO_T2}Copying demo data into the repo... ${RESET}"
+
+    # Copy the seed data into the proper location for each chat
+    copy_seed_data "$SEED_GCS/test_02" "$SEED_DIR/test_02"
+    copy_seed_data "$SEED_GCS/test_03" "$SEED_DIR/test_03"
+    copy_seed_data "$SEED_GCS/test_04" "$SEED_DIR/test_04"
+    copy_seed_data "$SEED_GCS/test_05" "$SEED_DIR/test_05"
+
+fi
