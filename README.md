@@ -115,6 +115,7 @@ sudo docker exec -it db_vector psql -U <actual_user> -d <actual_db_name> -c "CRE
 <br>
 
 * Maybe combine the two env steps?
+* Didn't realize you could do functions with this stuff... need to add more like I did with the demo data in `download_files.sh`
 
 </details>
 
