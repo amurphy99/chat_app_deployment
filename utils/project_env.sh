@@ -80,9 +80,9 @@ EOF
 
 echo -e "${GREEN}frontend/.env file created successfully ${RESET}"
 
-# --------------------------------------------------------------------------------
-# c) backend/.env 
-# --------------------------------------------------------------------------------
+# ================================================================================
+# c) Backend Environment Variables -- `backend/.env`
+# ================================================================================
 echo -e "\n${INFO_T2}Preparing backend .env file... ${RESET}"
 
 # File location
@@ -133,6 +133,17 @@ LLM_GATEWAY_TOKEN = ${LLM_GATEWAY_TOKEN}
 # Access to external models
 IU_URL = ${IU_URL}
 IU_KEY = ${IU_KEY}
+
+# --------------------------------------------------------------------------------
+# Admin & Demo user login information
+# --------------------------------------------------------------------------------
+# Primary admin user
+ADMIN_USERNAME_0 = ${ADMIN_USERNAME_0}
+ADMIN_PASSWORD_0 = ${ADMIN_PASSWORD_0}
+
+# Protected demo data user
+DEMO_USERNAME_0 = ${DEMO_USERNAME_0}
+DEMO_PASSWORD_0 = ${DEMO_PASSWORD_0}
 
 EOF
 
