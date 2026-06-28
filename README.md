@@ -1,13 +1,13 @@
-# Cognibot Speech System Deployment | `chat_app_deployment`
+# Cognibot Speech System Deployment <br> `chat_app_deployment`
 
-Bash scripts for setting up a Linux VM into a fully running instance of the Cognibot chat application. Upload `deploy.sh` and a configured `.env` to the VM and run. The script handles everything from Docker installation and SSL certificate retrieval to cloning the app repo and downloading model files from a GCS bucket.
-
-The entry point (`deploy.sh`) installs Git, clones this deployment repository onto the VM, then hands off to `utils/controller.sh`, which orchestrates the remaining setup steps in order.
+Bash scripts for setting up a Linux VM into a fully running instance of the Cognibot chat application. Upload `deploy.sh` and a configured `.env` to the VM and run. The script handles everything from Docker installation and SSL certificate retrieval to cloning the app repo and downloading model files from a GCS bucket. The entry point (`deploy.sh`) installs Git, clones this deployment repository onto the VM, then hands off to `utils/controller.sh`, which orchestrates the remaining setup steps in order.
 
 <br>
 
----
 
+<!-- ================================================================================ -->
+<!-- How to Deploy                                                                    -->
+<!-- ================================================================================ -->
 # How to deploy
 
 1. Create a local copy of `.env` based on `.env.example` and fill in the fields:
@@ -17,7 +17,7 @@ The entry point (`deploy.sh`) installs Git, clones this deployment repository on
     - `SKIP_MODEL_REDOWNLOAD`: Set to `true` on re-runs to skip re-downloading model files that are already staged locally (speeds up re-deployments significantly)
 2. SSH into the target VM instance
 3. Upload `deploy.sh` and your `.env` to the VM (removing any old copies first)
-4. Run `bash deploy.sh` and you are done
+4. Run `bash deploy.sh` and you are done (takes a **long** time, can be 30+ minutes)
 
 The script will:
 - Install Git and Docker (if not already present)
@@ -31,8 +31,10 @@ If your VMs instance is not already mapped to one of our sandbox URLs, you may n
 
 <br>
 
----
 
+<!-- ================================================================================ -->
+<!-- Architecture Diagram                                                             -->
+<!-- ================================================================================ -->
 # Project Architecture
 
 ```diff
@@ -61,6 +63,9 @@ chat_app_deployment/
 
 ---
 
+<!-- -------------------------------------------------------------------------------- -->
+<!-- Console Commands                                                                 -->
+<!-- -------------------------------------------------------------------------------- -->
 <details closed><summary>Helpful Console Commands</summary>
 
 <br>
@@ -93,12 +98,6 @@ cd v2_benchmarking/
 sudo docker compose down
 ```
 
-**List and remove persistent volumes** (this wipes database data):
-```
-sudo docker volume ls
-sudo docker volume rm v2_benchmarking_db_data v2_benchmarking_vector_db_data
-```
-
 **Initialize the pgvector extension** (needed only on first-ever vector DB setup):
 ```
 sudo docker exec -it db_vector env | grep POSTGRES_USER
@@ -109,10 +108,38 @@ sudo docker exec -it db_vector psql -U <actual_user> -d <actual_db_name> -c "CRE
 </details>
 
 
+<!-- -------------------------------------------------------------------------------- -->
+<!-- Walkthrough for Resetting DB (need to do this each time the DB changes...)       -->
+<!-- -------------------------------------------------------------------------------- -->
+<details closed><summary>Resetting the DB</summary>
 
+Because the current setup does not track `migrations` changes (and the existing data for the site isn't necessary to track yet), I reset the volumes every time there is a DB scheme change. Otherwise, the startup process crashes in the final steps (after `Docker` already fully built everything) due to DB incompatibility. We have to 1) clear out `migrations` files for the next startup, and 2) delete the existing `Docker` volumes for the DBs to make sure it starts fresh.
+
+1) **Stop the existing containers** (they will be using the volumes)
+```bash
+cd v2_benchmarking/
+sudo docker compose down
+cd
+```
+
+2) **Check if there are existing migrations files** (we delete any besides `0001_initial.py`)
+```bash
+ls v2_benchmarking/backend/chat_app/migrations
+```
+
+3) **List and remove persistent volumes** (this wipes database data)
+```bash
+sudo docker volume ls
+sudo docker volume rm v2_benchmarking_db_data v2_benchmarking_vector_db_data
+```
+
+</details>
+
+
+<!-- -------------------------------------------------------------------------------- -->
+<!-- TODO List                                                                        -->
+<!-- -------------------------------------------------------------------------------- -->
 <details closed><summary>To Do</summary>
-
-<br>
 
 * Maybe combine the two env steps?
 * Didn't realize you could do functions with this stuff... need to add more like I did with the demo data in `download_files.sh`
