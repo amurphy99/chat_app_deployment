@@ -17,7 +17,7 @@ Bash scripts for setting up a Linux VM into a fully running instance of the Cogn
     - `SKIP_MODEL_REDOWNLOAD`: Set to `true` on re-runs to skip re-downloading model files that are already staged locally (speeds up re-deployments significantly)
 2. SSH into the target VM instance
 3. Upload `deploy.sh` and your `.env` to the VM (removing any old copies first)
-4. Run `bash deploy.sh` and you are done (takes a **long** time, can be 30+ minutes)
+4. Run `bash deploy.sh` and you are done (takes a **long** time, can be 35+ minutes)
 
 The script will:
 - Install Git and Docker (if not already present)
@@ -131,6 +131,13 @@ ls v2_benchmarking/backend/chat_app/migrations
 ```bash
 sudo docker volume ls
 sudo docker volume rm v2_benchmarking_db_data v2_benchmarking_vector_db_data
+```
+
+4) **Initialize the pgvector extension** (once the DBs have been reset, we have to redo this)
+```bash
+sudo docker exec -it db_vector env | grep POSTGRES_USER
+sudo docker exec -it db_vector env | grep POSTGRES_DB
+sudo docker exec -it db_vector psql -U <actual_user> -d <actual_db_name> -c "CREATE EXTENSION IF NOT EXISTS vector;"
 ```
 
 </details>
