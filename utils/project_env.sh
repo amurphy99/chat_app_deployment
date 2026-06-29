@@ -126,6 +126,7 @@ PEXELS_KEY      = ${__PEXELS_KEY}
 # Access to the external GPU VM instance
 LLM_BASE_URL      = ${LLM_BASE_URL}
 LLM_GATEWAY_TOKEN = ${LLM_GATEWAY_TOKEN}
+LLM_NAME          = ${LLM_NAME}
 
 # --------------------------------------------------------------------------------
 # IU API
