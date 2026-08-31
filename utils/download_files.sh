@@ -31,12 +31,13 @@ if [ -d "$APP_DIR" ]; then
     #git reset --hard "origin/$REPO_BRANCH"
     git pull --ff-only origin "$REPO_BRANCH"
 
-    cd ..
 else
     # If it doesn't exist at all yet, clone it
     echo -e "${INFO_T2}Cloning repo: ${INFO_T0}${GITHUB_USER}/${REPO_NAME}/${REPO_BRANCH} ${RESET}"
-    git clone -b $REPO_BRANCH $REPO_URL
+    git clone --branch "$REPO_BRANCH" --single-branch "$REPO_URL" "$APP_DIR"
 fi
+
+cd "$PRJ_DIR"
 
 # Make a logs folder in deployment-files for persistence (I don't think this gets used anymore...)
 mkdir -p "$LOG_DIR"
@@ -64,6 +65,8 @@ gsutil cp "$GCS_BUCKET/deployment-files/google-stt-key.json" "$DPL_DIR/"
 echo -e "${INFO_T3}  cp -f $DPL_DIR/google-stt-key.json  ->  $GSK_DIR/google-stt-key.json ${RESET}"
 cp -f "$DPL_DIR/google-stt-key.json" "$GSK_DIR/google-stt-key.json"
 
+# Make the credentials file private automatically
+chmod 600 "$DPL_DIR/google-stt-key.json" "$GSK_DIR/google-stt-key.json"
 
 # --------------------------------------------------------------------------------
 # MiniLM-L6-v2 RAG embedding model

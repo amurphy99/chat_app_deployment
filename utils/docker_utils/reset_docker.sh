@@ -17,9 +17,9 @@ else
     echo -e "${INFO_T1}Shutting down for existing Docker resources...${RESET}"
 
     # Check if the `docker-compose` file exists yet (no need for this on the first install)
-    if [ -f "$REPO_NAME/docker-compose.yaml" ]; then
+    if [ -f "$APP_DIR/docker-compose.yaml" ]; then
         echo -e "Bringing down existing containers in ${INFO_T3}${REPO_NAME}${RESET}..."
-        sudo docker compose -f "$REPO_NAME/docker-compose.yaml" down || true
+        sudo docker compose -f "$APP_DIR/docker-compose.yaml" --project-directory "$APP_DIR" down || true
     else
         echo -e "No existing ${INFO_T3}${REPO_NAME}/docker-compose.yaml${RESET} found, skipping container teardown..."
     fi

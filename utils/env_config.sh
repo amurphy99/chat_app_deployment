@@ -14,6 +14,8 @@ VM_TYPE="CPU"
 # --------------------------------------------------------------------------------
 # Domains & Nginx configuration files stem from here
 # --------------------------------------------------------------------------------
+# Resolve the mode once here; certificate and project-environment scripts consume
+# the resulting domain, application environment, and audio prefix
 # Setup .env file used to configure multiple sandboxes (e.g. "sandbox.cognibot.org", "sandbox2.cognibot.org", etc.)
 TARGET_PREFIX="${TARGET_PREFIX:-sandbox}"
 
@@ -21,35 +23,19 @@ TARGET_PREFIX="${TARGET_PREFIX:-sandbox}"
 if [ "$ENV" = "sandbox" ]; then
     DOMAIN="${TARGET_PREFIX}.cognibot.org"
     DOMAIN_WWW="www.${TARGET_PREFIX}.cognibot.org"
-    NGINX_CONF="nginx/default.conf.sandbox"
     APP_ENVIRONMENT="sandbox"
+    AUDIO_INSTANCE_PREFIX="${TARGET_PREFIX}"
 
 # Deployment
-else
+elif [ "$ENV" = "deployment" ]; then
     DOMAIN="cognibot.org"
     DOMAIN_WWW="www.cognibot.org"
-    NGINX_CONF="nginx/default.conf"
     APP_ENVIRONMENT="deployment"
-fi
+    AUDIO_INSTANCE_PREFIX="production"
 
-DOMAIN="${TARGET_PREFIX}.cognibot.org"
-DOMAIN_WWW="www.${TARGET_PREFIX}.cognibot.org"
-NGINX_CONF="nginx/default.conf.sandbox"
-APP_ENVIRONMENT="sandbox"
-
-# --------------------------------------------------------------------------------
-# Project Repository .env file variables
-# --------------------------------------------------------------------------------
-# Frontend
-VITE_RUN_ENV="PROD"
-DEV_APP_ROUTE=""                    # "" Empty string for deployment mode
-CERT_EMAIL="amurphy62299@gmail.com"
-
-# Whether or not to use the LLM GPU container or a dummy
-if [ "$APP_ENVIRONMENT" = "sandbox" ]; then
-    CONF_FILE="default.conf.sandbox"
 else
-    CONF_FILE="default.conf"
+    echo -e "${RED}ERROR: ENV='$ENV' is not supported (expected sandbox or deployment)${RESET}" >&2
+    exit 1
 fi
 
 # ================================================================================
@@ -98,7 +84,7 @@ echo -e "${INFO_T0}APP_ENVIRONMENT    = ${APP_ENVIRONMENT}      ${RESET}\n"
 
 echo -e "${INFO_T0}DOMAIN             = ${DOMAIN}               ${RESET}"
 echo -e "${INFO_T0}DOMAIN_WWW         = ${DOMAIN_WWW}           ${RESET}"
-echo -e "${INFO_T0}NGINX_CONF         = ${NGINX_CONF}           ${RESET}\n"
+echo -e "${INFO_T0}AUDIO PREFIX       = ${AUDIO_INSTANCE_PREFIX}/${SESSION_AUDIO_OBJECT_PREFIX} ${RESET}\n"
 
 echo -e "${INFO_T0}PRJ_DIR            = ${PRJ_DIR}              ${RESET}"
 echo -e "${INFO_T0}SETUP_REPO_BRANCH  = ${SETUP_REPO_BRANCH}    ${RESET}"
@@ -123,4 +109,3 @@ echo -e "${INFO_T0}SEED_DIR           = ${SEED_DIR}             ${RESET}"
 # Credentials/misc.
 echo -e "${INFO_T0}GSK_DIR            = ${GSK_DIR}              ${RESET}"
 echo -e "${INFO_T0}LOG_DIR            = ${LOG_DIR}              ${RESET}"
-

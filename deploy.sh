@@ -26,7 +26,15 @@ echo -e "${H2}"
 # --------------------------------------------------------------------------------
 # Define some "secret" keys here (pull from the .env file)
 # --------------------------------------------------------------------------------
-source .env
+# Make sure the .env is there/we can see it
+if [ ! -f ".env" ]; then
+    echo "ERROR: Upload the deployment .env file before running deploy.sh" >&2
+    exit 1
+fi
+
+# Make the .env file private automatically
+chmod 600 ".env"
+source ".env"
 
 echo "Loaded deployment config from .env"
 echo "Sample environment variable: ${GITHUB_USER}/${GITHUB_REPO}"
