@@ -2,7 +2,7 @@
 # Launch Containers
 # ================================================================================
 echo -e "${PROG_HR_1}"
-echo -e "${PROG_TEXT}6. Starting Docker Compose in headless mode... ${RESET}"
+echo -e "${PROG_TEXT}5. Starting Docker Compose in headless mode... ${RESET}"
 echo -e "${PROG_HR_2}"
 
 echo "launch_containers.sh current working directory: $(pwd)"

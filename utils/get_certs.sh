@@ -2,7 +2,7 @@
 # Request the initial certificates for nginx (the main app will refresh them)
 # ================================================================================
 echo -e "${PROG_HR_1}"
-echo -e "${PROG_TEXT}6. Requesting the initial certificates for nginx... ${RESET}"
+echo -e "${PROG_TEXT}4. Requesting the initial certificates for nginx... ${RESET}"
 echo -e "${PROG_HR_2}"
 
 echo -e "get_certs.sh current working directory: $(pwd)"
@@ -37,8 +37,7 @@ COMMON_CERTBOT_ARGS=(
 # --------------------------------------------------------------------------------
 # Get the Certificats
 # --------------------------------------------------------------------------------
-# The domain pair (DOMAIN and DOMAIN_WWW) were already selected by `env_config.sh`
-# based on sandbox or deployment mode (from APP_ENVIRONMENT)
+# env_config.sh already selected the sandbox or main domain pair used below
 echo -e "${INFO_T2}Getting certificates for ${INFO_T0}${DOMAIN}${RESET}${INFO_T2}... ${RESET}"
 
 # Run the certificate retrieval task in a docker container

@@ -4,7 +4,7 @@
 # NOTE: All files we create with environment variables are made private
 #       automatically for added security.
 echo -e "${PROG_HR_1}"
-echo -e "${PROG_TEXT}5. Detailed project environment variable configuration... ${RESET}"
+echo -e "${PROG_TEXT}3. Detailed project environment variable configuration... ${RESET}"
 echo -e "${PROG_HR_2}"
 
 echo "project_env.sh current working directory: $(pwd)"
@@ -77,7 +77,6 @@ DJANGO_SETTINGS_MODULE = ${DJANGO_SETTINGS_MODULE}
 DJANGO_DEBUG           = ${DJANGO_DEBUG}
 DJANGO_SECRET_KEY      = ${DJANGO_SECRET_KEY}
 TZ                     = ${TZ}
-APP_ENVIRONMENT        = ${APP_ENVIRONMENT}
 
 # --------------------------------------------------------------------------------
 # Database

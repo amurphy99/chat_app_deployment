@@ -4,37 +4,32 @@ set -Eeuo pipefail
 # ================================================================================
 # Final Environmental Variable Setup
 # ================================================================================
-# Specify if this should be for the "deployment" or "sandbox" instance
-# bash deploy.sh --env=sandbox
 echo -e "env_config.sh current working directory: $(pwd)"
-
-# CPU/GPU behavior used to depend on ENV or APP_ENVIRONMENT, hardcoding it here for now instead
-VM_TYPE="CPU"
 
 # --------------------------------------------------------------------------------
 # Domains & Nginx configuration files stem from here
 # --------------------------------------------------------------------------------
-# Resolve the mode once here; certificate and project-environment scripts consume
-# the resulting domain, application environment, and audio prefix
-# Setup .env file used to configure multiple sandboxes (e.g. "sandbox.cognibot.org", "sandbox2.cognibot.org", etc.)
+# Resolve the deployment target (is this the "main" deployment or a "sandbox"?),
+# and apply the namespace prefix here. Prefixes are used to configure multiple
+# sandboxes (e.g. "sandbox.cognibot.org", "sandbox2.cognibot.org", etc.).
+
+# From the uploaded `.env` file
 TARGET_PREFIX="${TARGET_PREFIX:-sandbox}"
 
 # Sandbox
-if [ "$ENV" = "sandbox" ]; then
+if [ "$DEPLOYMENT_TARGET" = "sandbox" ]; then
     DOMAIN="${TARGET_PREFIX}.cognibot.org"
     DOMAIN_WWW="www.${TARGET_PREFIX}.cognibot.org"
-    APP_ENVIRONMENT="sandbox"
     AUDIO_INSTANCE_PREFIX="${TARGET_PREFIX}"
 
-# Deployment
-elif [ "$ENV" = "deployment" ]; then
+# Main (ignores `TARGET_PREFIX`)
+elif [ "$DEPLOYMENT_TARGET" = "main" ]; then
     DOMAIN="cognibot.org"
     DOMAIN_WWW="www.cognibot.org"
-    APP_ENVIRONMENT="deployment"
-    AUDIO_INSTANCE_PREFIX="production"
+    AUDIO_INSTANCE_PREFIX="main"
 
 else
-    echo -e "${RED}ERROR: ENV='$ENV' is not supported (expected sandbox or deployment)${RESET}" >&2
+    echo -e "${RED}ERROR: DEPLOYMENT_TARGET='$DEPLOYMENT_TARGET' is not supported (expected sandbox or main)${RESET}" >&2
     exit 1
 fi
 
@@ -79,8 +74,8 @@ LOG_DIR="$DPL_DIR/logs"
 # ================================================================================
 # Echo the environment setup
 # ================================================================================
-echo -e "${INFO_T0}ENV                = ${ENV}                  ${RESET}"
-echo -e "${INFO_T0}APP_ENVIRONMENT    = ${APP_ENVIRONMENT}      ${RESET}\n"
+echo -e "${INFO_T0}DEPLOYMENT_TARGET  = ${DEPLOYMENT_TARGET}    ${RESET}"
+echo -e "${INFO_T0}TARGET_PREFIX      = ${TARGET_PREFIX    }    ${RESET}\n"
 
 echo -e "${INFO_T0}DOMAIN             = ${DOMAIN}               ${RESET}"
 echo -e "${INFO_T0}DOMAIN_WWW         = ${DOMAIN_WWW}           ${RESET}"

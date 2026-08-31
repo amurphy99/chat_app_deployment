@@ -5,7 +5,7 @@
 # b) Downloads any missing files required for deployment from the GCS bucket & 
 #    copies those files into their correct places within the app repository.
 echo -e "${PROG_HR_1}"
-echo -e "${PROG_TEXT}4. Pulling project repo & Downloading 'deployment-files' from GCS Bucket... ${RESET}"
+echo -e "${PROG_TEXT}2. Pulling project repo & Downloading 'deployment-files' from GCS Bucket... ${RESET}"
 echo -e "${PROG_HR_2}"
 
 echo -e "download_files.sh current working directory: $(pwd)"

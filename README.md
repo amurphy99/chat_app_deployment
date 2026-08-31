@@ -12,8 +12,8 @@ Bash scripts for setting up a Linux VM into a fully running instance of the Cogn
 
 1. Create a local copy of `.env` based on `.env.example` and fill in the fields:
     - `REPO_BRANCH`: Branch of `v2_benchmarking` to deploy
-    - `TARGET_PREFIX`: URL prefix for your instance (e.g. `sandbox2` -> `sandbox2.cognibot.org`)
-    - `ENV`: Set to `deployment` to also host at the main URL; leave as `sandbox` otherwise
+    - `DEPLOYMENT_TARGET`: Use `main` when deploying a stable version meant for "production"; use `sandbox` for development versions
+    - `TARGET_PREFIX`: URL prefix for your instance (e.g. `sandbox2` -> `sandbox2.cognibot.org`); if the target is set to `main`, this is ignored (and it just goes to `cognibot.org`)
     - `SKIP_MODEL_REDOWNLOAD`: Set to `true` on re-runs to skip re-downloading model files that are already staged locally (speeds up re-deployments significantly)
 2. SSH into the target VM instance
 3. Upload `deploy.sh` and your `.env` to the VM (removing any old copies first)
@@ -27,7 +27,7 @@ The script will:
 - Obtain SSL certificates via Certbot
 - Build and start all Docker containers in headless mode
 
-If your VMs instance is not already mapped to one of our sandbox URLs, you may need to contact me to do so.
+> **NOTE:** If your VMs instance is not already mapped to one of our sandbox URLs, you may need to contact me to do so.
 
 <br>
 
@@ -50,11 +50,12 @@ chat_app_deployment/
  │   ├── docker_utils/            # 1) Stop existing containers & install Docker if missing
  │   │   ├── reset_docker.sh      #    Tears down running containers, prunes dangling resources
  │   │   └── install_docker.sh    #    Installs Docker Engine + Compose plugin (v2)
- │   ├── nvidia_gpu_setup.sh      # 2) NVIDIA GPU drivers & container toolkit (skipped for CPU/sandbox)
- │   ├── download_files.sh        # 3) Clone/pull app repo; download models & keys from GCS bucket
- │   ├── project_env.sh           # 4) Write per-service .env files (root, frontend, backend)
-+│   ├── get_certs.sh             # 5) Request initial SSL certificates via Certbot/nginx
- │   └── launch_containers.sh     # 6) Launch Docker in headless mode
+ │   ├── download_files.sh        # 2) Clone/pull app repo; download models & keys from GCS bucket
+ │   ├── project_env.sh           # 3) Write per-service .env files (root, frontend, backend)
++│   ├── get_certs.sh             # 4) Request initial SSL certificates via Certbot/nginx
+ │   ├── launch_containers.sh     # 5) Launch Docker in headless mode
+ │   │
+-│   └── reset_databases.sh       # Manual, guarded reset; NEVER run during deployment
  │
  └── ...
 ```
@@ -113,27 +114,14 @@ sudo docker exec -it db_vector psql -U <actual_user> -d <actual_db_name> -c "CRE
 <!-- -------------------------------------------------------------------------------- -->
 <details closed><summary>Resetting the DB</summary>
 
-Because the current setup does not track `migrations` changes (and the existing data for the site isn't necessary to track yet), I reset the volumes every time there is a DB scheme change. Otherwise, the startup process crashes in the final steps (after `Docker` already fully built everything) due to DB incompatibility. We have to 1) clear out `migrations` files for the next startup, and 2) delete the existing `Docker` volumes for the DBs to make sure it starts fresh.
+Because the current setup does not track `migrations` changes (and the existing data for the site isn't necessary to track yet), reset the volumes every time there is a DB schema change. The reset helper is deliberately separate from `deploy.sh`, requires both a command-line flag and typed confirmation, and deletes only the two database volumes and generated `chat_app` migrations.
 
-1) **Stop the existing containers** (they will be using the volumes)
+Run it from the deployment repository:
 ```bash
-cd v2_benchmarking/
-sudo docker compose down
-cd
+bash utils/reset_databases.sh --confirm-reset
 ```
 
-2) **Check if there are existing migrations files** (we delete any besides `0001_initial.py`)
-```bash
-ls v2_benchmarking/backend/chat_app/migrations
-```
-
-3) **List and remove persistent volumes** (this wipes database data)
-```bash
-sudo docker volume ls
-sudo docker volume rm v2_benchmarking_db_data v2_benchmarking_vector_db_data
-```
-
-4) **Initialize the pgvector extension** (once the DBs have been reset, we have to redo this)
+After redeploying, initialize the pgvector extension if it was not created automatically:
 ```bash
 sudo docker exec -it db_vector env | grep POSTGRES_USER
 sudo docker exec -it db_vector env | grep POSTGRES_DB
@@ -152,4 +140,3 @@ sudo docker exec -it db_vector psql -U <actual_user> -d <actual_db_name> -c "CRE
 * Didn't realize you could do functions with this stuff... need to add more like I did with the demo data in `download_files.sh`
 
 </details>
-
