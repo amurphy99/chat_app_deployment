@@ -75,7 +75,7 @@ LOG_DIR="$DPL_DIR/logs"
 # Echo the environment setup
 # ================================================================================
 echo -e "${INFO_T0}DEPLOYMENT_TARGET  = ${DEPLOYMENT_TARGET}    ${RESET}"
-echo -e "${INFO_T0}TARGET_PREFIX      = ${TARGET_PREFIX    }    ${RESET}\n"
+echo -e "${INFO_T0}TARGET_PREFIX      = ${TARGET_PREFIX}        ${RESET}\n"
 
 echo -e "${INFO_T0}DOMAIN             = ${DOMAIN}               ${RESET}"
 echo -e "${INFO_T0}DOMAIN_WWW         = ${DOMAIN_WWW}           ${RESET}"
