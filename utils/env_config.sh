@@ -33,6 +33,15 @@ else
     exit 1
 fi
 
+# --------------------------------------------------------------------------------
+# Database connection defaults
+# --------------------------------------------------------------------------------
+# Containers reach local Compose databases through their service names
+__POSTGRES_HOST="${__POSTGRES_HOST:-db}"
+__POSTGRES_PORT="${__POSTGRES_PORT:-5432}"
+__VECTOR_DB_HOST="${__VECTOR_DB_HOST:-db_vector}"
+__VECTOR_DB_PORT="${__VECTOR_DB_PORT:-5432}"
+
 # ================================================================================
 # Directory/Filepath Configs
 # ================================================================================
