@@ -21,7 +21,9 @@ set -Eeuo pipefail
 # --------------------------------------------------------------------------------
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 DEPLOYMENT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
-DEPLOYMENT_ENV="${DEPLOYMENT_DIR}/.env"
+DEPLOYMENT_PARENT="$(cd "${DEPLOYMENT_DIR}/.." && pwd)"
+UPLOADED_ENV="${DEPLOYMENT_PARENT}/.env"
+REPOSITORY_ENV="${DEPLOYMENT_DIR}/.env"
 
 # Require an explicit flag before even loading the reset configuration
 if [ "${1:-}" != "--confirm-reset" ]; then
@@ -29,8 +31,16 @@ if [ "${1:-}" != "--confirm-reset" ]; then
     exit 1
 fi
 
-if [ ! -f "$DEPLOYMENT_ENV" ]; then
-    echo "ERROR: Missing deployment configuration: $DEPLOYMENT_ENV" >&2
+# The VM keeps the uploaded bootstrap configuration beside deploy.sh, one level
+# above the cloned repository. A repository-local file is supported for local use.
+if [ -f "$UPLOADED_ENV" ]; then
+    DEPLOYMENT_ENV="$UPLOADED_ENV"
+elif [ -f "$REPOSITORY_ENV" ]; then
+    DEPLOYMENT_ENV="$REPOSITORY_ENV"
+else
+    echo "ERROR: Missing deployment configuration. Checked:" >&2
+    echo "  - $UPLOADED_ENV" >&2
+    echo "  - $REPOSITORY_ENV" >&2
     exit 1
 fi
 

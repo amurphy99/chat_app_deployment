@@ -121,6 +121,10 @@ Run it from the deployment repository:
 bash utils/reset_databases.sh --confirm-reset
 ```
 
+On a deployed VM, the helper reads the uploaded `.env` beside `deploy.sh`
+(`~/.env`). For a local deployment-repository checkout, it falls back to the
+repository's own `.env` file.
+
 After redeploying, initialize the pgvector extension if it was not created automatically:
 ```bash
 sudo docker exec -it db_vector env | grep POSTGRES_USER
