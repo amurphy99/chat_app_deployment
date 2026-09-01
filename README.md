@@ -99,12 +99,8 @@ cd v2_benchmarking/
 sudo docker compose down
 ```
 
-**Initialize the pgvector extension** (needed only on first-ever vector DB setup):
-```
-sudo docker exec -it db_vector env | grep POSTGRES_USER
-sudo docker exec -it db_vector env | grep POSTGRES_DB
-sudo docker exec -it db_vector psql -U <actual_user> -d <actual_db_name> -c "CREATE EXTENSION IF NOT EXISTS vector;"
-```
+The `rag_vectorstore` Django migration automatically enables the PostgreSQL
+`vector` extension when a new vector database is migrated.
 
 </details>
 
@@ -125,12 +121,8 @@ On a deployed VM, the helper reads the uploaded `.env` beside `deploy.sh`
 (`~/.env`). For a local deployment-repository checkout, it falls back to the
 repository's own `.env` file.
 
-After redeploying, initialize the pgvector extension if it was not created automatically:
-```bash
-sudo docker exec -it db_vector env | grep POSTGRES_USER
-sudo docker exec -it db_vector env | grep POSTGRES_DB
-sudo docker exec -it db_vector psql -U <actual_user> -d <actual_db_name> -c "CREATE EXTENSION IF NOT EXISTS vector;"
-```
+After redeploying, the `rag_vectorstore` migration enables the PostgreSQL
+`vector` extension automatically before creating any vector columns.
 
 </details>
 
