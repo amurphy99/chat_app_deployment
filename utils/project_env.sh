@@ -128,9 +128,9 @@ BUDDY_PASSWORD = ${BUDDY_PASSWORD}
 # --------------------------------------------------------------------------------
 # Seed Data
 # --------------------------------------------------------------------------------
-REMAKE_SAMPLE_DATA     = ${REMAKE_SAMPLE_DATA}
-REMAKE_ANALYZED_DATA   = ${REMAKE_ANALYZED_DATA}
-REMAKE_TRANSCRIPT_DATA = ${REMAKE_TRANSCRIPT_DATA}
+SEED_UI_SAMPLE_DATA       = ${SEED_UI_SAMPLE_DATA}
+SEED_ANALYZED_CHAT_DATA   = ${SEED_ANALYZED_CHAT_DATA}
+SEED_TRANSCRIPT_CHAT_DATA = ${SEED_TRANSCRIPT_CHAT_DATA}
 
 # --------------------------------------------------------------------------------
 # Google Cloud Credentials
