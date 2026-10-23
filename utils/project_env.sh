@@ -125,6 +125,10 @@ DEMO_PASSWORD_0 = ${DEMO_PASSWORD_0}
 BUDDY_USERNAME = ${BUDDY_USERNAME}
 BUDDY_PASSWORD = ${BUDDY_PASSWORD}
 
+# Study caregiver and its three participants
+STUDY_CAREGIVER_PASSWORD   = ${STUDY_CAREGIVER_PASSWORD}
+STUDY_PARTICIPANT_PASSWORD = ${STUDY_PARTICIPANT_PASSWORD}
+
 # --------------------------------------------------------------------------------
 # Seed Data
 # --------------------------------------------------------------------------------

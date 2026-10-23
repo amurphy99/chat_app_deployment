@@ -16,13 +16,10 @@ else
     # This prevents old containers blocking ports needed for a new deployment
     echo -e "${INFO_T1}Shutting down for existing Docker resources...${RESET}"
 
-    # Check if the `docker-compose` file exists yet (no need for this on the first install)
-    if [ -f "$APP_DIR/docker-compose.yaml" ]; then
-        echo -e "Bringing down existing containers in ${INFO_T3}${REPO_NAME}${RESET}..."
-        sudo docker compose -f "$APP_DIR/docker-compose.yaml" --project-directory "$APP_DIR" down || true
-    else
-        echo -e "No existing ${INFO_T3}${REPO_NAME}/docker-compose.yaml${RESET} found, skipping container teardown..."
-    fi
+    # Find old containers by Compose project name (the repo folder's name), so this still
+    # works after the repo folder was deleted (`down` keeps named volumes and their data)
+    echo -e "Bringing down existing containers in ${INFO_T3}${REPO_NAME}${RESET}..."
+    sudo docker compose -p "$REPO_NAME" down
 
     # --------------------------------------------------------------------------------
     # Prune unused Docker resources (dangling containers and/or images)
