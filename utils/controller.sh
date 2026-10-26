@@ -41,19 +41,16 @@ source "${UTILS_DIR}/env_config.sh"
 source "${UTILS_DIR}/docker_utils/reset_docker.sh"
 source "${UTILS_DIR}/docker_utils/install_docker.sh"
 
-# 2) NVIDIA Setup (GPU Drivers, Container Toolkit) -- never actually fires, just leaving it in for now though
-source "${UTILS_DIR}/nvidia_gpu_setup.sh"
-
-# 3) Pull from project repo & download from GCS bucket
+# 2) Pull from project repo & download from GCS bucket
 source "${UTILS_DIR}/download_files.sh"
 
-# 4) More detailed .env configuration 
+# 3) More detailed .env configuration
 source "${UTILS_DIR}/project_env.sh"
 
-# 5) Request the initial certificates for nginx (the main app will refresh them)
+# 4) Request the initial certificates for nginx (the main app will refresh them)
 source "${UTILS_DIR}/get_certs.sh"
 
-# 6) Launch docker compose in headless mode
+# 5) Launch docker compose in headless mode
 source "${UTILS_DIR}/launch_containers.sh"
 
 # --------------------------------------------------------------------------------

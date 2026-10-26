@@ -2,13 +2,13 @@
 # Request the initial certificates for nginx (the main app will refresh them)
 # ================================================================================
 echo -e "${PROG_HR_1}"
-echo -e "${PROG_TEXT}6. Requesting the initial certificates for nginx... ${RESET}"
+echo -e "${PROG_TEXT}4. Requesting the initial certificates for nginx... ${RESET}"
 echo -e "${PROG_HR_2}"
 
 echo -e "get_certs.sh current working directory: $(pwd)"
 
 # --------------------------------------------------------------------------------
-# Include the cert for the main domain "cognibot.org" if ENV=deployment
+# Set up the Volume
 # --------------------------------------------------------------------------------
 # Volume name
 LETSENCRYPT_VOL="${REPO_NAME}_letsencrypt"
@@ -27,35 +27,20 @@ COMMON_CERTBOT_ARGS=(
   certonly
   --standalone
   --preferred-challenges http
-  --email "amurphy62299@gmail.com"
+  --email "$CERT_EMAIL"
   --agree-tos
   --no-eff-email
   --non-interactive
   --expand
 )
 
+# --------------------------------------------------------------------------------
+# Get the Certificats
+# --------------------------------------------------------------------------------
+# env_config.sh already selected the sandbox or main domain pair used below
+echo -e "${INFO_T2}Getting certificates for ${INFO_T0}${DOMAIN}${RESET}${INFO_T2}... ${RESET}"
 
-# Sandbox => just its own subdomain
-if [ "$ENV" = "sandbox" ]; then
-    echo -e "${INFO_T2}Getting certs for the subdomain only (${INFO_T0}${DOMAIN}${RESET}${INFO_T2})... ${RESET}"
-
-    # Get certs
-    sudo docker run "${COMMON_DOCKER_ARGS[@]}" certbot/certbot \
-        "${COMMON_CERTBOT_ARGS[@]}" \
-        -d "$DOMAIN" -d "www.$DOMAIN"
-
-# Deployment => subdomain AND the main domain (cognibot.org)
-elif [ "$ENV" = "deployment" ]; then
-    echo -e "${INFO_T2}Getting certs for the subdomain AND the main domain (${INFO_T0}${DOMAIN} & sandbox.org${RESET}${INFO_T2})... ${RESET}"
-
-    # Get certs
-    sudo docker run "${COMMON_DOCKER_ARGS[@]}" certbot/certbot \
-        "${COMMON_CERTBOT_ARGS[@]}" \
-        -d "$DOMAIN" -d "www.$DOMAIN" \
-        -d cognibot.org -d www.cognibot.org
-
-else
-    echo -e "\n${RED}ERROR: ENV='$ENV' not supported (expected sandbox or deployment)${RESET}" >&2
-    exit 1
-
-fi
+# Run the certificate retrieval task in a docker container
+sudo docker run "${COMMON_DOCKER_ARGS[@]}" certbot/certbot \
+    "${COMMON_CERTBOT_ARGS[@]}" \
+    -d "$DOMAIN" -d "$DOMAIN_WWW"

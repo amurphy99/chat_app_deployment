@@ -4,53 +4,43 @@ set -Eeuo pipefail
 # ================================================================================
 # Final Environmental Variable Setup
 # ================================================================================
-# Specify if this should be for the "deployment" or "sandbox" instance
-# bash deploy.sh --env=sandbox
 echo -e "env_config.sh current working directory: $(pwd)"
-
-# CPU/GPU behavior used to depend on ENV or APP_ENVIRONMENT, hardcoding it here for now instead
-VM_TYPE="CPU"
 
 # --------------------------------------------------------------------------------
 # Domains & Nginx configuration files stem from here
 # --------------------------------------------------------------------------------
-# Setup .env file used to configure multiple sandboxes (e.g. "sandbox.cognibot.org", "sandbox2.cognibot.org", etc.)
+# Resolve the deployment target (is this the "main" deployment or a "sandbox"?),
+# and apply the namespace prefix here. Prefixes are used to configure multiple
+# sandboxes (e.g. "sandbox.cognibot.org", "sandbox2.cognibot.org", etc.).
+
+# From the uploaded `.env` file
 TARGET_PREFIX="${TARGET_PREFIX:-sandbox}"
 
 # Sandbox
-if [ "$ENV" = "sandbox" ]; then
+if [ "$DEPLOYMENT_TARGET" = "sandbox" ]; then
     DOMAIN="${TARGET_PREFIX}.cognibot.org"
     DOMAIN_WWW="www.${TARGET_PREFIX}.cognibot.org"
-    NGINX_CONF="nginx/default.conf.sandbox"
-    APP_ENVIRONMENT="sandbox"
+    AUDIO_INSTANCE_PREFIX="${TARGET_PREFIX}"
 
-# Deployment
-else
+# Main (ignores `TARGET_PREFIX`)
+elif [ "$DEPLOYMENT_TARGET" = "main" ]; then
     DOMAIN="cognibot.org"
     DOMAIN_WWW="www.cognibot.org"
-    NGINX_CONF="nginx/default.conf"
-    APP_ENVIRONMENT="deployment"
-fi
+    AUDIO_INSTANCE_PREFIX="main"
 
-DOMAIN="${TARGET_PREFIX}.cognibot.org"
-DOMAIN_WWW="www.${TARGET_PREFIX}.cognibot.org"
-NGINX_CONF="nginx/default.conf.sandbox"
-APP_ENVIRONMENT="sandbox"
-
-# --------------------------------------------------------------------------------
-# Project Repository .env file variables
-# --------------------------------------------------------------------------------
-# Frontend
-VITE_RUN_ENV="PROD"
-DEV_APP_ROUTE=""                    # "" Empty string for deployment mode
-CERT_EMAIL="amurphy62299@gmail.com"
-
-# Whether or not to use the LLM GPU container or a dummy
-if [ "$APP_ENVIRONMENT" = "sandbox" ]; then
-    CONF_FILE="default.conf.sandbox"
 else
-    CONF_FILE="default.conf"
+    echo -e "${RED}ERROR: DEPLOYMENT_TARGET='$DEPLOYMENT_TARGET' is not supported (expected sandbox or main)${RESET}" >&2
+    exit 1
 fi
+
+# --------------------------------------------------------------------------------
+# Database connection defaults
+# --------------------------------------------------------------------------------
+# Containers reach local Compose databases through their service names
+__POSTGRES_HOST="${__POSTGRES_HOST:-db}"
+__POSTGRES_PORT="${__POSTGRES_PORT:-5432}"
+__VECTOR_DB_HOST="${__VECTOR_DB_HOST:-db_vector}"
+__VECTOR_DB_PORT="${__VECTOR_DB_PORT:-5432}"
 
 # ================================================================================
 # Directory/Filepath Configs
@@ -93,12 +83,12 @@ LOG_DIR="$DPL_DIR/logs"
 # ================================================================================
 # Echo the environment setup
 # ================================================================================
-echo -e "${INFO_T0}ENV                = ${ENV}                  ${RESET}"
-echo -e "${INFO_T0}APP_ENVIRONMENT    = ${APP_ENVIRONMENT}      ${RESET}\n"
+echo -e "${INFO_T0}DEPLOYMENT_TARGET  = ${DEPLOYMENT_TARGET}    ${RESET}"
+echo -e "${INFO_T0}TARGET_PREFIX      = ${TARGET_PREFIX}        ${RESET}\n"
 
 echo -e "${INFO_T0}DOMAIN             = ${DOMAIN}               ${RESET}"
 echo -e "${INFO_T0}DOMAIN_WWW         = ${DOMAIN_WWW}           ${RESET}"
-echo -e "${INFO_T0}NGINX_CONF         = ${NGINX_CONF}           ${RESET}\n"
+echo -e "${INFO_T0}AUDIO PREFIX       = ${AUDIO_INSTANCE_PREFIX}/${SESSION_AUDIO_OBJECT_PREFIX} ${RESET}\n"
 
 echo -e "${INFO_T0}PRJ_DIR            = ${PRJ_DIR}              ${RESET}"
 echo -e "${INFO_T0}SETUP_REPO_BRANCH  = ${SETUP_REPO_BRANCH}    ${RESET}"
@@ -123,4 +113,3 @@ echo -e "${INFO_T0}SEED_DIR           = ${SEED_DIR}             ${RESET}"
 # Credentials/misc.
 echo -e "${INFO_T0}GSK_DIR            = ${GSK_DIR}              ${RESET}"
 echo -e "${INFO_T0}LOG_DIR            = ${LOG_DIR}              ${RESET}"
-

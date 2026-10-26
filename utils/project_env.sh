@@ -1,14 +1,16 @@
 # ================================================================================
 # Configure Project Environment Variables
 # ================================================================================
+# NOTE: All files we create with environment variables are made private
+#       automatically for added security.
 echo -e "${PROG_HR_1}"
-echo -e "${PROG_TEXT}5. Detailed project environment variable configuration... ${RESET}"
+echo -e "${PROG_TEXT}3. Detailed project environment variable configuration... ${RESET}"
 echo -e "${PROG_HR_2}"
 
 echo "project_env.sh current working directory: $(pwd)"
 
 # --------------------------------------------------------------------------------
-# a) .env 
+# a) Root .env
 # --------------------------------------------------------------------------------
 echo -e "\n${INFO_T2}Preparing root .env file... ${RESET}"
 
@@ -16,41 +18,35 @@ echo -e "\n${INFO_T2}Preparing root .env file... ${RESET}"
 ROOT_ENV_PATH="${APP_DIR}/.env"
 echo -e "${INFO_T3}ROOT_ENV_PATH = $ROOT_ENV_PATH ${RESET}"
 
-# Create the .env file
-cat <<EOF > $ROOT_ENV_PATH
+# Create the Compose interpolation file
+cat <<EOF > "$ROOT_ENV_PATH"
+# ================================================================================
+# Root Docker Compose Environment
+# ================================================================================
 
-# Misc.
-APP_ENVIRONMENT  = ${APP_ENVIRONMENT}
-
-# Overrides (root .env file loaded second)
-VITE_RUN_ENV  = ${VITE_RUN_ENV}
-DEV_APP_ROUTE = ${DEV_APP_ROUTE}
-
+# --------------------------------------------------------------------------------
 # Nginx & Certbot
-CONF_FILE  = ${CONF_FILE}
+# --------------------------------------------------------------------------------
 DOMAIN     = ${DOMAIN}
 DOMAIN_WWW = ${DOMAIN_WWW}
 CERT_EMAIL = ${CERT_EMAIL}
 
 # --------------------------------------------------------------------------------
-# Database
+# Postgres Chat Database
 # --------------------------------------------------------------------------------
-POSTGRES_DB            = ${__POSTGRES_DB}
-POSTGRES_USER          = ${__POSTGRES_USER}
-POSTGRES_PASSWORD      = ${__POSTGRES_PASSWORD}
-POSTGRES_HOST          = ${__POSTGRES_HOST}
-POSTGRES_PORT          = ${__POSTGRES_PORT}
+POSTGRES_DB       = ${__POSTGRES_DB}
+POSTGRES_USER     = ${__POSTGRES_USER}
+POSTGRES_PASSWORD = ${__POSTGRES_PASSWORD}
 
-VECTOR_DB_NAME         = ${__VECTOR_DB_NAME}
-VECTOR_DB_USER         = ${__VECTOR_DB_USER}
-VECTOR_DB_PASSWORD     = ${__VECTOR_DB_PASSWORD}
-VECTOR_DB_HOST         = ${__VECTOR_DB_HOST}
-VECTOR_DB_PORT         = ${__VECTOR_DB_PORT}
-DJANGO_SETTINGS_MODULE = "backend.settings"
-TZ                     = "UTC"
-
-
+# --------------------------------------------------------------------------------
+# Postgres Vector Database
+# --------------------------------------------------------------------------------
+VECTOR_DB_NAME     = ${__VECTOR_DB_NAME}
+VECTOR_DB_USER     = ${__VECTOR_DB_USER}
+VECTOR_DB_PASSWORD = ${__VECTOR_DB_PASSWORD}
 EOF
+
+chmod 600 "$ROOT_ENV_PATH"
 
 echo -e "${GREEN}.env file created successfully ${RESET}"
 
@@ -63,20 +59,16 @@ echo -e "\n${INFO_T2}Preparing frontend .env file... ${RESET}"
 FRONTEND_ENV_PATH="${APP_DIR}/frontend/.env"
 echo -e "${INFO_T3}FRONTEND_ENV_PATH = $FRONTEND_ENV_PATH ${RESET}"
 
-# Create the .env file
-cat <<EOF > $FRONTEND_ENV_PATH
+# Create the build-time Vite configuration
+cat <<EOF > "$FRONTEND_ENV_PATH"
+# ================================================================================
+# Frontend
+# ================================================================================
 
-# The speech key is defined in the initial file of this project
-VITE_SPEECH_PROVIDER = "azure"
-VITE_SPEECH_KEY      = ${__SPEECH_KEY}  
-VITE_SERVICE_REGION  = "eastus"
-
-VITE_API_URL    = "/api"
-VITE_RUN_ENV    = "DEV" 
-VITE_API_BASE   = "http://localhost:8000/api"
-VITE_WS_BASE    = "ws://localhost:8000/ws/chat/"
-
+VITE_API_URL = "/api"
 EOF
+
+chmod 600 "$FRONTEND_ENV_PATH"
 
 echo -e "${GREEN}frontend/.env file created successfully ${RESET}"
 
@@ -89,50 +81,30 @@ echo -e "\n${INFO_T2}Preparing backend .env file... ${RESET}"
 BACKEND_ENV_PATH="${APP_DIR}/backend/.env"
 echo -e "${INFO_T3}BACKEND_ENV_PATH = $BACKEND_ENV_PATH ${RESET}"
 
-# Create the .env file
-cat <<EOF > $BACKEND_ENV_PATH
+# Create the Django environment file
+cat <<EOF > "$BACKEND_ENV_PATH"
+# ================================================================================
+# Backend
+# ================================================================================
+# Postgres DB
+POSTGRES_DB       = ${__POSTGRES_DB}
+POSTGRES_USER     = ${__POSTGRES_USER}
+POSTGRES_PASSWORD = ${__POSTGRES_PASSWORD}
+POSTGRES_HOST     = ${__POSTGRES_HOST}
+POSTGRES_PORT     = ${__POSTGRES_PORT}
 
-# --------------------------------------------------------------------------------
-# Database
-# --------------------------------------------------------------------------------
-POSTGRES_DB            = ${__POSTGRES_DB}
-POSTGRES_USER          = ${__POSTGRES_USER}
-POSTGRES_PASSWORD      = ${__POSTGRES_PASSWORD}
-POSTGRES_HOST          = ${__POSTGRES_HOST}
-POSTGRES_PORT          = ${__POSTGRES_PORT}
+# Vector DB
+VECTOR_DB_NAME     = ${__VECTOR_DB_NAME}
+VECTOR_DB_USER     = ${__VECTOR_DB_USER}
+VECTOR_DB_PASSWORD = ${__VECTOR_DB_PASSWORD}
+VECTOR_DB_HOST     = ${__VECTOR_DB_HOST}
+VECTOR_DB_PORT     = ${__VECTOR_DB_PORT}
 
-VECTOR_DB_NAME         = ${__VECTOR_DB_NAME}
-VECTOR_DB_USER         = ${__VECTOR_DB_USER}
-VECTOR_DB_PASSWORD     = ${__VECTOR_DB_PASSWORD}
-VECTOR_DB_HOST         = ${__VECTOR_DB_HOST}
-VECTOR_DB_PORT         = ${__VECTOR_DB_PORT}
-DJANGO_SETTINGS_MODULE = "backend.settings"
-TZ                     = "UTC"
-
-# --------------------------------------------------------------------------------
-# Misc. Keys
-# --------------------------------------------------------------------------------
-# Google Speech
-GOOGLE_APPLICATION_CREDENTIALS = ${__GOOGLE_APPLICATION_CREDENTIALS}
-GOOGLE_API_KEY                 = ${__GEMINI_KEY}
-GOOGLE_GENAI_USE_VERTEXAI      = 0
-
-# Image API
-PEXELS_KEY      = ${__PEXELS_KEY}
-
-# --------------------------------------------------------------------------------
-# Llama API
-# --------------------------------------------------------------------------------
-# Access to the external GPU VM instance
-LLM_BASE_URL      = ${LLM_BASE_URL}
-LLM_GATEWAY_TOKEN = ${LLM_GATEWAY_TOKEN}
-
-# --------------------------------------------------------------------------------
-# IU API
-# --------------------------------------------------------------------------------
-# Access to external models
-IU_URL = ${IU_URL}
-IU_KEY = ${IU_KEY}
+# Other Django config
+DJANGO_SETTINGS_MODULE = ${DJANGO_SETTINGS_MODULE}
+DJANGO_DEBUG           = ${DJANGO_DEBUG}
+DJANGO_SECRET_KEY      = ${DJANGO_SECRET_KEY}
+TZ                     = ${TZ}
 
 # --------------------------------------------------------------------------------
 # Admin & Demo user login information
@@ -141,10 +113,70 @@ IU_KEY = ${IU_KEY}
 ADMIN_USERNAME_0 = ${ADMIN_USERNAME_0}
 ADMIN_PASSWORD_0 = ${ADMIN_PASSWORD_0}
 
+# Secondary admin user
+ADMIN_USERNAME_1 = ${ADMIN_USERNAME_1}
+ADMIN_PASSWORD_1 = ${ADMIN_PASSWORD_1}
+
 # Protected demo data user
 DEMO_USERNAME_0 = ${DEMO_USERNAME_0}
 DEMO_PASSWORD_0 = ${DEMO_PASSWORD_0}
 
+# Buddy robot user
+BUDDY_USERNAME = ${BUDDY_USERNAME}
+BUDDY_PASSWORD = ${BUDDY_PASSWORD}
+
+# Study caregiver and its three participants
+STUDY_CAREGIVER_PASSWORD   = ${STUDY_CAREGIVER_PASSWORD}
+STUDY_PARTICIPANT_PASSWORD = ${STUDY_PARTICIPANT_PASSWORD}
+
+# --------------------------------------------------------------------------------
+# Seed Data
+# --------------------------------------------------------------------------------
+SEED_UI_SAMPLE_DATA       = ${SEED_UI_SAMPLE_DATA}
+SEED_ANALYZED_CHAT_DATA   = ${SEED_ANALYZED_CHAT_DATA}
+SEED_TRANSCRIPT_CHAT_DATA = ${SEED_TRANSCRIPT_CHAT_DATA}
+
+# --------------------------------------------------------------------------------
+# Google Cloud Credentials
+# --------------------------------------------------------------------------------
+GOOGLE_APPLICATION_CREDENTIALS = ${GOOGLE_APPLICATION_CREDENTIALS}
+GOOGLE_API_KEY                 = ${GOOGLE_API_KEY}
+GOOGLE_GENAI_USE_VERTEXAI      = ${GOOGLE_GENAI_USE_VERTEXAI}
+
+# --------------------------------------------------------------------------------
+# Audio Storage
+# --------------------------------------------------------------------------------
+SESSION_AUDIO_STORAGE              = ${SESSION_AUDIO_STORAGE}
+SESSION_AUDIO_LOCAL_ROOT           = ${SESSION_AUDIO_LOCAL_ROOT}
+SESSION_AUDIO_TEMP_ROOT            = ${SESSION_AUDIO_TEMP_ROOT}
+SESSION_AUDIO_GCS_BUCKET           = ${SESSION_AUDIO_GCS_BUCKET}
+SESSION_AUDIO_OBJECT_PREFIX        = ${AUDIO_INSTANCE_PREFIX}/${SESSION_AUDIO_OBJECT_PREFIX}
+SESSION_AUDIO_PLAYBACK_URL_TTL_SEC = ${SESSION_AUDIO_PLAYBACK_URL_TTL_SEC}
+
+# --------------------------------------------------------------------------------
+# LLM Settings
+# --------------------------------------------------------------------------------
+USE_LLM = true
+
+LLM_BASE_URL      = ${LLM_BASE_URL}
+LLM_GATEWAY_TOKEN = ${LLM_GATEWAY_TOKEN}
+LLM_NAME          = ${LLM_NAME}
+
+LIVE_CHAT_RESPONSE_MODE = ${LIVE_CHAT_RESPONSE_MODE}
+LLM_NAME                = ${LLM_NAME}
+
+# --------------------------------------------------------------------------------
+# IU API
+# --------------------------------------------------------------------------------
+IU_URL = ${IU_URL}
+IU_KEY = ${IU_KEY}
+
+# --------------------------------------------------------------------------------
+# Misc.
+# --------------------------------------------------------------------------------
+PEXELS_KEY = ${__PEXELS_KEY}
 EOF
+
+chmod 600 "$BACKEND_ENV_PATH"
 
 echo -e "${GREEN}backend/.env file created successfully ${RESET}"
