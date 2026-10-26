@@ -1,42 +1,43 @@
 # ================================================================================
-# Clone/Pull Repo & Download deployment files from GCS Bucket
+# Clone/Update Repo & Download deployment files from GCS Bucket
 # ================================================================================
-# a) Clones/pulls the target repository/branch for the main app.
+# a) Clones/updates the target repository/branch for the main app.
 # b) Downloads any missing files required for deployment from the GCS bucket & 
 #    copies those files into their correct places within the app repository.
 echo -e "${PROG_HR_1}"
-echo -e "${PROG_TEXT}4. Pulling project repo & Downloading 'deployment-files' from GCS Bucket... ${RESET}"
+echo -e "${PROG_TEXT}2. Updating project repo & Downloading 'deployment-files' from GCS Bucket... ${RESET}"
 echo -e "${PROG_HR_2}"
 
 echo -e "download_files.sh current working directory: $(pwd)"
 
 # --------------------------------------------------------------------------------
-# a) Clone or pull from the main app repository
+# a) Clone or update the main app repository
 # --------------------------------------------------------------------------------
 echo -e "${INFO_T1}Clone or update the repository... ${RESET}"
 
 # Check if the repository directory already exists
 if [ -d "$APP_DIR" ]; then
-    # If it already exists, pull from the given origin branch
-    echo -e "${INFO_T2}Repo exists (${INFO_T0}${GITHUB_USER}/${REPO_NAME}/${REPO_BRANCH}${RESET}${INFO_T2}), pulling latest changes... ${RESET}"
+    # If it already exists, update it to the selected remote branch
+    echo -e "${INFO_T2}Repo exists (${INFO_T0}${GITHUB_USER}/${REPO_NAME}/${REPO_BRANCH}${RESET}${INFO_T2}), updating deployment snapshot... ${RESET}"
     cd "$APP_DIR"
     echo -e "cd'ed into ${APP_DIR}; new current working directory: $(pwd)"
 
-    # Fetch latest remote state
-    #git fetch origin --prune
+    # Fetch the selected branch explicitly so older --single-branch clones can see it
+    git fetch origin "$REPO_BRANCH"
 
-    # Fetch latest commits and reset the working directory to match the remote
-    git fetch origin
-    git checkout "$REPO_BRANCH"
-    #git reset --hard "origin/$REPO_BRANCH"
-    git pull --ff-only origin "$REPO_BRANCH"
+    # Deploy the exact remote commit in detached mode and discard tracked VM edits
+    git switch --detach --force FETCH_HEAD
 
-    cd ..
 else
     # If it doesn't exist at all yet, clone it
     echo -e "${INFO_T2}Cloning repo: ${INFO_T0}${GITHUB_USER}/${REPO_NAME}/${REPO_BRANCH} ${RESET}"
-    git clone -b $REPO_BRANCH $REPO_URL
+    git clone --branch "$REPO_BRANCH" "$REPO_URL" "$APP_DIR"
+
+    # Deployment checkouts should never run from a local tracking branch
+    git -C "$APP_DIR" switch --detach "origin/$REPO_BRANCH"
 fi
+
+cd "$PRJ_DIR"
 
 # Make a logs folder in deployment-files for persistence (I don't think this gets used anymore...)
 mkdir -p "$LOG_DIR"
@@ -64,6 +65,8 @@ gsutil cp "$GCS_BUCKET/deployment-files/google-stt-key.json" "$DPL_DIR/"
 echo -e "${INFO_T3}  cp -f $DPL_DIR/google-stt-key.json  ->  $GSK_DIR/google-stt-key.json ${RESET}"
 cp -f "$DPL_DIR/google-stt-key.json" "$GSK_DIR/google-stt-key.json"
 
+# Make the credentials file private automatically
+chmod 600 "$DPL_DIR/google-stt-key.json" "$GSK_DIR/google-stt-key.json"
 
 # --------------------------------------------------------------------------------
 # MiniLM-L6-v2 RAG embedding model

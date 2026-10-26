@@ -26,7 +26,15 @@ echo -e "${H2}"
 # --------------------------------------------------------------------------------
 # Define some "secret" keys here (pull from the .env file)
 # --------------------------------------------------------------------------------
-source .env
+# Make sure the .env is there/we can see it
+if [ ! -f ".env" ]; then
+    echo "ERROR: Upload the deployment .env file before running deploy.sh" >&2
+    exit 1
+fi
+
+# Make the .env file private automatically
+chmod 600 ".env"
+source ".env"
 
 echo "Loaded deployment config from .env"
 echo "Sample environment variable: ${GITHUB_USER}/${GITHUB_REPO}"
@@ -64,7 +72,7 @@ else
 fi
 
 # --------------------------------------------------------------------------------
-# Clone or pull from the project repository
+# Clone or update the project repository
 # --------------------------------------------------------------------------------
 echo -e "\n${H3}"
 echo -e "${BOLD_CYAN}Download the repository... ${RESET}"
@@ -79,23 +87,24 @@ fi
 
 # Check if the repository directory already exists
 if [ -d "$GITHUB_REPO" ]; then
-    # If it already exists, pull from the given origin branch
+    # If it already exists, update it to the selected remote branch
     echo "Repo exists. Updating..."
     cd "$GITHUB_REPO"
     
-    # Fetch from the repository
-    git remote set-branches origin '*'
-    git fetch origin --prune
+    # Fetch the selected branch explicitly so older --single-branch clones can see it
+    git fetch origin "$SETUP_REPO_BRANCH"
 
-    # Switch / checkout the specified branch
-    git switch "$SETUP_REPO_BRANCH" || git checkout "$SETUP_REPO_BRANCH"
-    git pull origin "$SETUP_REPO_BRANCH"
+    # Deploy the exact remote commit in detached mode and discard tracked VM edits
+    git switch --detach --force FETCH_HEAD
 
 else
     # If it doesn't exist at all yet, clone it
     echo "Cloning branch '$SETUP_REPO_BRANCH'..."
-    git clone --branch "$SETUP_REPO_BRANCH" --single-branch "$SETUP_REPO_URL" "$GITHUB_REPO"
+    git clone --branch "$SETUP_REPO_BRANCH" "$SETUP_REPO_URL" "$GITHUB_REPO"
     cd "$GITHUB_REPO"
+
+    # Deployment checkouts should never run from a local tracking branch
+    git switch --detach "origin/$SETUP_REPO_BRANCH"
 fi
 
 # --------------------------------------------------------------------------------
