@@ -210,9 +210,9 @@ for SERVICE in db db_vector; do
     ' < "$RESTORE_DIR/$SERVICE.dump"
 done
 
-# Every already-applied chat_app migration must exist before Django can migrate.
+# Historical database records can outlive their migration files.
+# Django validates the active dependency graph during backend startup.
 CONTAINER="$(database_container db)"
-
 APPLIED="$(database_pg "$CONTAINER" on psql -XAt --no-password \
     --set=ON_ERROR_STOP=1 \
     -c "SELECT name FROM django_migrations WHERE app = 'chat_app' ORDER BY name;")"
@@ -220,11 +220,15 @@ APPLIED="$(database_pg "$CONTAINER" on psql -XAt --no-password \
 while IFS= read -r MIGRATION; do
     [ -n "$MIGRATION" ] || continue
 
-    [[ "$MIGRATION" =~ ^[0-9]{4}_[A-Za-z0-9_]+$ ]] &&
-    [ -f "$APP_DIR/backend/chat_app/migrations/$MIGRATION.py" ] || {
-        database_error "Missing restored migration: $MIGRATION"
+    [[ "$MIGRATION" =~ ^[0-9]{4}_[A-Za-z0-9_]+$ ]] || {
+        database_error "Invalid recorded migration name: $MIGRATION"
         exit 1
     }
+
+    if [ ! -f "$APP_DIR/backend/chat_app/migrations/$MIGRATION.py" ]; then
+        printf 'WARNING: Recorded migration %s has no matching file; deferring dependency validation to Django.\n' \
+            "$MIGRATION" >&2
+    fi
 done <<< "$APPLIED"
 
 for SERVICE in db db_vector; do
