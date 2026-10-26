@@ -37,5 +37,16 @@ ls -lah ../deployment-files/models
 echo -e "\n"
 echo " " 
 
+# Restore before the backend can run migrations or seed commands.
+if [ "${DB_INIT_MODE:-fresh}" = restore ]; then
+    bash "$UTILS_DIR/restore_databases.sh"
+fi
+
+# Keep source database image pins on both the first launch and later deployments.
+COMPOSE_FILES=(-f "$APP_DIR/docker-compose.yaml")
+if [ -f "$DATABASE_IMAGE_OVERRIDE" ]; then
+    COMPOSE_FILES+=(-f "$DATABASE_IMAGE_OVERRIDE")
+fi
+
 # Adding "-d" to the end puts it in headless mode (sudo docker-compose up --build -d)
-sudo --preserve-env=SAMPLE_VAR docker compose up --build -d
+sudo --preserve-env=SAMPLE_VAR docker compose -p "$REPO_NAME" "${COMPOSE_FILES[@]}" up --build -d

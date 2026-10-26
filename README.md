@@ -4,6 +4,7 @@ Bash scripts for setting up a Linux VM into a fully running instance of the Cogn
 
 <br>
 
+For database initialization modes, backups, checkpoint restoration, and schema migrations, see [Database Backups, Restoration, and Migrations](DATABASE.md).
 
 <!-- ================================================================================ -->
 <!-- How to Deploy                                                                    -->
@@ -106,23 +107,24 @@ The `rag_vectorstore` Django migration automatically enables the PostgreSQL
 
 
 <!-- -------------------------------------------------------------------------------- -->
-<!-- Walkthrough for Resetting DB (need to do this each time the DB changes...)       -->
+<!-- Database Backups, Restoration, and Migrations                                    -->
 <!-- -------------------------------------------------------------------------------- -->
-<details closed><summary>Resetting the DB</summary>
+<details closed><summary>Database backups, restoration, and migrations</summary>
 
-Because the current setup does not track `migrations` changes (and the existing data for the site isn't necessary to track yet), reset the volumes every time there is a DB schema change. The reset helper is deliberately separate from `deploy.sh`, requires both a command-line flag and typed confirmation, and deletes only the two database volumes and generated `chat_app` migrations.
+See [Database Backups, Restoration, and Migrations](DATABASE.md) for:
 
-Run it from the deployment repository:
-```bash
-bash utils/reset_databases.sh --confirm-reset
-```
+- Creating and uploading database checkpoints to GCS.
+- Finding, downloading, and verifying saved checkpoints.
+- Initializing a new VM from an existing checkpoint.
+- Preserving migration history and applying schema changes.
+- Understanding recovery limits and troubleshooting failures.
 
-On a deployed VM, the helper reads the uploaded `.env` beside `deploy.sh`
-(`~/.env`). For a local deployment-repository checkout, it falls back to the
-repository's own `.env` file.
+`DB_INIT_MODE=fresh` creates missing databases or reuses existing volumes.
+`DB_INIT_MODE=restore` initializes new database volumes from a verified checkpoint.
 
-After redeploying, the `rag_vectorstore` migration enables the PostgreSQL
-`vector` extension automatically before creating any vector columns.
+Use migrations when existing data must be retained. The separate
+`utils/reset_databases.sh` helper permanently deletes database volumes and
+numbered `chat_app` migration files; it is reserved for disposable development data.
 
 </details>
 

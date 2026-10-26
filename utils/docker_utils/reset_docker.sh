@@ -18,8 +18,18 @@ else
 
     # Find old containers by Compose project name (the repo folder's name), so this still
     # works after the repo folder was deleted (`down` keeps named volumes and their data)
-    echo -e "Bringing down existing containers in ${INFO_T3}${REPO_NAME}${RESET}..."
-    sudo docker compose -p "$REPO_NAME" down
+    # Use the app's Compose file when available; a new VM has no app checkout yet.
+    # `down` keeps named volumes and their data.
+    if [ -f "$APP_DIR/docker-compose.yaml" ]; then
+        echo -e "Bringing down existing containers in ${INFO_T3}${REPO_NAME}${RESET}..."
+        COMPOSE_FILES=(-f "$APP_DIR/docker-compose.yaml")
+        if [ -f "$DATABASE_IMAGE_OVERRIDE" ]; then
+            COMPOSE_FILES+=(-f "$DATABASE_IMAGE_OVERRIDE")
+        fi
+        sudo docker compose -p "$REPO_NAME" "${COMPOSE_FILES[@]}" down
+    else
+        echo "No existing app Compose file; skipping container teardown."
+    fi
 
     # --------------------------------------------------------------------------------
     # Prune unused Docker resources (dangling containers and/or images)

@@ -42,6 +42,21 @@ __POSTGRES_PORT="${__POSTGRES_PORT:-5432}"
 __VECTOR_DB_HOST="${__VECTOR_DB_HOST:-db_vector}"
 __VECTOR_DB_PORT="${__VECTOR_DB_PORT:-5432}"
 
+# --------------------------------------------------------------------------------
+# Database initialization mode
+# --------------------------------------------------------------------------------
+DB_INIT_MODE="${DB_INIT_MODE:-fresh}"
+case "$DB_INIT_MODE" in
+    fresh) ;;
+    restore)
+        : "${DB_RESTORE_GCS_URI:?Set DB_RESTORE_GCS_URI for restore initialization}"
+        ;;
+    *)
+        echo "ERROR: DB_INIT_MODE must be fresh or restore" >&2
+        exit 1
+        ;;
+esac
+
 # ================================================================================
 # Directory/Filepath Configs
 # ================================================================================
@@ -60,6 +75,7 @@ REPO_URL="https://github.com/${GITHUB_USER}/${REPO_NAME}.git"
 # 1) GCS bucket URL & local directory the files get downloaded to
 GCS_BUCKET="gs://v2-deployment-files"
 DPL_DIR="$PRJ_DIR/deployment-files"
+DATABASE_IMAGE_OVERRIDE="$DPL_DIR/database-images/$AUDIO_INSTANCE_PREFIX.yaml"
 
 # 2) Machine learning Model files 
 #    Location within local GCS download & where to copy them to within the project
