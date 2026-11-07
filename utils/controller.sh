@@ -47,6 +47,9 @@ source "${UTILS_DIR}/download_files.sh"
 # 3) More detailed .env configuration
 source "${UTILS_DIR}/project_env.sh"
 
+# Prepare optional Reachy assets before the frontend image is built.
+source "${UTILS_DIR}/prepare_reachy_demo.sh"
+
 # 4) Request the initial certificates for nginx (the main app will refresh them)
 source "${UTILS_DIR}/get_certs.sh"
 

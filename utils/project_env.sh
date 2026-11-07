@@ -66,6 +66,7 @@ cat <<EOF > "$FRONTEND_ENV_PATH"
 # ================================================================================
 
 VITE_API_URL = "/api"
+VITE_ENABLE_REACHY_DEMO = ${ENABLE_REACHY_DEMO:-false}
 EOF
 
 chmod 600 "$FRONTEND_ENV_PATH"
